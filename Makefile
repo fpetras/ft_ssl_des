@@ -6,13 +6,15 @@
 #    By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/26 12:26:28 by fpetras           #+#    #+#              #
-#    Updated: 2019/03/07 11:56:35 by fpetras          ###   ########.fr        #
+#    Updated: 2019/03/07 14:43:51 by fpetras          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_ssl
 
 SRC = main.c \
+	  md5.c \
+	  sha256.c
 
 OBJPATH = obj/
 OBJ = $(addprefix $(OBJPATH),$(SRC:.c=.o))
