@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 12:00:22 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/07 14:43:02 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/07 14:54:56 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,11 @@
 # define OPT_R 2
 # define OPT_S 3
 
-int opts[OPT_NUM];
+int		g_opts[OPT_NUM];
 
-int	ft_md5(int ac, char **av);
-int	ft_sha256(int ac, char **av);
+void	print_usage(char **av);
+int		parse_options(int ac, char **av);
+int		ft_md5(int ac, char **av);
+int		ft_sha256(int ac, char **av);
 
-# endif
+#endif

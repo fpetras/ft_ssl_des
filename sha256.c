@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 14:39:30 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/07 14:44:34 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/07 14:55:34 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,5 +16,5 @@ int		ft_sha256(int ac, char **av)
 {
 	(void)ac;
 	(void)av;
-	return(0);
+	return (0);
 }
