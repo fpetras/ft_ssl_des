@@ -6,7 +6,7 @@
 #    By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/26 12:26:28 by fpetras           #+#    #+#              #
-#    Updated: 2019/03/08 10:28:43 by fpetras          ###   ########.fr        #
+#    Updated: 2019/03/08 13:33:55 by fpetras          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = ft_ssl
 
 SRC = main.c \
 	  options.c \
-	  read_stdin.c \
+	  read.c \
 	  md5.c \
 	  sha256.c
 

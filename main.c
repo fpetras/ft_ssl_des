@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 11:54:09 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/08 11:15:40 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/08 13:56:03 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ int			main(int ac, char **av)
 	if ((i = parse_options(ac, av)) == -1)
 		return (-1);
 	if (!ft_strcmp("md5", av[1]))
-		ft_md5(ac - i, &av[i]);
+		return (ft_md5(ac - i, &av[i]));
 	else if (!ft_strcmp("sha256", av[1]))
-		ft_sha256(ac - i, &av[i]);
+		return (ft_sha256(ac - i, &av[i]));
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 12:00:22 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/08 10:28:30 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/08 13:45:26 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <sys/types.h>
 # include <sys/uio.h>
 # include <stdlib.h>
+# include <errno.h>
 
 # define OPT_STR "pqrs"
 # define OPT_NUM 4
@@ -37,5 +38,6 @@ int		parse_options(int ac, char **av);
 int		ft_md5(int ac, char **av);
 int		ft_sha256(int ac, char **av);
 char	*read_stdin(void);
+char	*read_file(char *filename);
 
 #endif
