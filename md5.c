@@ -6,17 +6,11 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 14:38:48 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/08 14:43:17 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/08 15:06:29 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ssl.h"
-
-void			md5_hash(char *input)
-{
-	(void)input;
-	ft_printf("a43c1b0aa53a0c908810c06ab1ff3967");
-}
 
 static void		md5_formatted_hash(char *filename, char *input)
 {
