@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 14:51:45 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/07 14:53:18 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/08 11:12:21 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,13 @@ int			parse_options(int ac, char **av)
 				set_option(av[i][j]);
 			else if (!ft_strchr(OPT_STR, av[i][j]))
 				return (illegal_option(av[i][j], av));
+			if (!ft_strcmp("-s", av[i]))
+				return (i + 1);
+			else if (!ft_strncmp("-s", av[i], 2) && ft_strlen(av[i]) >= 3)
+			{
+				av[i] = &av[i][2]; //in order to make -s"string" work
+				return (i);
+			}
 			j++;
 		}
 		if (av[i][0] != '-' || !ft_strcmp("-", av[i]))

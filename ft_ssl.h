@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 12:00:22 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/07 14:54:56 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/08 10:28:30 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,6 @@ void	print_usage(char **av);
 int		parse_options(int ac, char **av);
 int		ft_md5(int ac, char **av);
 int		ft_sha256(int ac, char **av);
+char	*read_stdin(void);
 
 #endif
