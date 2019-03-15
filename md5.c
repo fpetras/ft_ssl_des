@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 14:38:48 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/15 16:39:55 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/15 16:58:46 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ static int	md5_file(char *filename)
 	{
 		md5_formatted_hash(filename, input);
 		free(input);
-		return (0);
+		return (EXIT_SUCCESS);
 	}
 	else
-		return (-1);
+		return (EXIT_FAILURE);
 }
 
 static int	md5_stdin(void)
@@ -55,12 +55,12 @@ static int	md5_stdin(void)
 	char *input;
 
 	if ((input = read_stdin()) == NULL)
-		return (-1);
+		return (EXIT_FAILURE);
 	g_opts[OPT_P] ? ft_printf("%s", input) : 0;
 	md5_hash(input);
 	ft_printf("\n");
 	free(input);
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
 int			ft_md5(int ac, char **av)
@@ -69,10 +69,10 @@ int			ft_md5(int ac, char **av)
 	int ret;
 
 	i = 0;
-	ret = 0;
+	ret = EXIT_SUCCESS;
 	if (ac == 0 || g_opts[OPT_P])
-		if (md5_stdin() == -1)
-			return (-1);
+		if (md5_stdin() == EXIT_FAILURE)
+			return (EXIT_FAILURE);
 	if (g_opts[OPT_S])
 	{
 		md5_formatted_hash(NULL, av[i]);
@@ -80,8 +80,8 @@ int			ft_md5(int ac, char **av)
 	}
 	while (i < ac)
 	{
-		if (md5_file(av[i]) == -1)
-			ret = -1;
+		if (md5_file(av[i]) == EXIT_FAILURE)
+			ret = EXIT_FAILURE;
 		i++;
 	}
 	return (ret);

@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 14:51:45 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/15 12:36:47 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/15 17:01:58 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	illegal_option(char opt, char **av)
 {
 	ft_dprintf(2, "%s: illegal option -- %c\n", av[0], opt);
 	print_usage(av);
-	return (-1);
+	return (EXIT_FAILURE);
 }
 
 static void	set_option(char opt)
@@ -39,7 +39,7 @@ static int	parse_options_2(char **av, int i, int j)
 		return (i + 1);
 	else if (!ft_strncmp("-s", av[i], 2) && ft_strlen(av[i]) >= 3)
 	{
-		av[i] = &av[i][2]; //in order to make -s"string" work
+		av[i] = &av[i][2];
 		return (i);
 	}
 	return (0);

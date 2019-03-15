@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 11:54:09 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/08 13:56:03 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/15 16:57:13 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	error(int ac, char **av)
 	if (ac == 1)
 	{
 		print_usage(av);
-		return (-1);
+		return (EXIT_FAILURE);
 	}
 	else if (ac >= 2 && (ft_strcmp("md5", av[1]) && ft_strcmp("sha256", av[1])))
 	{
@@ -36,22 +36,22 @@ static int	error(int ac, char **av)
 		ft_dprintf(2, "\nStandard commands:\n");
 		ft_dprintf(2, "\nMessage Digest commands:\nmd5\nsha256\n");
 		ft_dprintf(2, "\nCipher commands:\n");
-		return (-1);
+		return (EXIT_FAILURE);
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
 int			main(int ac, char **av)
 {
 	int i;
 
-	if (error(ac, av) == -1)
-		return (-1);
-	if ((i = parse_options(ac, av)) == -1)
-		return (-1);
+	if (error(ac, av) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	if ((i = parse_options(ac, av)) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
 	if (!ft_strcmp("md5", av[1]))
 		return (ft_md5(ac - i, &av[i]));
 	else if (!ft_strcmp("sha256", av[1]))
 		return (ft_sha256(ac - i, &av[i]));
-	return (0);
+	return (EXIT_SUCCESS);
 }
