@@ -6,13 +6,20 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 10:15:45 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/08 13:54:42 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/15 13:40:27 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ssl.h"
 
-char	*read_file(char *filename)
+static char	*file_error(char *filename, int fd)
+{
+	ft_dprintf(2, "md5: %s: %s\n", filename, strerror(errno));
+	close(fd);
+	return (NULL);
+}
+
+char		*read_file(char *filename)
 {
 	int		fd;
 	int		ret;
@@ -35,16 +42,12 @@ char	*read_file(char *filename)
 		free(file1);
 	}
 	if (ret == -1)
-	{
-		ft_dprintf(2, "md5: %s: %s\n", filename, strerror(errno));
-		close(fd);
-		return (NULL);
-	}
+		return (file_error(filename, fd));
 	close(fd);
 	return (file);
 }
 
-char	*read_stdin(void)
+char		*read_stdin(void)
 {
 	int		ret;
 	char	buf[BUFF_SIZE + 1];

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_options.c                                    :+:      :+:    :+:   */
+/*   options.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 14:51:45 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/08 11:12:21 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/15 12:36:47 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,29 @@ static void	set_option(char opt)
 	g_opts[OPT_S] = (opt == 's') ? 1 : g_opts[OPT_S];
 }
 
+static int	parse_options_2(char **av, int i, int j)
+{
+	if (!ft_strcmp("--", av[i]))
+		return (i + 1);
+	else if (ft_strchr(OPT_STR, av[i][j]))
+		set_option(av[i][j]);
+	else if (!ft_strchr(OPT_STR, av[i][j]))
+		return (illegal_option(av[i][j], av));
+	if (!ft_strcmp("-s", av[i]))
+		return (i + 1);
+	else if (!ft_strncmp("-s", av[i], 2) && ft_strlen(av[i]) >= 3)
+	{
+		av[i] = &av[i][2]; //in order to make -s"string" work
+		return (i);
+	}
+	return (0);
+}
+
 int			parse_options(int ac, char **av)
 {
 	int i;
 	int j;
+	int opt_end;
 
 	i = 2;
 	ft_bzero(g_opts, sizeof(int) * OPT_NUM);
@@ -39,19 +58,8 @@ int			parse_options(int ac, char **av)
 		j = 1;
 		while (av[i][j] && av[i][0] == '-')
 		{
-			if (!ft_strcmp("--", av[i]))
-				return (i + 1);
-			else if (ft_strchr(OPT_STR, av[i][j]))
-				set_option(av[i][j]);
-			else if (!ft_strchr(OPT_STR, av[i][j]))
-				return (illegal_option(av[i][j], av));
-			if (!ft_strcmp("-s", av[i]))
-				return (i + 1);
-			else if (!ft_strncmp("-s", av[i], 2) && ft_strlen(av[i]) >= 3)
-			{
-				av[i] = &av[i][2]; //in order to make -s"string" work
-				return (i);
-			}
+			if ((opt_end = parse_options_2(av, i, j)) != 0)
+				return (opt_end);
 			j++;
 		}
 		if (av[i][0] != '-' || !ft_strcmp("-", av[i]))

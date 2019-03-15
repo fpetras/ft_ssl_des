@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 14:38:48 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/08 15:06:29 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/15 16:05:56 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,36 +37,58 @@ static void		md5_formatted_hash(char *filename, char *input)
 }
 
 /*
-static void		print_opts_and_args(int ac, char **av)
-{
-	//print options
-	ft_printf("options:\n");
-	g_opts[OPT_P] ? ft_printf("-p\n") : 0;
-	g_opts[OPT_Q] ? ft_printf("-q\n") : 0;
-	g_opts[OPT_R] ? ft_printf("-r\n") : 0;
-	g_opts[OPT_S] ? ft_printf("-s\n") : 0;
-	//print remaining args
-	ft_printf("args:\n");
-	for (int i = 0; i < ac; i++)
-		ft_printf("%s\n", av[i]);
-}
+** static void		print_opts_and_args(int ac, char **av)
+** {
+**	//print options
+**	ft_printf("options:\n");
+**	g_opts[OPT_P] ? ft_printf("-p\n") : 0;
+**	g_opts[OPT_Q] ? ft_printf("-q\n") : 0;
+**	g_opts[OPT_R] ? ft_printf("-r\n") : 0;
+**	g_opts[OPT_S] ? ft_printf("-s\n") : 0;
+**	//print remaining args
+**	ft_printf("args:\n");
+**	for (int i = 0; i < ac; i++)
+**		ft_printf("%s\n", av[i]);
+** }
 */
 
-int				ft_md5(int ac, char **av)
+static int	md5_file(char *filename)
 {
-	int		i;
-	char	*input;
+	char *input;
+
+	if ((input = read_file(filename)) != NULL)
+	{
+		md5_formatted_hash(filename, input);
+		free(input);
+		return (0);
+	}
+	else
+		return (-1);
+}
+
+static int	md5_stdin(void)
+{
+	char *input;
+
+	if ((input = read_stdin()) == NULL)
+		return (-1);
+	g_opts[OPT_P] ? ft_printf("%s", input) : 0;
+	md5_hash(input);
+	ft_printf("\n");
+	free(input);
+	return (0);
+}
+
+int			ft_md5(int ac, char **av)
+{
+	int	i;
+	int ret;
 
 	i = 0;
+	ret = 0;
 	if (ac == 0 || g_opts[OPT_P])
-	{
-		if ((input = read_stdin()) == NULL)
+		if (md5_stdin() == -1)
 			return (-1);
-		g_opts[OPT_P] ? ft_printf("%s", input) : 0;
-		md5_hash(input);
-		ft_printf("\n");
-		free(input);
-	}
 //	print_opts_and_args(ac, av);
 	if (g_opts[OPT_S])
 	{
@@ -75,12 +97,9 @@ int				ft_md5(int ac, char **av)
 	}
 	while (i < ac)
 	{
-		if ((input = read_file(av[i])) != NULL)
-		{
-			md5_formatted_hash(av[i], input);
-			free(input);
-		}
+		if (md5_file(av[i]) == -1)
+			ret = -1;
 		i++;
 	}
-	return (0);
+	return (ret);
 }
