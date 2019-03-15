@@ -6,19 +6,11 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/14 12:20:52 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/15 16:48:09 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/15 16:54:36 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ssl.h"
-
-#define A 0
-#define B 1
-#define C 2
-#define D 3
-#define F 4
-#define G 5
-#define E 6
 
 uint32_t g_s[] = {
 	7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22,
@@ -73,23 +65,6 @@ static void		operations(uint32_t *vars, size_t round)
 	}
 }
 
-static uint8_t	*padding(uint8_t *input, size_t len, size_t *msg_len)
-{
-	uint8_t		*message;
-	uint32_t	bits;
-
-	message = NULL;
-	bits = 8 * len;
-	while ((*msg_len) % 512 != 448)
-		(*msg_len)++;
-	(*msg_len) /= 8;
-	message = ft_calloc((*msg_len) + 64, 1);
-	ft_memcpy(message, input, len);
-	message[len] = 128;
-	ft_memcpy(message + (*msg_len), &bits, sizeof(uint32_t));
-	return (message);
-}
-
 static void		process(uint8_t *message, uint32_t vars[7], size_t i)
 {
 	size_t		round;
@@ -117,6 +92,23 @@ static void		process(uint8_t *message, uint32_t vars[7], size_t i)
 	g_hash[1] += vars[B];
 	g_hash[2] += vars[C];
 	g_hash[3] += vars[D];
+}
+
+static uint8_t	*padding(uint8_t *input, size_t len, size_t *msg_len)
+{
+	uint8_t		*message;
+	uint32_t	bits;
+
+	message = NULL;
+	bits = 8 * len;
+	while ((*msg_len) % 512 != 448)
+		(*msg_len)++;
+	(*msg_len) /= 8;
+	message = ft_calloc((*msg_len) + 64, 1);
+	ft_memcpy(message, input, len);
+	message[len] = 128;
+	ft_memcpy(message + (*msg_len), &bits, sizeof(uint32_t));
+	return (message);
 }
 
 void			md5_algo(uint8_t *input, size_t len)

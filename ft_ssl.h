@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 12:00:22 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/15 15:54:28 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/15 16:53:39 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,16 @@
 # define OPT_R 2
 # define OPT_S 3
 
-int		g_opts[OPT_NUM];
-uint32_t g_hash[4];
+# define A 0
+# define B 1
+# define C 2
+# define D 3
+# define F 4
+# define G 5
+# define E 6
+
+int			g_opts[OPT_NUM];
+uint32_t	g_hash[4];
 
 void	print_usage(char **av);
 int		parse_options(int ac, char **av);
