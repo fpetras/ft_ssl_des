@@ -6,7 +6,7 @@
 /*   By: fpetras <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/08 08:06:19 by fpetras           #+#    #+#             */
-/*   Updated: 2017/12/14 09:42:38 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/15 16:04:57 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,8 @@ static void	ft_padding(int nbrlen, t_struct *f)
 	{
 		if (f->plus || f->zero)
 			f->width--;
-		while (f->width-- > nbrlen)
-		{
-			if (f->zero)
-				f->len += write(f->fd, "0", 1);
-			else
-				f->len += write(f->fd, " ", 1);
-		}
+		while (f->width-- > nbrlen + 1)
+			f->len += write(f->fd, "0", 1);
 	}
 }
 

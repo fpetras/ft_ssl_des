@@ -6,7 +6,7 @@
 #    By: fpetras <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/07 08:34:49 by fpetras           #+#    #+#              #
-#    Updated: 2018/04/24 11:52:36 by fpetras          ###   ########.fr        #
+#    Updated: 2019/03/14 12:24:29 by fpetras          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,8 @@ LIBFT_SRC = ft_memset.c ft_bzero.c ft_memcpy.c ft_memccpy.c \
 			ft_lstadd.c ft_lstiter.c ft_lstmap.c \
 			\
 			ft_abs.c \
-			ft_swap.c
+			ft_swap.c \
+			ft_calloc.c
 
 GET_NEXT_LINE_PATH = get_next_line/
 GET_NEXT_LINE_SRC =	get_next_line.c
