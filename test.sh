@@ -13,7 +13,7 @@ STRING2='1moreTest'
 STRING3="string"
 
 counter=0
-TEST_NUM=8
+TEST_NUM=10
 
 #############################----------1----------##############################
 echo $TEST1 > file
@@ -31,61 +31,61 @@ else
 	echo -e "$RED KO: $RESET" "echo $STDIN | ./ft_ssl md5"
 fi
 #############################----------3----------##############################
-# if echo $OPT_P | ./ft_ssl md5 -p | grep -q "$(echo $OPT_P | md5 -p)" ; then
-#	echo -e "$GREEN OK: $RESET" ; echo "$(echo $OPT_P | ./ft_ssl md5 -p)"
-#	counter=$((counter+1))
-# else
-#	echo -e "$RED KO: $RESET" "echo $OPT_P | ./ft_ssl md5 -p"
-# fi
-#############################----------4----------##############################
 if echo $TEST2 | ./ft_ssl md5 -q -r | grep -q "$(echo $TEST2 | md5 -q -r)" ; then
 	echo -e "$GREEN OK: $RESET" "$(echo $TEST2 | ./ft_ssl md5 -q -r)"
 	counter=$((counter+1))
 else
 	echo -e "$RED KO: $RESET" "echo '$TEST2' | ./ft_ssl md5 -q -r"
 fi
-#############################----------5----------##############################
+#############################----------4----------##############################
 if ./ft_ssl md5 -r file | grep -q "$(md5 -r file)" ; then
 	echo -e "$GREEN OK: $RESET" "$(./ft_ssl md5 -r file)"
 	counter=$((counter+1))
 else
 	echo -e "$RED KO: $RESET" "./ft_ssl md5 -r file ## file: \"this is a test :)\""
 fi
-#############################----------6----------##############################
+#############################----------5----------##############################
 if ./ft_ssl md5 -s "$STRING1" | grep -q "$(md5 -s "$STRING1")" ; then
 	echo -e "$GREEN OK: $RESET" "$(./ft_ssl md5 -s "$STRING1")"
 	counter=$((counter+1))
 else
 	echo  -e "$RED KO: $RESET" "./ft_ssl md5 -s '$STRING1'"
 fi
-#############################----------7----------##############################
+#############################----------6----------##############################
 if ./ft_ssl md5 -s$STRING2 | grep -q "$(md5 -s$STRING2)" ; then
 	echo -e "$GREEN OK: $RESET" "$(./ft_ssl md5 -s$STRING2)"
 	counter=$((counter+1))
 else
 	echo -e "$RED KO: $RESET" "./ft_ssl md5 -s$STRING2"
 fi
-#############################----------8----------##############################
-# if ./ft_ssl md5 -s $STRING4 file | grep -q "$(md5 -s "$STRING3" file)" ; then
-#	echo -e "$GREEN OK: $RESET" ; echo "$(./ft_ssl md5 -s "$STRING3" file)"
-#	counter=$((counter+1))
-# else
-#	echo -e "$RED KO: $RESET" "./ft_ssl md5 -s '$STRING' file"
-# fi
-#############################----------9----------##############################
-# if echo $STRING3 | ./ft_ssl md5 file | grep -q "$(echo $STRING4 | md5 file)" ; then
-#	echo -e "$GREEN OK: $RESET" ; echo "$(echo $STRING3 | ./ft_ssl md5 file)"
-#	counter=$((counter+1))
-# else
-# 	echo -e "$RED KO: $RESET" "echo $STRING3 | ./ft_ssl md5 file"
-# fi
-#############################---------10----------##############################
+#############################----------7----------##############################
 if ./ft_ssl md5 -s "" | grep -q "$(md5 -s "")" ; then
 	echo -e "$GREEN OK: $RESET" "$(./ft_ssl md5 -s "")"
 	counter=$((counter+1))
 else
 	echo -e "$RED KO: $RESET" "./ft_ssl md5 -s \"\""
 fi
+#############################----------8----------##############################
+FT_SSL_MD5=$(echo $OPT_P | ./ft_ssl md5 -p)
+MD5=$(echo $OPT_P | md5 -p)
+if [ "$FT_SSL_MD5" == "$MD5" ] ; then
+	echo -e "$GREEN OK: $RESET" ; echo "$(echo $OPT_P | ./ft_ssl md5 -p)"
+	counter=$((counter+1))
+else
+	echo -e "$RED KO: $RESET" "echo \"$OPT_P\" | ./ft_ssl md5 -p"
+fi
+#############################----------9----------##############################
+FT_SSL_MD5=$(./ft_ssl md5 -s $STRING3 file)
+MD5=$(md5 -s $STRING3 file)
+if [ "$FT_SSL_MD5" == "$MD5" ] ; then
+	echo -e "$GREEN OK: $RESET" ; echo "$(./ft_ssl md5 -s $STRING3 file)"
+	counter=$((counter+1))
+else
+	echo -e "$RED KO: $RESET" "./ft_ssl md5 -s $STRING file"
+fi
+#############################---------10----------##############################
+
+
 
 
 
