@@ -6,13 +6,13 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 14:38:48 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/15 16:05:56 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/15 16:39:55 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ssl.h"
 
-static void		md5_formatted_hash(char *filename, char *input)
+static void	md5_formatted_hash(char *filename, char *input)
 {
 	if (!g_opts[OPT_Q])
 	{
@@ -35,22 +35,6 @@ static void		md5_formatted_hash(char *filename, char *input)
 	else
 		ft_printf("\n");
 }
-
-/*
-** static void		print_opts_and_args(int ac, char **av)
-** {
-**	//print options
-**	ft_printf("options:\n");
-**	g_opts[OPT_P] ? ft_printf("-p\n") : 0;
-**	g_opts[OPT_Q] ? ft_printf("-q\n") : 0;
-**	g_opts[OPT_R] ? ft_printf("-r\n") : 0;
-**	g_opts[OPT_S] ? ft_printf("-s\n") : 0;
-**	//print remaining args
-**	ft_printf("args:\n");
-**	for (int i = 0; i < ac; i++)
-**		ft_printf("%s\n", av[i]);
-** }
-*/
 
 static int	md5_file(char *filename)
 {
@@ -89,7 +73,6 @@ int			ft_md5(int ac, char **av)
 	if (ac == 0 || g_opts[OPT_P])
 		if (md5_stdin() == -1)
 			return (-1);
-//	print_opts_and_args(ac, av);
 	if (g_opts[OPT_S])
 	{
 		md5_formatted_hash(NULL, av[i]);

@@ -6,15 +6,23 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/14 12:20:52 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/15 15:35:37 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/15 16:48:09 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ssl.h"
 
+#define A 0
+#define B 1
+#define C 2
+#define D 3
+#define F 4
+#define G 5
+#define E 6
+
 uint32_t g_s[] = {
 	7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22,
-	5,  9, 14, 20, 5,  9, 14, 20, 5,  9, 14, 20, 5,  9, 14, 20,
+	5, 9, 14, 20, 5, 9, 14, 20, 5, 9, 14, 20, 5, 9, 14, 20,
 	4, 11, 16, 23, 4, 11, 16, 23, 4, 11, 16, 23, 4, 11, 16, 23,
 	6, 10, 15, 21, 6, 10, 15, 21, 6, 10, 15, 21, 6, 10, 15, 21 };
 
@@ -41,32 +49,31 @@ static uint32_t	leftrotate(uint32_t x, uint32_t c)
 	return ((x << c) | (x >> (32 - c)));
 }
 
-static void	operations(uint32_t b, uint32_t c, uint32_t d, int round,
-						uint32_t *f, uint32_t *g)
+static void		operations(uint32_t *vars, size_t round)
 {
 	if (round < 16)
 	{
-		(*f) = (b & c) | ((~b) & d);
-		(*g) = round;
+		vars[F] = (vars[B] & vars[C]) | ((~vars[B]) & vars[D]);
+		vars[G] = round;
 	}
 	else if (round < 32)
 	{
-		(*f) = (d & b) | ((~d) & c);
-		(*g) = (5 * round + 1) % 16;
+		vars[F] = (vars[D] & vars[B]) | ((~vars[D]) & vars[C]);
+		vars[G] = (5 * round + 1) % 16;
 	}
 	else if (round < 48)
 	{
-		(*f) = b ^ c ^ d;
-		(*g) = (3 * round + 5) % 16;          
+		vars[F] = vars[B] ^ vars[C] ^ vars[D];
+		vars[G] = (3 * round + 5) % 16;
 	}
 	else
 	{
-		(*f) = c ^ (b | (~d));
-		(*g) = (7 * round) % 16;
+		vars[F] = vars[C] ^ (vars[B] | (~vars[D]));
+		vars[G] = (7 * round) % 16;
 	}
 }
 
-static uint8_t		*padding(uint8_t *input, size_t len, size_t *msg_len)
+static uint8_t	*padding(uint8_t *input, size_t len, size_t *msg_len)
 {
 	uint8_t		*message;
 	uint32_t	bits;
@@ -83,15 +90,7 @@ static uint8_t		*padding(uint8_t *input, size_t len, size_t *msg_len)
 	return (message);
 }
 
-#define A 0
-#define B 1
-#define C 2
-#define D 3
-#define F 4
-#define G 5
-#define E 6
-
-static void			process(uint8_t *message, uint32_t vars[7], size_t i)
+static void		process(uint8_t *message, uint32_t vars[7], size_t i)
 {
 	size_t		round;
 	uint32_t	*m;
@@ -105,12 +104,12 @@ static void			process(uint8_t *message, uint32_t vars[7], size_t i)
 	round = 0;
 	while (round < 64)
 	{
-		operations(vars[B], vars[C], vars[D], round, &vars[F], &vars[G]);
+		operations(vars, round);
 		vars[E] = vars[D];
 		vars[D] = vars[C];
 		vars[C] = vars[B];
 		vars[B] += leftrotate((vars[F] + vars[A] + g_k[round] + m[vars[G]]),
-		 g_s[round]);
+		g_s[round]);
 		vars[A] = vars[E];
 		round++;
 	}
@@ -120,7 +119,7 @@ static void			process(uint8_t *message, uint32_t vars[7], size_t i)
 	g_hash[3] += vars[D];
 }
 
-void				md5_algo(uint8_t *input, size_t len)
+void			md5_algo(uint8_t *input, size_t len)
 {
 	uint8_t		*message;
 	size_t		msg_len;
