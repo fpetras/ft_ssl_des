@@ -6,7 +6,7 @@
 #    By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/26 12:26:28 by fpetras           #+#    #+#              #
-#    Updated: 2019/03/15 16:11:13 by fpetras          ###   ########.fr        #
+#    Updated: 2019/03/15 16:22:56 by fpetras          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,9 +56,13 @@ $(OBJPATH)%.o: %.c
 	@echo "$(CYAN)Compiling $<"
 	@$(CC) $(CFLAGS) -c $< -o $@
 
+test:
+	@./test.sh
+
 clean:
 	@make clean -C libft
 	@rm -rf $(OBJPATH)
+	@rm -rf $(NAME).dSYM
 
 fclean: clean
 	@make fclean -C libft
@@ -66,4 +70,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all test clean fclean re
