@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 14:38:48 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/15 16:58:46 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/18 18:14:03 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static int	md5_stdin(void)
 
 	if ((input = read_stdin()) == NULL)
 		return (EXIT_FAILURE);
-	g_opts[OPT_P] ? ft_printf("%s", input) : 0;
+	g_opts[OPT_P] ? print(input) : 0;
 	md5_hash(input);
 	ft_printf("\n");
 	free(input);
@@ -75,6 +75,7 @@ int			ft_md5(int ac, char **av)
 			return (EXIT_FAILURE);
 	if (g_opts[OPT_S])
 	{
+		g_len = ft_strlen(av[i]);
 		md5_formatted_hash(NULL, av[i]);
 		i++;
 	}

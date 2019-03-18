@@ -6,7 +6,7 @@
 #    By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/26 12:26:28 by fpetras           #+#    #+#              #
-#    Updated: 2019/03/15 16:22:56 by fpetras          ###   ########.fr        #
+#    Updated: 2019/03/18 17:49:17 by fpetras          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,9 @@ SRC = main.c \
 	  sha256.c \
 	  md5_hash.c \
 	  md5_algo.c \
-	  sha256_hash.c
+	  sha256_hash.c \
+	  ft_join.c \
+	  print.c
 
 OBJPATH = obj/
 OBJ = $(addprefix $(OBJPATH),$(SRC:.c=.o))

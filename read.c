@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 10:15:45 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/15 13:40:27 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/18 17:40:11 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ char		*read_file(char *filename)
 	char	*file;
 	char	*file1;
 
+	g_len = 0;
 	if ((fd = open(filename, O_RDONLY)) == -1)
 	{
 		ft_dprintf(2, "md5: %s: %s\n", filename, strerror(errno));
@@ -38,7 +39,8 @@ char		*read_file(char *filename)
 	{
 		buf[ret] = '\0';
 		file1 = file;
-		file = ft_strjoin(file1, buf);
+		file = ft_join(file1, buf, g_len, ret);
+		g_len += ret;
 		free(file1);
 	}
 	if (ret == -1)
@@ -54,13 +56,15 @@ char		*read_stdin(void)
 	char	*input;
 	char	*input1;
 
+	g_len = 0;
 	if ((input = ft_strnew(0)) == NULL)
 		return (NULL);
 	while ((ret = read(STDIN_FILENO, &buf, BUFF_SIZE)) > 0)
 	{
 		buf[ret] = '\0';
 		input1 = input;
-		input = ft_strjoin(input1, buf);
+		input = ft_join(input1, buf, g_len, ret);
+		g_len += ret;
 		free(input1);
 	}
 	return (input);
