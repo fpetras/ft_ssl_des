@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 14:38:48 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/18 18:14:03 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/19 17:38:10 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int			ft_md5(int ac, char **av)
 			return (EXIT_FAILURE);
 	if (g_opts[OPT_S])
 	{
-		g_len = ft_strlen(av[i]);
+		g_input_len = ft_strlen(av[i]);
 		md5_formatted_hash(NULL, av[i]);
 		i++;
 	}

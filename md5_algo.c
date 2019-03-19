@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/14 12:20:52 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/19 16:52:27 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/19 17:45:32 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,19 +113,19 @@ static void		process(uint8_t *message, uint32_t vars[7], size_t i)
 ** Pad a 0 bit until msg_len % 512 == (512 - 64)
 */
 
-static uint8_t	*padding(uint8_t *input, size_t len, size_t *msg_len)
+static uint8_t	*padding(char *input, size_t input_len, size_t *msg_len)
 {
 	uint8_t		*message;
 	uint32_t	bits;
 
 	message = NULL;
-	bits = len * CHAR_BIT;
+	bits = input_len * CHAR_BIT;
 	while ((*msg_len) % 512 != 448)
 		(*msg_len)++;
 	(*msg_len) /= CHAR_BIT;
 	message = ft_calloc((*msg_len) + 64, 1);
-	ft_memcpy(message, input, len);
-	message[len] = 0x80;
+	ft_memcpy(message, input, input_len);
+	message[input_len] = 0x80;
 	ft_memcpy(message + (*msg_len), &bits, sizeof(uint32_t));
 	return (message);
 }
@@ -134,15 +134,15 @@ static uint8_t	*padding(uint8_t *input, size_t len, size_t *msg_len)
 ** Initialize variables
 */
 
-void			md5_algo(uint8_t *input, size_t len)
+void			md5_algo(char *input)
 {
 	uint8_t		*message;
 	size_t		msg_len;
 	uint32_t	vars[7];
 	size_t		i;
 
-	msg_len = len * 8 + 1;
-	message = padding(input, len, &msg_len);
+	msg_len = g_input_len * 8 + 1;
+	message = padding(input, g_input_len, &msg_len);
 	g_hash[0] = 0x67452301;
 	g_hash[1] = 0xefcdab89;
 	g_hash[2] = 0x98badcfe;

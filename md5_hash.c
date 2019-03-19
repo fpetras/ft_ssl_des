@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 15:05:40 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/18 17:41:27 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/19 17:36:12 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int		md5_hash(char *input)
 	int		i;
 	uint8_t	*hash;
 
-	md5_algo((uint8_t*)input, g_len);
+	md5_algo(input);
 	i = 0;
 	while (i < 4)
 	{

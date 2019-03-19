@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 15:05:43 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/19 16:01:27 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/19 17:49:00 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int		sha256_hash(char *input)
 {
 	(void)input;
-	ft_printf("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8");
-	ft_printf("55");
+	ft_printf("hash placeholder");
+//	sha256_algo(input);
 	return (0);
 }
