@@ -6,17 +6,27 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/14 12:20:52 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/15 16:54:36 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/19 16:52:27 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ssl.h"
+
+/*
+** Shift amounts per round
+*/
 
 uint32_t g_s[] = {
 	7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22,
 	5, 9, 14, 20, 5, 9, 14, 20, 5, 9, 14, 20, 5, 9, 14, 20,
 	4, 11, 16, 23, 4, 11, 16, 23, 4, 11, 16, 23, 4, 11, 16, 23,
 	6, 10, 15, 21, 6, 10, 15, 21, 6, 10, 15, 21, 6, 10, 15, 21 };
+
+/*
+** Precomputed constants
+** for (int i = 0; i < 64; i++)
+**		g_k[i] = floor(pow(2, 32) * fabs(sin(i + 1)));
+*/
 
 uint32_t g_k[] = {
 	0xd76aa478, 0xe8c7b756, 0x242070db, 0xc1bdceee,
@@ -65,6 +75,10 @@ static void		operations(uint32_t *vars, size_t round)
 	}
 }
 
+/*
+** Process the message in chunks of 512-bit blocks
+*/
+
 static void		process(uint8_t *message, uint32_t vars[7], size_t i)
 {
 	size_t		round;
@@ -94,22 +108,31 @@ static void		process(uint8_t *message, uint32_t vars[7], size_t i)
 	g_hash[3] += vars[D];
 }
 
+/*
+** Append a single 1 bit
+** Pad a 0 bit until msg_len % 512 == (512 - 64)
+*/
+
 static uint8_t	*padding(uint8_t *input, size_t len, size_t *msg_len)
 {
 	uint8_t		*message;
 	uint32_t	bits;
 
 	message = NULL;
-	bits = 8 * len;
+	bits = len * CHAR_BIT;
 	while ((*msg_len) % 512 != 448)
 		(*msg_len)++;
-	(*msg_len) /= 8;
+	(*msg_len) /= CHAR_BIT;
 	message = ft_calloc((*msg_len) + 64, 1);
 	ft_memcpy(message, input, len);
-	message[len] = 128;
+	message[len] = 0x80;
 	ft_memcpy(message + (*msg_len), &bits, sizeof(uint32_t));
 	return (message);
 }
+
+/*
+** Initialize variables
+*/
 
 void			md5_algo(uint8_t *input, size_t len)
 {

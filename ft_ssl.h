@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 12:00:22 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/18 18:00:02 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/19 16:53:56 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <stdlib.h>
 # include <stdint.h>
 # include <errno.h>
+# include <limits.h>
 
 # define OPT_STR "pqrs"
 # define OPT_NUM 4
@@ -54,6 +55,6 @@ char	*ft_join(char const *s1, char const *s2, size_t len1, size_t len2);
 void	print(char *input);
 int		md5_hash(char *input);
 void	md5_algo(uint8_t *input, size_t len);
-void	sha256_hash(char *input);
+int		sha256_hash(char *input);
 
 #endif

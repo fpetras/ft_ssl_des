@@ -6,14 +6,16 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 15:05:43 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/08 15:11:07 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/19 16:01:27 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ssl.h"
 
-void	sha256_hash(char *input)
+int		sha256_hash(char *input)
 {
 	(void)input;
-	ft_printf("c96c6d5be8d08a12e7b5cdc1b207fa6b2430974c86803d8891675e76fd992c20");
+	ft_printf("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8");
+	ft_printf("55");
+	return (0);
 }

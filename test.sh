@@ -22,7 +22,8 @@ echo $TEST1 > file
 FT_SSL_MD5=$(./ft_ssl md5 file)
 MD5=$(md5 file)
 if [ "$FT_SSL_MD5" == "$MD5" ] ; then
-	echo -e "$GREEN OK: $RESET" "$(./ft_ssl md5 file)"
+	echo -e "$GREEN OK: $RESET" "echo \"$TEST1\" > file ; ./ft_ssl md5 file"
+	echo "$FT_SSL_MD5"
 	counter=$((counter+1))
 else
 	echo -e "$RED KO: $RESET" "echo \"$TEST1\" > file ; ./ft_ssl md5 file"
@@ -31,7 +32,8 @@ fi
 FT_SSL_MD5=$(echo $STDIN | ./ft_ssl md5)
 MD5=$(echo $STDIN | md5)
 if [ "$FT_SSL_MD5" == "$MD5" ] ; then
-	echo -e "$GREEN OK: $RESET" "$(echo $STDIN | ./ft_ssl md5)"
+	echo -e "$GREEN OK: $RESET" "echo \"$STDIN\" | ./ft_ssl md5"
+	echo "$FT_SSL_MD5"
 	counter=$((counter+1))
 else
 	echo -e "$RED KO: $RESET" "echo \"$STDIN\" | ./ft_ssl md5"
@@ -40,16 +42,18 @@ fi
 FT_SSL_MD5=$(echo $TEST2 | ./ft_ssl md5 -q -r)
 MD5=$(echo $TEST2 | md5 -q -r)
 if [ "$FT_SSL_MD5" == "$MD5" ] ; then
-	echo -e "$GREEN OK: $RESET" "$(echo $TEST2 | ./ft_ssl md5 -q -r)"
+	echo -e "$GREEN OK: $RESET" "echo \"$TEST2\" | ./ft_ssl md5 -q -r"
+	echo "$FT_SSL_MD5"
 	counter=$((counter+1))
 else
-	echo -e "$RED KO: $RESET" "echo '$TEST2' | ./ft_ssl md5 -q -r"
+	echo -e "$RED KO: $RESET" "echo \"$TEST2\" | ./ft_ssl md5 -q -r"
 fi
 #############################----------4----------##############################
 FT_SSL_MD5=$(./ft_ssl md5 -r file)
 MD5=$(md5 -r file)
 if [ "$FT_SSL_MD5" == "$MD5" ] ; then
-	echo -e "$GREEN OK: $RESET" "$(./ft_ssl md5 -r file)"
+	echo -e "$GREEN OK: $RESET" "echo \"$TEST1\" > file ; ./ft_ssl md5 -r file"
+	echo "$FT_SSL_MD5"
 	counter=$((counter+1))
 else
 	echo -e "$RED KO: $RESET" "echo \"$TEST1\" > file ; ./ft_ssl md5 -r file"
@@ -58,16 +62,18 @@ fi
 FT_SSL_MD5=$(./ft_ssl md5 -s "$STRING1")
 MD5=$(md5 -s "$STRING1")
 if [ "$FT_SSL_MD5" == "$MD5" ] ; then
-	echo -e "$GREEN OK: $RESET" "$(./ft_ssl md5 -s "$STRING1")"
+	echo -e "$GREEN OK: $RESET" "./ft_ssl md5 -s \"$STRING1\""
+	echo "$FT_SSL_MD5"
 	counter=$((counter+1))
 else
-	echo  -e "$RED KO: $RESET" "./ft_ssl md5 -s '$STRING1'"
+	echo  -e "$RED KO: $RESET" "./ft_ssl md5 -s \"$STRING1\""
 fi
 #############################----------6----------##############################
 FT_SSL_MD5=$(./ft_ssl md5 -s$STRING2)
 MD5=$(md5 -s $STRING2)
 if [ "$FT_SSL_MD5" == "$MD5" ] ; then
-	echo -e "$GREEN OK: $RESET" "$(./ft_ssl md5 -s$STRING2)"
+	echo -e "$GREEN OK: $RESET" "./ft_ssl md5 -s$STRING2"
+	echo "$FT_SSL_MD5"
 	counter=$((counter+1))
 else
 	echo -e "$RED KO: $RESET" "./ft_ssl md5 -s$STRING2"
@@ -76,7 +82,8 @@ fi
 FT_SSL_MD5=$(./ft_ssl md5 -s "")
 MD5=$(md5 -s "")
 if [ "$FT_SSL_MD5" == "$MD5" ] ; then
-	echo -e "$GREEN OK: $RESET" "$(./ft_ssl md5 -s "")"
+	echo -e "$GREEN OK: $RESET" "./ft_ssl md5 -s \"\""
+	echo "$FT_SSL_MD5"
 	counter=$((counter+1))
 else
 	echo -e "$RED KO: $RESET" "./ft_ssl md5 -s \"\""
@@ -85,7 +92,8 @@ fi
 FT_SSL_MD5=$(echo $OPT_P | ./ft_ssl md5 -p)
 MD5=$(echo $OPT_P | md5 -p)
 if [ "$FT_SSL_MD5" == "$MD5" ] ; then
-	echo -e "$GREEN OK: $RESET" ; echo "$(echo $OPT_P | ./ft_ssl md5 -p)"
+	echo -e "$GREEN OK: $RESET" "echo \"$OPT_P\" | ./ft_ssl md5 -p"
+	echo "$FT_SSL_MD5"
 	counter=$((counter+1))
 else
 	echo -e "$RED KO: $RESET" "echo \"$OPT_P\" | ./ft_ssl md5 -p"
@@ -94,16 +102,18 @@ fi
 FT_SSL_MD5=$(./ft_ssl md5 -s $STRING3 file)
 MD5=$(md5 -s $STRING3 file)
 if [ "$FT_SSL_MD5" == "$MD5" ] ; then
-	echo -e "$GREEN OK: $RESET" ; echo "$(./ft_ssl md5 -s $STRING3 file)"
+	echo -e "$GREEN OK: $RESET" "./ft_ssl md5 -s \"$STRING3\" file"
+	echo "$FT_SSL_MD5"
 	counter=$((counter+1))
 else
-	echo -e "$RED KO: $RESET" "./ft_ssl md5 -s $STRING file"
+	echo -e "$RED KO: $RESET" "./ft_ssl md5 -s \"$STRING3\" file"
 fi
 #############################---------10----------##############################
 FT_SSL_MD5=$(echo "tough one" | ./ft_ssl md5 -r -p -s 'foo' file -s "bar")
 MD5=$(echo "tough one" | md5 -r -p -s 'foo' file -s "bar")
 if [ "$FT_SSL_MD5" == "$MD5" ] ; then
-	echo -e "$GREEN OK: $RESET" ; echo "$FT_SSL_MD5"
+	echo -e "$GREEN OK: $RESET" "echo \""tough one\"" | ./ft_ssl md5 -r -p -s 'foo' file -s 'bar'"
+	echo "$FT_SSL_MD5"
 	counter=$((counter+1))
 else
 	echo -e "$RED KO: $RESET" "echo \"tough one\" | ./ft_ssl md5 -r -p -s 'foo' file -s 'bar'"
@@ -113,10 +123,11 @@ echo "this" > this && echo "is" > is && echo "a" > a && echo "test" > test
 FT_SSL_MD5=$(./ft_ssl md5 this is a test)
 MD5=$(md5 this is a test)
 if [ "$FT_SSL_MD5" == "$MD5" ] ; then
-	echo -e "$GREEN OK: $RESET" ; echo "$(./ft_ssl md5 this is a test)"
+	echo -e "$GREEN OK: $RESET" 'echo "this" > this && echo "is" > is && echo "a" > a && echo "test" > test' "./ft_ssl md5 this is a test"
+	echo "$FT_SSL_MD5"
 	counter=$((counter+1))
 else
-	echo -e "$RED KO: $RESET"
+	echo -e "$RED KO: $RESET" 'echo "this" > this && echo "is" > is && echo "a" > a && echo "test" > test' "./ft_ssl md5 this is a test"
 fi
 rm this is a test
 
@@ -135,7 +146,8 @@ sleep 2.5
 FT_SSL_MD5=$(cat $(whereis ls) | ./ft_ssl md5)
 MD5=$(cat $(whereis ls) | md5)
 if [ "$FT_SSL_MD5" == "$MD5" ] ; then
-	echo -e "$GREEN OK: $RESET $(whereis ls)" ; echo "$FT_SSL_MD5"
+	echo -e "$GREEN OK: $RESET" "cat $(whereis ls) | ./ft_ssl md5"
+	echo "$FT_SSL_MD5"
 	counter=$((counter+1))
 else
 	echo -e "$RED KO: $RESET" "cat $(whereis ls) | ./ft_ssl md5"
@@ -144,7 +156,8 @@ fi
 FT_SSL_MD5=$(./ft_ssl md5 -r $(whereis cat))
 MD5=$(md5 -r $(whereis cat))
 if [ "$FT_SSL_MD5" == "$MD5" ] ; then
-	echo -e "$GREEN OK: $RESET" "$FT_SSL_MD5"
+	echo -e "$GREEN OK: $RESET" "./ft_ssl md5 -r $(whereis cat)"
+	echo "$FT_SSL_MD5"
 	counter=$((counter+1))
 else
 	echo -e "$RED KO: $RESET" "./ft_ssl md5 -r $(whereis cat)"
@@ -154,6 +167,7 @@ FT_SSL_MD5=$(cat $(whereis bash) | ./ft_ssl md5 -p -r $(whereis ln) $(whereis ec
 MD5=$(cat $(whereis bash) | md5 -p -r $(whereis ln) $(whereis echo) $(whereis rm))
 if [ "$FT_SSL_MD5" == "$MD5" ] ; then
 	echo -e "$GREEN OK: $RESET" "cat $(whereis bash) | ./ft_ssl md5 -p -r $(whereis ln) $(whereis echo) $(whereis rm)"
+	echo "(output not displayed, too large)"
 	counter=$((counter+1))
 else
 	echo -e "$RED KO: $RESET" "cat $(whereis bash) | ./ft_ssl md5 -p -r $(whereis ln) $(whereis echo) $(whereis rm)"
@@ -180,7 +194,7 @@ for i in {1..100}; do
 		echo -e "$GREEN $counter OK $RESET\r\c"
 		counter=$((counter+1))
 	else
-		echo -e "$RED KO $RESET" ; echo "## string: " ; cat file ; echo ""
+		echo -e "$RED KO $RESET" ; echo "## string: " ; cat file1 ; echo ""
 	fi
 done
 rm file
@@ -207,7 +221,7 @@ for i in {1..100}; do
 		echo -e "$GREEN $counter OK $RESET\r\c"
 		counter=$((counter+1))
 	else
-		echo -e "$RED KO $RESET" ; echo "## data: " ; cat file ; echo ""
+		echo -e "$RED KO $RESET" ; echo "## data: " ; cat file2 ; echo ""
 	fi
 done
 rm file1 file2
