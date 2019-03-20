@@ -129,6 +129,7 @@ if [ "$FT_SSL_MD5" == "$MD5" ] ; then
 else
 	echo -e "$RED KO: $RESET" 'echo "this" > this && echo "is" > is && echo "a" > a && echo "test" > test' "./ft_ssl md5 this is a test"
 fi
+rm file
 rm this is a test
 
 
@@ -187,7 +188,8 @@ sleep 2.5
 for i in {1..100}; do
 	cat /dev/urandom | base64 | head -c 40 > file1
 	FT_SSL_MD5=$(./ft_ssl md5 -q file1)
-	if ./ft_ssl md5 -q file1 | grep -q "$(md5 -q file1)"; then
+	MD5=$(md5 -q file1)
+	if [ "$FT_SSL_MD5" == "$MD5" ] ; then
 		cat file1
 		echo -e $CLEAR_LINE
 		echo -n -e "$FT_SSL_MD5\r\c"
@@ -197,7 +199,6 @@ for i in {1..100}; do
 		echo -e "$RED KO $RESET" ; echo "## string: " ; cat file1 ; echo ""
 	fi
 done
-rm file
 
 
 if [ "$counter" -eq 100 ]; then
@@ -214,7 +215,8 @@ sleep 2.5
 for i in {1..100}; do
 	cat /dev/urandom | head -c 40 > file2
 	FT_SSL_MD5=$(./ft_ssl md5 -q file2)
-	if ./ft_ssl md5 -q file2 | grep -q "$(md5 -q file2)"; then
+	MD5=$(md5 -q file2)
+	if [ "$FT_SSL_MD5" == "$MD5" ] ; then
 		cat file1
 		echo -e $CLEAR_LINE
 		echo -n -e "$FT_SSL_MD5\r\c"
