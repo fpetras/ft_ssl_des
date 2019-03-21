@@ -4,6 +4,7 @@ GREEN="\033[1;32m"
 RED="\033[1;31m"
 WHITE="\033[1;37m"
 RESET="\033[0;0m"
+CLEAR_SCREEN="\033[2J"
 CLEAR_LINE="\033[2K\c"
 
 TEST1="this is a test :)"
@@ -15,8 +16,70 @@ STRING2='1moreTest'
 STRING3="string"
 
 counter=0
+md5_total=0
+sha256_total=0
 TEST_NUM=11
 
+md5_set=0
+sha256_set=0
+
+function print_usage {
+	echo "usage: $0 [md5 | sha256 | all] ..."
+	echo ""
+	echo "available tests: md5"
+	echo "                 sha256"
+	echo "                 all"
+}
+
+function md5_header {
+	echo -e -n "$WHITE"
+	echo "███╗   ███╗██████╗ ███████╗
+████╗ ████║██╔══██╗██╔════╝
+██╔████╔██║██║  ██║███████╗
+██║╚██╔╝██║██║  ██║╚════██║
+██║ ╚═╝ ██║██████╔╝███████║
+╚═╝     ╚═╝╚═════╝ ╚══════╝"
+	echo -e -n "$RESET"
+}
+
+function sha256_header {
+	echo -e -n "$WHITE"
+	echo "███████╗██╗  ██╗ █████╗       ██████╗ ███████╗ ██████╗
+██╔════╝██║  ██║██╔══██╗      ╚════██╗██╔════╝██╔════╝
+███████╗███████║███████║█████╗ █████╔╝███████╗███████╗
+╚════██║██╔══██║██╔══██║╚════╝██╔═══╝ ╚════██║██╔═══██╗
+███████║██║  ██║██║  ██║      ███████╗███████║╚██████╔╝
+╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝      ╚══════╝╚══════╝ ╚═════╝"
+	echo -e -n "$RESET"
+}
+
+if [ $# -eq 0 ] ; then
+	print_usage
+	exit
+fi
+
+for arg in "$@" ; do
+	case $arg in
+		md5)
+			md5_set=1
+			;;
+		sha256)
+			sha256_set=1
+			;;
+		all)
+			md5_set=1
+			sha256_set=1
+			;;
+		*)
+			print_usage
+	esac
+done
+
+#############################---------MD5---------##############################
+if [ $md5_set -eq 1 ] ; then
+
+echo -e -n $CLEAR_SCREEN
+md5_header
 #############################----------1----------##############################
 echo $TEST1 > file
 FT_SSL_MD5=$(./ft_ssl md5 file)
@@ -140,9 +203,10 @@ else
 fi
 
 ################################################################################
+md5_total=$(($md5_total+$counter))
 counter=0
-echo -e "$WHITE Test binary files: $RESET"
-sleep 2.5
+echo -e "$WHITE MD5: Test binary files: $RESET"
+sleep 2
 #############################----------1----------##############################
 FT_SSL_MD5=$(cat $(whereis ls) | ./ft_ssl md5)
 MD5=$(cat $(whereis ls) | md5)
@@ -182,9 +246,10 @@ else
 fi
 
 ################################################################################
+md5_total=$(($md5_total+$counter))
 counter=0
-echo -e "$WHITE Test random strings: $RESET"
-sleep 2.5
+echo -e "$WHITE MD5: Test random strings: $RESET"
+sleep 2
 for i in {1..100}; do
 	cat /dev/urandom | base64 | head -c 40 > file1
 	FT_SSL_MD5=$(./ft_ssl md5 -q file1)
@@ -196,6 +261,7 @@ for i in {1..100}; do
 		echo -e "$GREEN $counter OK $RESET\r\c"
 		counter=$((counter+1))
 	else
+		echo -e $CLEAR_LINE
 		echo -e "$RED KO $RESET" ; echo "## string: " ; cat file1 ; echo ""
 	fi
 done
@@ -209,9 +275,10 @@ else
 fi
 
 ################################################################################
+md5_total=$(($md5_total+$counter))
 counter=0
-echo -e "$WHITE Test random binary data: $RESET"
-sleep 2.5
+echo -e "$WHITE MD5: Test random binary data: $RESET"
+sleep 2
 for i in {1..100}; do
 	cat /dev/urandom | head -c 40 > file2
 	FT_SSL_MD5=$(./ft_ssl md5 -q file2)
@@ -223,10 +290,12 @@ for i in {1..100}; do
 		echo -e "$GREEN $counter OK $RESET\r\c"
 		counter=$((counter+1))
 	else
+		echo -e $CLEAR_LINE
 		echo -e "$RED KO $RESET" ; echo "## data: " ; cat file2 ; echo ""
 	fi
 done
 rm file1 file2
+md5_total=$(($md5_total+$counter))
 
 
 if [ "$counter" -eq 100 ]; then
@@ -235,3 +304,181 @@ if [ "$counter" -eq 100 ]; then
 else
 	echo -e "$RED [ $counter / 100 ] $RESET"
 fi
+fi
+
+
+
+#############################-------SHA-256-------##############################
+if [[ $md5_set -eq 1 && $sha256_set -eq 1 ]] ; then
+	echo ""
+	sha256_header
+	sleep 2.5
+elif [ $sha256_set -eq 1 ] ; then
+	echo -e $CLEAR_SCREEN
+	sha256_header
+fi
+
+if [ $sha256_set -eq 1 ] ; then
+
+#############################----------1----------##############################
+counter=0
+FT_SSL_SHA256=$(echo "This is a simple test" | ./ft_ssl sha256)
+SHA256=$(echo "This is a simple test" | openssl sha256)
+if [ "$FT_SSL_SHA256" == "$SHA256" ] ; then
+	echo -e "$GREEN OK: $RESET" "echo \"This is a simple test\" | ./ft_ssl sha256"
+	echo "$FT_SSL_SHA256"
+	counter=$((counter+1))
+else
+	echo -e "$RED KO: $RESET" "echo \"This is a simple test\" | ./ft_ssl sha256"
+fi
+#############################----------2----------##############################
+FT_SSL_SHA256=$(./ft_ssl sha256 -q -s "String test")
+SHA256=$(echo -n "String test" | openssl sha256)
+if [ "$FT_SSL_SHA256" == "$SHA256" ] ; then
+	echo -e "$GREEN OK: $RESET" "./ft_ssl sha256 -q -s \"String test\""
+	echo "$FT_SSL_SHA256"
+	counter=$((counter+1))
+else
+	echo -e "$RED KO: $RESET" "./ft_ssl sha256 -q -s \"String test\""
+fi
+#############################----------3----------##############################
+FT_SSL_SHA256=$(cat $(whereis shasum) | ./ft_ssl sha256)
+SHA256=$(cat $(whereis shasum) | openssl sha256)
+if [ "$FT_SSL_SHA256" == "$SHA256" ] ; then
+	echo -e "$GREEN OK: $RESET" "cat $(whereis shasum) | ./ft_ssl sha256"
+	echo "$FT_SSL_SHA256"
+	counter=$((counter+1))
+else
+	echo -e "$RED KO: $RESET" "cat $(whereis shasum) | ./ft_ssl sha256"
+fi
+#############################----------4----------##############################
+FT_SSL_SHA256=$(echo -n "LJa0ugxQ/qEGzPeGEveyOmWDKi4Hyix1vunr2Lbz" | ./ft_ssl sha256)
+SHA256=$(echo -n "LJa0ugxQ/qEGzPeGEveyOmWDKi4Hyix1vunr2Lbz" | openssl sha256)
+if [ "$FT_SSL_SHA256" == "$SHA256" ] ; then
+	echo -e "$GREEN OK: $RESET" "echo -n \"LJa0ugxQ/qEGzPeGEveyOmWDKi4Hyix1vunr2Lbz\" | ./ft_ssl sha256"
+	echo "$FT_SSL_SHA256"
+	counter=$((counter+1))
+else
+	echo -e "$RED KO: $RESET" "echo -n \"LJa0ugxQ/qEGzPeGEveyOmWDKi4Hyix1vunr2Lbz\" | ./ft_ssl sha256"
+fi
+
+
+
+if [ "$counter" -eq 4 ]; then
+	echo -e "$GREEN [ $counter / 4 ] $RESET"
+else
+	echo -e "$RED [ $counter / 4 ] $RESET"
+fi
+
+################################################################################
+sha256_total=$(($sha256_total+$counter))
+counter=0
+echo -e "$WHITE SHA-256: Test random strings: $RESET"
+sleep 2
+for i in {1..100}; do
+	cat /dev/urandom | base64 | head -c 40 > file1
+	FT_SSL_SHA256=$(./ft_ssl sha256 -q file1)
+	SHA256=$(cat file1 | openssl sha256)
+	if [ "$FT_SSL_SHA256" == "$SHA256" ] ; then
+		echo -e $CLEAR_LINE
+		echo -n -e "$FT_SSL_SHA256\r\c"
+		echo -e "$GREEN $counter OK $RESET\r\c"
+		counter=$((counter+1))
+	else
+		echo -e $CLEAR_LINE
+		echo -e "$RED KO $RESET" ; echo "## string: " ; cat file1 ; echo ""
+		echo $FT_SSL_SHA256
+		echo $SHA256
+	fi
+done
+
+
+if [ "$counter" -eq 100 ]; then
+	echo -e $CLEAR_LINE
+	echo -e "$GREEN [ $counter / 100 ] $RESET"
+else
+	echo -e "$RED [ $counter / 100 ] $RESET"
+fi
+
+################################################################################
+sha256_total=$(($sha256_total+$counter))
+counter=0
+echo -e "$WHITE SHA-256: Test random binary data: $RESET"
+sleep 2
+for i in {1..100}; do
+	cat /dev/urandom | head -c 40 > file2
+	FT_SSL_SHA256=$(./ft_ssl sha256 -q file2)
+	SHA256=$(cat file2 | openssl sha256)
+	if [ "$FT_SSL_SHA256" == "$SHA256" ] ; then
+		echo -e $CLEAR_LINE
+		echo -n -e "$FT_SSL_SHA256\r\c"
+		echo -e "$GREEN $counter OK $RESET\r\c"
+		counter=$((counter+1))
+	else
+		echo -e $CLEAR_LINE
+		echo -e "$RED KO $RESET" ; echo "## data: " ; cat file2 ; echo ""
+		echo $FT_SSL_SHA256
+		echo $SHA256
+fi
+done
+rm file1 file2
+sha256_total=$(($sha256_total+$counter))
+
+
+if [ "$counter" -eq 100 ]; then
+	echo -e $CLEAR_LINE
+	echo -e "$GREEN [ $counter / 100 ] $RESET"
+else
+	echo -e "$RED [ $counter / 100 ] $RESET"
+fi
+fi
+
+
+
+echo "┌──────────────────────────────────────────────────────┐"
+
+if [ $md5_set -eq 1 ] ; then
+	if [ $md5_total -eq 214 ] ; then
+		echo -e -n "│ MD5 score: $GREEN     [ $md5_total / 214 ] $RESET"
+		if [ $md5_total -lt 10 ] ; then
+			echo "                         │"
+		elif [[ $md5_total -gt 9 && $md5_total -lt 100 ]] ; then
+			echo "                        │"
+		elif [ $md5_total -gt 99 ] ; then
+			echo "                       │"
+		fi
+	else
+		echo -e -n "│ MD5 score: $RED     [ $md5_total / 214 ] $RESET"
+		if [ $md5_total -lt 10 ] ; then
+			echo "                         │"
+		elif [[ $md5_total -gt 9 && $md5_total -lt 100 ]] ; then
+			echo "                        │"
+		elif [ $md5_total -gt 99 ] ; then
+			echo "                       │"
+		fi
+fi
+fi
+
+if [ $sha256_set -eq 1 ] ; then
+	if [ $sha256_total -eq 204 ] ; then
+		echo -e -n "│ SHA-256 score: $GREEN [ $sha256_total / 204 ] $RESET"
+		if [ $sha256_total -lt 10 ] ; then
+			echo "                         │"
+		elif [[ $sha256_total -gt 9 && $sha256_total -lt 100 ]] ; then
+			echo "                        │"
+		elif [ $sha256_total -gt 99 ] ; then
+			echo "                       │"
+		fi
+	else
+		echo -e -n "│ SHA-256 score: $RED [ $sha256_total / 204 ] $RESET"
+		if [ $sha256_total -lt 10 ] ; then
+			echo "                         │"
+		elif [[ $sha256_total -gt 9 && $sha256_total -lt 100 ]] ; then
+			echo "                        │"
+		elif [ $sha256_total -gt 99 ] ; then
+			echo "                       │"
+		fi
+fi
+fi
+
+echo "└──────────────────────────────────────────────────────┘"
