@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 17:19:27 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/21 12:31:52 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/21 12:52:16 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,10 @@ uint32_t		change_endianness(uint32_t value)
 	return (result);
 }
 
+/*
+** Add compressed chunk to the current hash value
+*/
+
 static void		add(uint32_t *vars)
 {
 	g_hash[0] += vars[A];
@@ -62,6 +66,10 @@ static void		add(uint32_t *vars)
 	g_hash[7] += vars[I];
 }
 
+/*
+** Initialize variables to the current hash value
+*/
+
 static void		init(uint32_t *vars)
 {
 	vars[A] = g_hash[0];
@@ -73,6 +81,10 @@ static void		init(uint32_t *vars)
 	vars[G] = g_hash[6];
 	vars[I] = g_hash[7];
 }
+
+/*
+** SHA-2 operations
+*/
 
 static void		operations(uint32_t *vars, uint32_t *w, size_t i)
 {
@@ -111,6 +123,13 @@ static void		extend(uint32_t *w, size_t i)
 	w[i] = w[i - 16] + s0 + w[i - 7] + s1;
 }
 
+/*
+** Create 64-entry array of 32-bit words
+** Copy chunk into first 16 words
+** Extend the first 16 words into the remaining 48 words of the array
+** Process the message in blocks of 512-bit chunks
+*/
+
 static void		process(uint32_t *message, uint32_t vars[8], size_t i)
 {
 	uint32_t	*w;
@@ -134,6 +153,10 @@ static void		process(uint32_t *message, uint32_t vars[8], size_t i)
 	add(vars);
 	free(w);
 }
+
+/*
+** Pre-processing (padding)
+*/
 
 static uint32_t	*padding(char *input, size_t input_len, size_t *msg_len)
 {
