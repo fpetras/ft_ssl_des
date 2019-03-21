@@ -6,7 +6,7 @@
 #    By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/26 12:26:28 by fpetras           #+#    #+#              #
-#    Updated: 2019/03/21 12:46:00 by fpetras          ###   ########.fr        #
+#    Updated: 2019/03/20 16:36:15 by fpetras          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,7 +60,13 @@ $(OBJPATH)%.o: %.c
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 test: $(NAME)
-	@./test.sh
+	@./test.sh all
+
+test_md5: $(NAME)
+	@./test.sh md5
+
+test_sha256: $(NAME)
+	@./test.sh sha256
 
 clean:
 	@make clean -C libft
@@ -73,4 +79,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re test
+.PHONY: all clean fclean re test test_md5 test_sha256
