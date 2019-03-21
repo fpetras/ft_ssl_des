@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/14 12:20:52 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/19 17:45:32 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/21 12:34:17 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 ** Shift amounts per round
 */
 
-uint32_t g_s[] = {
+static uint32_t g_s[] = {
 	7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22,
 	5, 9, 14, 20, 5, 9, 14, 20, 5, 9, 14, 20, 5, 9, 14, 20,
 	4, 11, 16, 23, 4, 11, 16, 23, 4, 11, 16, 23, 4, 11, 16, 23,
@@ -28,7 +28,7 @@ uint32_t g_s[] = {
 **		g_k[i] = floor(pow(2, 32) * fabs(sin(i + 1)));
 */
 
-uint32_t g_k[] = {
+static uint32_t g_k[] = {
 	0xd76aa478, 0xe8c7b756, 0x242070db, 0xc1bdceee,
 	0xf57c0faf, 0x4787c62a, 0xa8304613, 0xfd469501,
 	0x698098d8, 0x8b44f7af, 0xffff5bb1, 0x895cd7be,
@@ -50,6 +50,10 @@ static uint32_t	leftrotate(uint32_t x, uint32_t c)
 {
 	return ((x << c) | (x >> (32 - c)));
 }
+
+/*
+** MD5 operations
+*/
 
 static void		operations(uint32_t *vars, size_t round)
 {
@@ -76,30 +80,31 @@ static void		operations(uint32_t *vars, size_t round)
 }
 
 /*
-** Process the message in chunks of 512-bit blocks
+** Initialize variables to the current hash value
+** Process the message in blocks of 512-bit chunks
+** Add compressed chunk to the current hash value
 */
 
 static void		process(uint8_t *message, uint32_t vars[7], size_t i)
 {
-	size_t		round;
 	uint32_t	*m;
+	size_t		round;
 
-	round = 0;
 	m = (uint32_t*)(message + i);
+	round = 0;
 	vars[A] = g_hash[0];
 	vars[B] = g_hash[1];
 	vars[C] = g_hash[2];
 	vars[D] = g_hash[3];
-	round = 0;
 	while (round < 64)
 	{
 		operations(vars, round);
-		vars[E] = vars[D];
+		vars[TMP] = vars[D];
 		vars[D] = vars[C];
 		vars[C] = vars[B];
 		vars[B] += leftrotate((vars[F] + vars[A] + g_k[round] + m[vars[G]]),
 		g_s[round]);
-		vars[A] = vars[E];
+		vars[A] = vars[TMP];
 		round++;
 	}
 	g_hash[0] += vars[A];
@@ -109,6 +114,7 @@ static void		process(uint8_t *message, uint32_t vars[7], size_t i)
 }
 
 /*
+** Pre-processing (padding)
 ** Append a single 1 bit
 ** Pad a 0 bit until msg_len % 512 == (512 - 64)
 */
@@ -116,23 +122,19 @@ static void		process(uint8_t *message, uint32_t vars[7], size_t i)
 static uint8_t	*padding(char *input, size_t input_len, size_t *msg_len)
 {
 	uint8_t		*message;
-	uint32_t	bits;
+	uint32_t	bits_len;
 
 	message = NULL;
-	bits = input_len * CHAR_BIT;
+	bits_len = input_len * CHAR_BIT;
 	while ((*msg_len) % 512 != 448)
 		(*msg_len)++;
 	(*msg_len) /= CHAR_BIT;
-	message = ft_calloc((*msg_len) + 64, 1);
+	message = ft_calloc((*msg_len) + 64, sizeof(uint8_t));
 	ft_memcpy(message, input, input_len);
 	message[input_len] = 0x80;
-	ft_memcpy(message + (*msg_len), &bits, sizeof(uint32_t));
+	ft_memcpy(&message[(*msg_len)], &bits_len, sizeof(uint32_t));
 	return (message);
 }
-
-/*
-** Initialize variables
-*/
 
 void			md5_algo(char *input)
 {
@@ -141,7 +143,7 @@ void			md5_algo(char *input)
 	uint32_t	vars[7];
 	size_t		i;
 
-	msg_len = g_input_len * 8 + 1;
+	msg_len = g_input_len * CHAR_BIT + 1;
 	message = padding(input, g_input_len, &msg_len);
 	g_hash[0] = 0x67452301;
 	g_hash[1] = 0xefcdab89;

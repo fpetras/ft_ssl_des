@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 12:00:22 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/19 17:49:20 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/21 10:26:56 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,15 @@
 # define B 1
 # define C 2
 # define D 3
-# define F 4
-# define G 5
-# define E 6
+# define E 4
+# define F 5
+# define G 6
+# define I 7
+# define TMP 4
 
 int			g_opts[OPT_NUM];
 size_t		g_input_len;
-uint32_t	g_hash[4];
+uint32_t	g_hash[8];
 
 void	print_usage(char **av);
 int		parse_options(int ac, char **av);
@@ -56,6 +58,6 @@ void	print(char *input);
 int		md5_hash(char *input);
 void	md5_algo(char *input);
 int		sha256_hash(char *input);
-//void	sha256_algo(char *input);
+void	sha256_algo(char *input);
 
 #endif

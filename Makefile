@@ -6,7 +6,7 @@
 #    By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/26 12:26:28 by fpetras           #+#    #+#              #
-#    Updated: 2019/03/19 17:47:48 by fpetras          ###   ########.fr        #
+#    Updated: 2019/03/21 12:46:00 by fpetras          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,8 @@ SRC = main.c \
 	  md5_hash.c \
 	  md5_algo.c \
 	  sha256_hash.c \
-	  ft_join.c \
+	  sha256_algo.c \
+	  ft_join.c
 
 OBJPATH = obj/
 OBJ = $(addprefix $(OBJPATH),$(SRC:.c=.o))
@@ -58,7 +59,7 @@ $(OBJPATH)%.o: %.c
 	@echo "$(CYAN)Compiling $<"
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-test:
+test: $(NAME)
 	@./test.sh
 
 clean:
@@ -72,4 +73,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all test clean fclean re
+.PHONY: all clean fclean re test
