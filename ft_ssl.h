@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 12:00:22 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/22 22:26:03 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/22 22:43:41 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,7 @@ void	md5(char *input);
 void	md5_algo(char *input);
 void	sha256(char *input);
 void	sha256_algo(char *input);
+void	sha224(char *input);
+void	sha224_algo(char *input);
 
 #endif

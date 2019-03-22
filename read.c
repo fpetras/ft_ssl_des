@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 10:15:45 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/19 17:39:31 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/23 00:01:42 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static char	*file_error(char *filename, int fd)
 {
-	ft_dprintf(2, "md5: %s: %s\n", filename, strerror(errno));
+	ft_dprintf(2, "ft_ssl: %s: %s: %s\n", g_cmd, filename, strerror(errno));
 	close(fd);
 	return (NULL);
 }
@@ -30,7 +30,7 @@ char		*read_file(char *filename)
 	g_input_len = 0;
 	if ((fd = open(filename, O_RDONLY)) == -1)
 	{
-		ft_dprintf(2, "ft_ssl: md5: %s: %s\n", filename, strerror(errno));
+		ft_dprintf(2, "ft_ssl: %s: %s: %s\n", g_cmd, filename, strerror(errno));
 		return (NULL);
 	}
 	if ((file = ft_strnew(0)) == NULL)

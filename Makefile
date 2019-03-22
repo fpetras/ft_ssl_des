@@ -6,7 +6,7 @@
 #    By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/26 12:26:28 by fpetras           #+#    #+#              #
-#    Updated: 2019/03/22 22:20:37 by fpetras          ###   ########.fr        #
+#    Updated: 2019/03/22 22:43:11 by fpetras          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,8 @@ SRC = main.c \
 	  md5_algo.c \
 	  sha256.c \
 	  sha256_algo.c \
+	  sha224.c \
+	  sha224_algo.c \
 	  ft_join.c
 
 OBJPATH = obj/

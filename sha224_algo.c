@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sha256_algo.c                                      :+:      :+:    :+:   */
+/*   sha224_algo.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 17:19:27 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/22 23:22:48 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/22 23:22:26 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,7 +176,11 @@ static uint32_t	*padding(char *input, size_t input_len, size_t *msg_len)
 	return (message);
 }
 
-void			sha256_algo(char *input)
+/*
+** SHA-224 initial hash values differ from SHA-256
+*/
+
+void			sha224_algo(char *input)
 {
 	uint32_t	*message;
 	size_t		msg_len;
@@ -184,14 +188,14 @@ void			sha256_algo(char *input)
 	size_t		i;
 
 	message = padding(input, g_input_len, &msg_len);
-	g_hash[0] = 0x6a09e667;
-	g_hash[1] = 0xbb67ae85;
-	g_hash[2] = 0x3c6ef372;
-	g_hash[3] = 0xa54ff53a;
-	g_hash[4] = 0x510e527f;
-	g_hash[5] = 0x9b05688c;
-	g_hash[6] = 0x1f83d9ab;
-	g_hash[7] = 0x5be0cd19;
+	g_hash[0] = 0xc1059ed8;
+	g_hash[1] = 0x367cd507;
+	g_hash[2] = 0x3070dd17;
+	g_hash[3] = 0xf70e5939;
+	g_hash[4] = 0xffc00b31;
+	g_hash[5] = 0x68581511;
+	g_hash[6] = 0x64f98fa7;
+	g_hash[7] = 0xbefa4fa4;
 	i = 0;
 	while (i < msg_len)
 	{

@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 11:54:09 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/22 22:17:47 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/23 00:04:53 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,11 @@ static int	error(int ac, char **av)
 		print_usage(av);
 		return (EXIT_FAILURE);
 	}
-	else if (ac >= 2 && (ft_strcmp("md5", av[1]) && ft_strcmp("sha256", av[1])))
+	else if (ac >= 2 &&
+			(ft_strcasecmp("md5", av[1]) && ft_strcasecmp("sha256", av[1]) &&
+			ft_strcasecmp("sha224", av[1])))
 	{
-		ft_dprintf(2, "%s:Error: '%s' is an invalid command.\n", av[0], av[1]);
+		ft_dprintf(2, "ft_ssl:Error: '%s' is an invalid command.\n", av[1]);
 		ft_dprintf(2, "\nStandard commands:\n");
 		ft_dprintf(2, "\nMessage Digest commands:\nmd5\nsha256\n");
 		ft_dprintf(2, "\nCipher commands:\n");
@@ -50,9 +52,11 @@ int			main(int ac, char **av)
 	g_cmd = av[1];
 	if ((i = parse_options(ac, av)) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	if (!ft_strcmp("md5", av[1]))
+	if (!ft_strcasecmp("md5", av[1]))
 		return (hash(ac - i, &av[i]));
-	else if (!ft_strcmp("sha256", av[1]))
+	else if (!ft_strcasecmp("sha256", av[1]))
+		return (hash(ac - i, &av[i]));
+	else if (!ft_strcasecmp("sha224", av[1]))
 		return (hash(ac - i, &av[i]));
 	return (EXIT_SUCCESS);
 }
