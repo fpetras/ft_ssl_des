@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 12:00:22 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/21 10:26:56 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/22 16:45:15 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ char	*read_stdin(void);
 char	*read_file(char *filename);
 char	*ft_join(char const *s1, char const *s2, size_t len1, size_t len2);
 void	print(char *input);
-int		md5_hash(char *input);
+void	md5_hash(char *input);
 void	md5_algo(char *input);
-int		sha256_hash(char *input);
+void	sha256_hash(char *input);
 void	sha256_algo(char *input);
 
 #endif

@@ -320,10 +320,21 @@ fi
 
 if [ $sha256_set -eq 1 ] ; then
 
+echo "test" | openssl sha256 > openssl_valid 2>&-
+if [ -s openssl_valid ] ; then
+	CMD="openssl sha256"
+else
+	CMD="shasum -a 256"
+fi
+rm openssl_valid
+
 #############################----------1----------##############################
 counter=0
 FT_SSL_SHA256=$(echo "This is a simple test" | ./ft_ssl sha256)
-SHA256=$(echo "This is a simple test" | openssl sha256)
+if [ "$CMD" == "shasum -a 256" ] ; then
+	FT_SSL_SHA256=$FT_SSL_SHA256"  -"
+fi
+SHA256=$(echo "This is a simple test" | $CMD)
 if [ "$FT_SSL_SHA256" == "$SHA256" ] ; then
 	echo -e "$GREEN OK: $RESET" "echo \"This is a simple test\" | ./ft_ssl sha256"
 	echo "$FT_SSL_SHA256"
@@ -333,7 +344,10 @@ else
 fi
 #############################----------2----------##############################
 FT_SSL_SHA256=$(./ft_ssl sha256 -q -s "String test")
-SHA256=$(echo -n "String test" | openssl sha256)
+if [ "$CMD" == "shasum -a 256" ] ; then
+	FT_SSL_SHA256=$FT_SSL_SHA256"  -"
+fi
+SHA256=$(echo -n "String test" | $CMD)
 if [ "$FT_SSL_SHA256" == "$SHA256" ] ; then
 	echo -e "$GREEN OK: $RESET" "./ft_ssl sha256 -q -s \"String test\""
 	echo "$FT_SSL_SHA256"
@@ -343,7 +357,10 @@ else
 fi
 #############################----------3----------##############################
 FT_SSL_SHA256=$(cat $(whereis shasum) | ./ft_ssl sha256)
-SHA256=$(cat $(whereis shasum) | openssl sha256)
+if [ "$CMD" == "shasum -a 256" ] ; then
+	FT_SSL_SHA256=$FT_SSL_SHA256"  -"
+fi
+SHA256=$(cat $(whereis shasum) | $CMD)
 if [ "$FT_SSL_SHA256" == "$SHA256" ] ; then
 	echo -e "$GREEN OK: $RESET" "cat $(whereis shasum) | ./ft_ssl sha256"
 	echo "$FT_SSL_SHA256"
@@ -353,7 +370,10 @@ else
 fi
 #############################----------4----------##############################
 FT_SSL_SHA256=$(echo -n "LJa0ugxQ/qEGzPeGEveyOmWDKi4Hyix1vunr2Lbz" | ./ft_ssl sha256)
-SHA256=$(echo -n "LJa0ugxQ/qEGzPeGEveyOmWDKi4Hyix1vunr2Lbz" | openssl sha256)
+if [ "$CMD" == "shasum -a 256" ] ; then
+	FT_SSL_SHA256=$FT_SSL_SHA256"  -"
+fi
+SHA256=$(echo -n "LJa0ugxQ/qEGzPeGEveyOmWDKi4Hyix1vunr2Lbz" | $CMD)
 if [ "$FT_SSL_SHA256" == "$SHA256" ] ; then
 	echo -e "$GREEN OK: $RESET" "echo -n \"LJa0ugxQ/qEGzPeGEveyOmWDKi4Hyix1vunr2Lbz\" | ./ft_ssl sha256"
 	echo "$FT_SSL_SHA256"
@@ -378,7 +398,10 @@ sleep 2
 for i in {1..100}; do
 	cat /dev/urandom | base64 | head -c 40 > file1
 	FT_SSL_SHA256=$(./ft_ssl sha256 -q file1)
-	SHA256=$(cat file1 | openssl sha256)
+	if [ "$CMD" == "shasum -a 256" ] ; then
+		FT_SSL_SHA256=$FT_SSL_SHA256"  -"
+	fi
+	SHA256=$(cat file1 | $CMD)
 	if [ "$FT_SSL_SHA256" == "$SHA256" ] ; then
 		echo -e $CLEAR_LINE
 		echo -n -e "$FT_SSL_SHA256\r\c"
@@ -408,7 +431,10 @@ sleep 2
 for i in {1..100}; do
 	cat /dev/urandom | head -c 40 > file2
 	FT_SSL_SHA256=$(./ft_ssl sha256 -q file2)
-	SHA256=$(cat file2 | openssl sha256)
+	if [ "$CMD" == "shasum -a 256" ] ; then
+		FT_SSL_SHA256=$FT_SSL_SHA256"  -"
+	fi
+	SHA256=$(cat file2 | $CMD)
 	if [ "$FT_SSL_SHA256" == "$SHA256" ] ; then
 		echo -e $CLEAR_LINE
 		echo -n -e "$FT_SSL_SHA256\r\c"

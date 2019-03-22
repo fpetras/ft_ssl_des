@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/14 12:21:40 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/14 12:22:09 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/22 17:07:07 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 void	*ft_calloc(size_t count, size_t size)
 {
-	void *const ptr = malloc(count * size);
+	void *ptr;
+
+	ptr = malloc(count * size);
 	if (ptr == NULL)
 		return (ptr);
 	ft_bzero(ptr, size * count);
