@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 11:54:09 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/15 16:57:13 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/22 22:17:47 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,12 @@ int			main(int ac, char **av)
 
 	if (error(ac, av) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
+	g_cmd = av[1];
 	if ((i = parse_options(ac, av)) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	if (!ft_strcmp("md5", av[1]))
-		return (ft_md5(ac - i, &av[i]));
+		return (hash(ac - i, &av[i]));
 	else if (!ft_strcmp("sha256", av[1]))
-		return (ft_sha256(ac - i, &av[i]));
+		return (hash(ac - i, &av[i]));
 	return (EXIT_SUCCESS);
 }

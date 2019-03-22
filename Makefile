@@ -6,7 +6,7 @@
 #    By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/26 12:26:28 by fpetras           #+#    #+#              #
-#    Updated: 2019/03/20 16:36:15 by fpetras          ###   ########.fr        #
+#    Updated: 2019/03/22 22:20:37 by fpetras          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,11 +16,10 @@ SRC = main.c \
 	  options.c \
 	  read.c \
 	  print.c \
+	  hash.c \
 	  md5.c \
-	  sha256.c \
-	  md5_hash.c \
 	  md5_algo.c \
-	  sha256_hash.c \
+	  sha256.c \
 	  sha256_algo.c \
 	  ft_join.c
 

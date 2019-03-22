@@ -75,6 +75,14 @@ for arg in "$@" ; do
 	esac
 done
 
+if [ ! -f ft_ssl ]; then
+	make
+fi
+if [ ! -f ft_ssl ]; then
+	echo "ft_ssl not found"
+	exit
+fi
+
 #############################---------MD5---------##############################
 if [ $md5_set -eq 1 ] ; then
 
