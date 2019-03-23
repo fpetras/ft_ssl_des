@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 14:38:48 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/22 23:47:43 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/23 11:38:02 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static void	hash_formatted(char *filename, char *input)
 				ft_printf("%s (%s) = ", ft_strupr(g_cmd), filename);
 			else
 				ft_printf("%s (\"%s\") = ", ft_strupr(g_cmd), input);
+			ft_strlwr(g_cmd);
 		}
 	}
 	!(ft_strcasecmp("md5", g_cmd)) ? md5(input) : 0;

@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 17:19:27 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/22 23:22:26 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/23 12:11:21 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,7 @@ static uint32_t	*padding(char *input, size_t input_len, size_t *msg_len)
 	message = NULL;
 	bits_len = input_len * CHAR_BIT;
 	(*msg_len) = ((bits_len + 16 + 64) / 512) + 1;
-	message = ft_calloc((*msg_len) * 16, sizeof(uint32_t));
+	message = ft_calloc((*msg_len) * 16, 32);
 	((uint8_t*)message)[input_len] = 0x80;
 	ft_memcpy(message, input, input_len);
 	i = -1;
