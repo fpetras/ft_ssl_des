@@ -609,7 +609,7 @@ fi
 #############################----------5----------##############################
 FT_SSL_SHA224=$(./ft_ssl sha224 -qs "")
 if [ "$CMD" == "shasum -a 224" ] ; then
-	FT_SSL_SHA256=$FT_SSL_SHA224"  -"
+	FT_SSL_SHA224=$FT_SSL_SHA224"  -"
 fi
 SHA224=$(echo -n "" | $CMD)
 if [ "$FT_SSL_SHA224" == "$SHA224" ] ; then
@@ -621,10 +621,11 @@ else
 fi
 
 
+
 if [ "$counter" -eq 5 ]; then
 	echo -e "$GREEN [ $counter / 5 ] $RESET"
 else
-	echo -e "$RED [ $counter / 4 ] $RESET"
+	echo -e "$RED [ $counter / 5 ] $RESET"
 fi
 
 ################################################################################
@@ -774,7 +775,7 @@ fi
 #############################----------5----------##############################
 FT_SSL_SHA512=$(./ft_ssl sha512 -qs "")
 if [ "$CMD" == "shasum -a 512" ] ; then
-	FT_SSL_SHA256=$FT_SSL_SHA512"  -"
+	FT_SSL_SHA512=$FT_SSL_SHA512"  -"
 fi
 SHA512=$(echo -n "" | $CMD)
 if [ "$FT_SSL_SHA512" == "$SHA512" ] ; then
@@ -790,7 +791,7 @@ fi
 if [ "$counter" -eq 5 ]; then
 	echo -e "$GREEN [ $counter / 5 ] $RESET"
 else
-	echo -e "$RED [ $counter / 4 ] $RESET"
+	echo -e "$RED [ $counter / 5 ] $RESET"
 fi
 
 ################################################################################
@@ -948,7 +949,7 @@ fi
 #############################----------5----------##############################
 FT_SSL_SHA384=$(./ft_ssl sha384 -qs "")
 if [ "$CMD" == "shasum -a 384" ] ; then
-	FT_SSL_SHA256=$FT_SSL_SHA384"  -"
+	FT_SSL_SHA384=$FT_SSL_SHA384"  -"
 fi
 SHA384=$(echo -n "" | $CMD)
 if [ "$FT_SSL_SHA384" == "$SHA384" ] ; then
@@ -964,7 +965,7 @@ fi
 if [ "$counter" -eq 5 ]; then
 	echo -e "$GREEN [ $counter / 5 ] $RESET"
 else
-	echo -e "$RED [ $counter / 4 ] $RESET"
+	echo -e "$RED [ $counter / 5 ] $RESET"
 fi
 
 ################################################################################
