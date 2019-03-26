@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 17:19:27 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/26 14:30:17 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/26 15:55:33 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,14 +176,6 @@ void			sha512_algo(char *input)
 	size_t		i;
 
 	message = padding(input, g_input_len, &msg_len);
-	g_hash64[0] = 0x6a09e667f3bcc908;
-	g_hash64[1] = 0xbb67ae8584caa73b;
-	g_hash64[2] = 0x3c6ef372fe94f82b;
-	g_hash64[3] = 0xa54ff53a5f1d36f1;
-	g_hash64[4] = 0x510e527fade682d1;
-	g_hash64[5] = 0x9b05688c2b3e6c1f;
-	g_hash64[6] = 0x1f83d9abfb41bd6b;
-	g_hash64[7] = 0x5be0cd19137e2179;
 	i = 0;
 	while (i < msg_len)
 	{

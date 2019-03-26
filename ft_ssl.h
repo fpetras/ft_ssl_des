@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 12:00:22 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/26 15:17:30 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/26 15:39:56 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@
 
 char		*g_cmd;
 int			g_opts[OPT_NUM];
+int			g_is_224;
+int			g_is_384;
 size_t		g_input_len;
 uint32_t	g_hash[8];
 uint64_t	g_hash64[8];

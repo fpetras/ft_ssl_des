@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 17:19:27 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/26 14:28:04 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/26 14:51:26 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,14 +165,6 @@ void			sha256_algo(char *input)
 	size_t		i;
 
 	message = padding(input, g_input_len, &msg_len);
-	g_hash[0] = 0x6a09e667;
-	g_hash[1] = 0xbb67ae85;
-	g_hash[2] = 0x3c6ef372;
-	g_hash[3] = 0xa54ff53a;
-	g_hash[4] = 0x510e527f;
-	g_hash[5] = 0x9b05688c;
-	g_hash[6] = 0x1f83d9ab;
-	g_hash[7] = 0x5be0cd19;
 	i = 0;
 	while (i < msg_len)
 	{
