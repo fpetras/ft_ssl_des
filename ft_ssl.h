@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 12:00:22 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/26 14:32:57 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/26 15:17:30 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ void		sha224(char *input);
 void		sha224_algo(char *input);
 void		sha512(char *input);
 void		sha512_algo(char *input);
+void		sha384(char *input);
+void		sha384_algo(char *input);
 uint32_t	leftrotate(uint32_t x, uint32_t n);
 uint32_t	rightrotate(uint32_t x, uint32_t n);
 uint64_t	rightrotate64(uint64_t x, uint64_t n);

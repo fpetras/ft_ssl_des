@@ -6,7 +6,7 @@
 #    By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/26 12:26:28 by fpetras           #+#    #+#              #
-#    Updated: 2019/03/26 14:35:16 by fpetras          ###   ########.fr        #
+#    Updated: 2019/03/26 15:12:46 by fpetras          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,8 @@ SRC = main.c \
 	  sha224_algo.c \
 	  sha512.c \
 	  sha512_algo.c \
+	  sha384.c \
+	  sha384_algo.c \
 	  rotate.c \
 	  endianness.c
 
