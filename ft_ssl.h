@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 12:00:22 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/26 13:42:51 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/26 14:32:57 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,20 +49,25 @@ size_t		g_input_len;
 uint32_t	g_hash[8];
 uint64_t	g_hash64[8];
 
-void	print_usage(char **av);
-int		parse_options(int ac, char **av);
-int		hash(int ac, char **av);
-char	*read_stdin(void);
-char	*read_file(char *filename);
-char	*ft_join(char const *s1, char const *s2, size_t len1, size_t len2);
-void	print(char *input);
-void	md5(char *input);
-void	md5_algo(char *input);
-void	sha256(char *input);
-void	sha256_algo(char *input);
-void	sha224(char *input);
-void	sha224_algo(char *input);
-void	sha512(char *input);
-void	sha512_algo(char *input);
+void		print_usage(char **av);
+int			parse_options(int ac, char **av);
+int			hash(int ac, char **av);
+char		*read_stdin(void);
+char		*read_file(char *filename);
+char		*join(char const *s1, char const *s2, size_t len1, size_t len2);
+void		print(char *input);
+void		md5(char *input);
+void		md5_algo(char *input);
+void		sha256(char *input);
+void		sha256_algo(char *input);
+void		sha224(char *input);
+void		sha224_algo(char *input);
+void		sha512(char *input);
+void		sha512_algo(char *input);
+uint32_t	leftrotate(uint32_t x, uint32_t n);
+uint32_t	rightrotate(uint32_t x, uint32_t n);
+uint64_t	rightrotate64(uint64_t x, uint64_t n);
+uint32_t	change_endianness(uint32_t value);
+uint64_t	change_endianness64(uint64_t value);
 
 #endif

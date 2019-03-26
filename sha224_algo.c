@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 17:19:27 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/26 13:53:36 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/26 14:27:40 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,23 +29,6 @@ static uint32_t g_k[] = {
 	0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
 	0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208,
 	0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2 };
-
-static uint32_t	rightrotate(uint32_t x, uint32_t n)
-{
-	return ((x >> n) | (x << (32 - n)));
-}
-
-static uint32_t	change_endianness(uint32_t value)
-{
-	uint32_t result;
-
-	result = 0;
-	result |= (value & 0x000000FF) << 24;
-	result |= (value & 0x0000FF00) << 8;
-	result |= (value & 0x00FF0000) >> 8;
-	result |= (value & 0xFF000000) >> 24;
-	return (result);
-}
 
 /*
 ** Add compressed chunk to the current hash value
@@ -85,18 +68,18 @@ static void		init(uint32_t *vars)
 
 static void		operations(uint32_t *vars, uint32_t *w, size_t i)
 {
-	uint32_t s[2];
 	uint32_t ch;
-	uint32_t tmp[2];
 	uint32_t maj;
+	uint32_t s[2];
+	uint32_t tmp[2];
 
-	s[1] = rightrotate(vars[E], 6) ^ rightrotate(vars[E], 11) ^
-	rightrotate(vars[E], 25);
 	ch = (vars[E] & vars[F]) ^ ((~vars[E]) & vars[G]);
-	tmp[0] = vars[I] + s[1] + ch + g_k[i] + w[i];
+	maj = (vars[A] & vars[B]) ^ (vars[A] & vars[C]) ^ (vars[B] & vars[C]);
 	s[0] = rightrotate(vars[A], 2) ^ rightrotate(vars[A], 13) ^
 	rightrotate(vars[A], 22);
-	maj = (vars[A] & vars[B]) ^ (vars[A] & vars[C]) ^ (vars[B] & vars[C]);
+	s[1] = rightrotate(vars[E], 6) ^ rightrotate(vars[E], 11) ^
+	rightrotate(vars[E], 25);
+	tmp[0] = vars[I] + s[1] + ch + g_k[i] + w[i];
 	tmp[1] = s[0] + maj;
 	vars[I] = vars[G];
 	vars[G] = vars[F];

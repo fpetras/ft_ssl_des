@@ -6,7 +6,7 @@
 #    By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/26 12:26:28 by fpetras           #+#    #+#              #
-#    Updated: 2019/03/26 13:55:51 by fpetras          ###   ########.fr        #
+#    Updated: 2019/03/26 14:35:16 by fpetras          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ NAME = ft_ssl
 SRC = main.c \
 	  options.c \
 	  read.c \
+	  join.c \
 	  print.c \
 	  hash.c \
 	  md5.c \
@@ -25,7 +26,8 @@ SRC = main.c \
 	  sha224_algo.c \
 	  sha512.c \
 	  sha512_algo.c \
-	  ft_join.c
+	  rotate.c \
+	  endianness.c
 
 OBJPATH = obj/
 OBJ = $(addprefix $(OBJPATH),$(SRC:.c=.o))

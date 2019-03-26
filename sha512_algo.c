@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 17:19:27 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/26 13:50:29 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/26 14:30:17 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,27 +40,6 @@ static uint64_t g_k[] = {
 	0x28db77f523047d84, 0x32caab7b40c72493, 0x3c9ebe0a15c9bebc,
 	0x431d67c49c100d4c, 0x4cc5d4becb3e42b6, 0x597f299cfc657e2a,
 	0x5fcb6fab3ad6faec, 0x6c44198c4a475817 };
-
-static uint64_t	rightrotate(uint64_t x, uint64_t n)
-{
-	return ((x >> n) | (x << (64 - n)));
-}
-
-static uint64_t	change_endianness(uint64_t value)
-{
-	uint64_t result;
-
-	result = 0;
-	result |= (value & 0xFF00000000000000) >> 56;
-	result |= (value & 0x00FF000000000000) >> 40;
-	result |= (value & 0x0000FF0000000000) >> 24;
-	result |= (value & 0x000000FF00000000) >> 8;
-	result |= (value & 0x00000000FF000000) << 8;
-	result |= (value & 0x0000000000FF0000) << 24;
-	result |= (value & 0x000000000000FF00) << 40;
-	result |= (value & 0x00000000000000FF) << 56;
-	return (result);
-}
 
 /*
 ** Add compressed chunk to the current hash value
@@ -100,18 +79,18 @@ static void		init(uint64_t *vars)
 
 static void		operations(uint64_t *vars, uint64_t *w, size_t i)
 {
-	uint64_t s[2];
 	uint64_t ch;
-	uint64_t tmp[2];
 	uint64_t maj;
+	uint64_t s[2];
+	uint64_t tmp[2];
 
-	s[1] = rightrotate(vars[E], 14) ^ rightrotate(vars[E], 18) ^
-	rightrotate(vars[E], 41);
 	ch = (vars[E] & vars[F]) ^ ((~vars[E]) & vars[G]);
-	tmp[0] = vars[I] + s[1] + ch + g_k[i] + w[i];
-	s[0] = rightrotate(vars[A], 28) ^ rightrotate(vars[A], 34) ^
-	rightrotate(vars[A], 39);
 	maj = (vars[A] & vars[B]) ^ (vars[A] & vars[C]) ^ (vars[B] & vars[C]);
+	s[0] = rightrotate64(vars[A], 28) ^ rightrotate64(vars[A], 34) ^
+	rightrotate64(vars[A], 39);
+	s[1] = rightrotate64(vars[E], 14) ^ rightrotate64(vars[E], 18) ^
+	rightrotate64(vars[E], 41);
+	tmp[0] = vars[I] + s[1] + ch + g_k[i] + w[i];
 	tmp[1] = s[0] + maj;
 	vars[I] = vars[G];
 	vars[G] = vars[F];
@@ -128,9 +107,9 @@ static void		extend(uint64_t *w, size_t i)
 	uint64_t s0;
 	uint64_t s1;
 
-	s0 = rightrotate(w[i - 15], 1) ^ rightrotate(w[i - 15], 8) ^
+	s0 = rightrotate64(w[i - 15], 1) ^ rightrotate64(w[i - 15], 8) ^
 	(w[i - 15] >> 7);
-	s1 = rightrotate(w[i - 2], 19) ^ rightrotate(w[i - 2], 61)
+	s1 = rightrotate64(w[i - 2], 19) ^ rightrotate64(w[i - 2], 61)
 	^ (w[i - 2] >> 6);
 	w[i] = w[i - 16] + s0 + w[i - 7] + s1;
 }
@@ -184,7 +163,7 @@ static uint64_t	*padding(char *input, size_t input_len, size_t *msg_len)
 	ft_memcpy(message, input, input_len);
 	i = -1;
 	while (++i < input_len + 1)
-		message[i] = change_endianness(message[i]);
+		message[i] = change_endianness64(message[i]);
 	message[((((*msg_len) * 1024) - 128) / 64) + 1] = bits_len;
 	return (message);
 }
