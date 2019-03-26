@@ -6,11 +6,19 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 17:19:27 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/26 15:55:33 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/26 17:24:13 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ssl.h"
+
+/*
+** SHA-512 and SHA-384
+*/
+
+/*
+** Constants
+*/
 
 static uint64_t g_k[] = {
 	0x428a2f98d728ae22, 0x7137449123ef65cd, 0xb5c0fbcfec4d3b2f,
@@ -42,39 +50,7 @@ static uint64_t g_k[] = {
 	0x5fcb6fab3ad6faec, 0x6c44198c4a475817 };
 
 /*
-** Add compressed chunk to the current hash value
-*/
-
-static void		add(uint64_t *vars)
-{
-	g_hash64[0] += vars[A];
-	g_hash64[1] += vars[B];
-	g_hash64[2] += vars[C];
-	g_hash64[3] += vars[D];
-	g_hash64[4] += vars[E];
-	g_hash64[5] += vars[F];
-	g_hash64[6] += vars[G];
-	g_hash64[7] += vars[I];
-}
-
-/*
-** Initialize variables to the current hash value
-*/
-
-static void		init(uint64_t *vars)
-{
-	vars[A] = g_hash64[0];
-	vars[B] = g_hash64[1];
-	vars[C] = g_hash64[2];
-	vars[D] = g_hash64[3];
-	vars[E] = g_hash64[4];
-	vars[F] = g_hash64[5];
-	vars[G] = g_hash64[6];
-	vars[I] = g_hash64[7];
-}
-
-/*
-** SHA-2 operations
+** Hash computation
 */
 
 static void		operations(uint64_t *vars, uint64_t *w, size_t i)
@@ -134,14 +110,14 @@ static void		process(uint64_t *message, uint64_t vars[8], size_t i)
 		extend(w, round);
 		round++;
 	}
-	init(vars);
+	init64(vars);
 	round = 0;
 	while (round < 80)
 	{
 		operations(vars, w, round);
 		round++;
 	}
-	add(vars);
+	add64(vars);
 	free(w);
 }
 

@@ -6,11 +6,19 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 17:19:27 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/26 14:51:26 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/26 17:25:29 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ssl.h"
+
+/*
+** SHA-256 and SHA-224
+*/
+
+/*
+** Constants
+*/
 
 static uint32_t g_k[] = {
 	0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5,
@@ -31,39 +39,7 @@ static uint32_t g_k[] = {
 	0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2 };
 
 /*
-** Add compressed chunk to the current hash value
-*/
-
-static void		add(uint32_t *vars)
-{
-	g_hash[0] += vars[A];
-	g_hash[1] += vars[B];
-	g_hash[2] += vars[C];
-	g_hash[3] += vars[D];
-	g_hash[4] += vars[E];
-	g_hash[5] += vars[F];
-	g_hash[6] += vars[G];
-	g_hash[7] += vars[I];
-}
-
-/*
-** Initialize variables to the current hash value
-*/
-
-static void		init(uint32_t *vars)
-{
-	vars[A] = g_hash[0];
-	vars[B] = g_hash[1];
-	vars[C] = g_hash[2];
-	vars[D] = g_hash[3];
-	vars[E] = g_hash[4];
-	vars[F] = g_hash[5];
-	vars[G] = g_hash[6];
-	vars[I] = g_hash[7];
-}
-
-/*
-** SHA-2 operations
+** Hash computation
 */
 
 static void		operations(uint32_t *vars, uint32_t *w, size_t i)

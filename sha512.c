@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 15:05:43 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/26 15:58:08 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/26 17:17:14 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 ** SHA-384 initial hash values differ from SHA-512
 */
 
-static void	init(char *command)
+static void	initialize(char *command)
 {
 	if (!ft_strcmp("sha384", command))
 	{
@@ -48,11 +48,11 @@ static void	init(char *command)
 ** SHA-384 output omits hash value 6 and 7
 */
 
-void	sha512(char *input)
+void		sha512(char *input)
 {
 	uint64_t *hash;
 
-	init(g_cmd);
+	initialize(g_cmd);
 	sha512_algo(input);
 	hash = g_hash64;
 	if (g_is_384)
