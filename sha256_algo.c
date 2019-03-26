@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 17:19:27 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/23 11:55:07 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/26 12:44:27 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,7 @@ static uint32_t	*padding(char *input, size_t input_len, size_t *msg_len)
 	((uint8_t*)message)[input_len] = 0x80;
 	ft_memcpy(message, input, input_len);
 	i = -1;
-	while (++i < ((*msg_len) * 16) - 1)
+	while (++i < input_len + 1)
 		message[i] = change_endianness(message[i]);
 	message[((((*msg_len) * 512) - 64) / 32) + 1] = bits_len;
 	return (message);

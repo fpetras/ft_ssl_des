@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 12:00:22 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/22 22:43:41 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/26 13:42:51 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ char		*g_cmd;
 int			g_opts[OPT_NUM];
 size_t		g_input_len;
 uint32_t	g_hash[8];
+uint64_t	g_hash64[8];
 
 void	print_usage(char **av);
 int		parse_options(int ac, char **av);
@@ -61,5 +62,7 @@ void	sha256(char *input);
 void	sha256_algo(char *input);
 void	sha224(char *input);
 void	sha224_algo(char *input);
+void	sha512(char *input);
+void	sha512_algo(char *input);
 
 #endif

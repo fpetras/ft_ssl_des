@@ -1,28 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   md5.c                                              :+:      :+:    :+:   */
+/*   sha512.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/08 15:05:40 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/25 17:18:12 by fpetras          ###   ########.fr       */
+/*   Created: 2019/03/08 15:05:43 by fpetras           #+#    #+#             */
+/*   Updated: 2019/03/25 17:34:41 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ssl.h"
 
-void	md5(char *input)
+void	sha512(char *input)
 {
-	int		i;
-	uint8_t	*hash;
+	uint64_t *hash;
 
-	md5_algo(input);
-	i = 0;
-	while (i < 4)
-	{
-		hash = (uint8_t*)&g_hash[i];
-		ft_printf("%.2x%.2x%.2x%.2x", hash[0], hash[1], hash[2], hash[3]);
-		i++;
-	}
+	sha512_algo(input);
+	hash = g_hash64;
+	ft_printf("%.16llx%.16llx%.16llx%.16llx%.16llx%.16llx%.16llx%.16llx",
+	hash[0], hash[1], hash[2], hash[3], hash[4], hash[5], hash[6], hash[7]);
 }
