@@ -6,7 +6,7 @@
 #    By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/26 12:26:28 by fpetras           #+#    #+#              #
-#    Updated: 2019/03/26 15:12:46 by fpetras          ###   ########.fr        #
+#    Updated: 2019/03/26 15:34:25 by fpetras          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,6 +80,9 @@ test_sha224: $(NAME)
 
 test_sha512: $(NAME)
 	@./test.sh sha512
+
+test_sha384: $(NAME)
+	@./test.sh sha384
 
 clean:
 	@make clean -C libft

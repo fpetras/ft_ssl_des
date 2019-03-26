@@ -25,6 +25,7 @@ md5_set=0
 sha256_set=0
 sha224_set=0
 sha512_set=0
+sha384_set=0
 
 function print_usage {
 	echo "usage: $0 <test> ..."
@@ -33,6 +34,7 @@ function print_usage {
 	echo "                 sha256"
 	echo "                 sha224"
 	echo "                 sha512"
+	echo "                 sha384"
 	echo "                 all"
 }
 
@@ -80,6 +82,17 @@ function sha512_header {
 	echo -e -n "$RESET"
 }
 
+function sha384_header {
+	echo -e -n "$WHITE"
+	echo "███████╗██╗  ██╗ █████╗      ██████╗  █████╗ ██╗  ██╗
+██╔════╝██║  ██║██╔══██╗     ╚════██╗██╔══██╗██║  ██║
+███████╗███████║███████║█████╗█████╔╝╚█████╔╝███████║
+╚════██║██╔══██║██╔══██║╚════╝╚═══██╗██╔══██╗╚════██║
+███████║██║  ██║██║  ██║     ██████╔╝╚█████╔╝     ██║
+╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝     ╚═════╝  ╚════╝      ╚═╝"
+	echo -e -n "$RESET"
+}
+
 if [ $# -eq 0 ] ; then
 	print_usage
 	exit 1
@@ -99,14 +112,19 @@ for arg in "$@" ; do
 		sha512)
 			sha512_set=1
 			;;
+		sha384)
+			sha384_set=1
+			;;
 		all)
 			md5_set=1
 			sha256_set=1
 			sha224_set=1
 			sha512_set=1
+			sha384_set=1
 			;;
 		*)
 			print_usage
+			exit 1
 	esac
 done
 
@@ -854,6 +872,180 @@ fi
 
 
 
+#############################-------SHA-384-------##############################
+if [[ ($md5_set -eq 1 || $sha256_set -eq 1 || $sha224_set -eq 1 || $sha512_set -eq 1) && $sha384_set -eq 1 ]] ; then
+	echo ""
+	sha384_header
+	sleep 2.5
+elif [ $sha384_set -eq 1 ] ; then
+	echo -e $CLEAR_SCREEN
+	sha384_header
+fi
+
+if [ $sha384_set -eq 1 ] ; then
+
+echo "test" | openssl sha256 > openssl_valid 2>&-
+if [ -s openssl_valid ] ; then
+	CMD="openssl sha384"
+else
+	CMD="shasum -a 384"
+fi
+rm openssl_valid
+
+#############################----------1----------##############################
+counter=0
+FT_SSL_SHA384=$(echo "This is a simple test" | ./ft_ssl sha384)
+if [ "$CMD" == "shasum -a 384" ] ; then
+	FT_SSL_SHA384=$FT_SSL_SHA384"  -"
+fi
+SHA384=$(echo "This is a simple test" | $CMD)
+if [ "$FT_SSL_SHA384" == "$SHA384" ] ; then
+	echo -e "$GREEN OK: $RESET" "echo \"This is a simple test\" | ./ft_ssl sha384"
+	echo "$FT_SSL_SHA384"
+	counter=$((counter+1))
+else
+	echo -e "$RED KO: $RESET" "echo \"This is a simple test\" | ./ft_ssl sha384"
+fi
+#############################----------2----------##############################
+FT_SSL_SHA384=$(./ft_ssl sha384 -q -s "String test")
+if [ "$CMD" == "shasum -a 384" ] ; then
+	FT_SSL_SHA384=$FT_SSL_SHA384"  -"
+fi
+SHA384=$(echo -n "String test" | $CMD)
+if [ "$FT_SSL_SHA384" == "$SHA384" ] ; then
+	echo -e "$GREEN OK: $RESET" "./ft_ssl sha384 -q -s \"String test\""
+	echo "$FT_SSL_SHA384"
+	counter=$((counter+1))
+else
+	echo -e "$RED KO: $RESET" "./ft_ssl sha384 -q -s \"String test\""
+fi
+#############################----------3----------##############################
+FT_SSL_SHA384=$(cat $(whereis shasum) | ./ft_ssl sha384)
+if [ "$CMD" == "shasum -a 384" ] ; then
+	FT_SSL_SHA384=$FT_SSL_SHA384"  -"
+fi
+SHA384=$(cat $(whereis shasum) | $CMD)
+if [ "$FT_SSL_SHA384" == "$SHA384" ] ; then
+	echo -e "$GREEN OK: $RESET" "cat $(whereis shasum) | ./ft_ssl sha384"
+	echo "$FT_SSL_SHA384"
+	counter=$((counter+1))
+else
+	echo -e "$RED KO: $RESET" "cat $(whereis shasum) | ./ft_ssl sha384"
+fi
+#############################----------4----------##############################
+FT_SSL_SHA384=$(echo -n "LJa0ugxQ/qEGzPeGEveyOmWDKi4Hyix1vunr2Lbz" | ./ft_ssl sha384)
+if [ "$CMD" == "shasum -a 384" ] ; then
+	FT_SSL_SHA384=$FT_SSL_SHA384"  -"
+fi
+SHA384=$(echo -n "LJa0ugxQ/qEGzPeGEveyOmWDKi4Hyix1vunr2Lbz" | $CMD)
+if [ "$FT_SSL_SHA384" == "$SHA384" ] ; then
+	echo -e "$GREEN OK: $RESET" "echo -n \"LJa0ugxQ/qEGzPeGEveyOmWDKi4Hyix1vunr2Lbz\" | ./ft_ssl sha384"
+	echo "$FT_SSL_SHA384"
+	counter=$((counter+1))
+else
+	echo -e "$RED KO: $RESET" "echo -n \"LJa0ugxQ/qEGzPeGEveyOmWDKi4Hyix1vunr2Lbz\" | ./ft_ssl sha384"
+fi
+#############################----------5----------##############################
+FT_SSL_SHA384=$(./ft_ssl sha384 -qs "")
+if [ "$CMD" == "shasum -a 384" ] ; then
+	FT_SSL_SHA256=$FT_SSL_SHA384"  -"
+fi
+SHA384=$(echo -n "" | $CMD)
+if [ "$FT_SSL_SHA384" == "$SHA384" ] ; then
+	echo -e "$GREEN OK: $RESET" "./ft_ssl sha384 -qs \"\""
+	echo "$FT_SSL_SHA384"
+	counter=$((counter+1))
+else
+	echo -e "$RED KO: $RESET" "./ft_ssl sha384 -qs \"\""
+fi
+
+
+
+if [ "$counter" -eq 5 ]; then
+	echo -e "$GREEN [ $counter / 5 ] $RESET"
+else
+	echo -e "$RED [ $counter / 4 ] $RESET"
+fi
+
+################################################################################
+sha384_total=$(($sha384_total+$counter))
+counter=0
+echo -e "$WHITE SHA-384: Test random strings: $RESET"
+sleep 2
+for i in {1..100}; do
+	cat /dev/urandom | base64 | head -c 40 > file1
+	FT_SSL_SHA384=$(./ft_ssl sha384 -q file1)
+	if [ "$CMD" == "shasum -a 384" ] ; then
+		FT_SSL_SHA384=$FT_SSL_SHA384"  -"
+	fi
+	SHA384=$(cat file1 | $CMD)
+	if [ "$FT_SSL_SHA384" == "$SHA384" ] ; then
+		if [ $(tput cols) -lt 128 ] ; then
+			echo -e "$GREEN $counter OK $RESET\r\c"
+		else
+			echo -e "       " $CLEAR_LINE
+			echo -n -e "$FT_SSL_SHA384\r\c"
+			echo -e "$GREEN $counter OK $RESET\r\c"
+		fi
+		counter=$((counter+1))
+	else
+		echo -e $CLEAR_LINE
+		echo -e "$RED KO $RESET" ; echo "## string: " ; cat file1 ; echo ""
+		echo $FT_SSL_SHA384
+		echo $SHA384
+	fi
+done
+
+
+if [ "$counter" -eq 100 ]; then
+	echo -e $CLEAR_LINE
+	echo -e "$GREEN [ $counter / 100 ] $RESET"
+else
+	echo -e "$RED [ $counter / 100 ] $RESET"
+fi
+
+################################################################################
+sha384_total=$(($sha384_total+$counter))
+counter=0
+echo -e "$WHITE SHA-384: Test random binary data: $RESET"
+sleep 2
+for i in {1..100}; do
+	cat /dev/urandom | head -c 40 > file2
+	FT_SSL_SHA384=$(./ft_ssl sha384 -q file2)
+	if [ "$CMD" == "shasum -a 384" ] ; then
+		FT_SSL_SHA384=$FT_SSL_SHA384"  -"
+	fi
+	SHA384=$(cat file2 | $CMD)
+	if [ "$FT_SSL_SHA384" == "$SHA384" ] ; then
+		if [ $(tput cols) -lt 128 ] ; then
+			echo -e "$GREEN $counter OK $RESET\r\c"
+		else
+			echo -e "       " $CLEAR_LINE
+			echo -n -e "$FT_SSL_SHA384\r\c"
+			echo -e "$GREEN $counter OK $RESET\r\c"
+		fi
+		counter=$((counter+1))
+	else
+		echo -e $CLEAR_LINE
+		echo -e "$RED KO $RESET" ; echo "## data: " ; cat file2 ; echo ""
+		echo $FT_SSL_SHA384
+		echo $SHA384
+fi
+done
+rm file1 file2
+sha384_total=$(($sha384_total+$counter))
+
+
+if [ "$counter" -eq 100 ]; then
+	echo -e $CLEAR_LINE
+	echo -e "$GREEN [ $counter / 100 ] $RESET"
+else
+	echo -e "$RED [ $counter / 100 ] $RESET"
+fi
+fi
+
+
+
 
 
 echo "┌──────────────────────────────────────────────────────┐"
@@ -941,6 +1133,28 @@ if [ $sha512_set -eq 1 ] ; then
 		elif [[ $sha512_total -gt 9 && $sha512_total -lt 100 ]] ; then
 			echo "                        │"
 		elif [ $sha512_total -gt 99 ] ; then
+			echo "                       │"
+		fi
+	fi
+fi
+
+if [ $sha384_set -eq 1 ] ; then
+	if [ $sha384_total -eq 205 ] ; then
+		echo -e -n "│ SHA-384 score: $GREEN [ $sha384_total / 205 ] $RESET"
+		if [ $sha384_total -lt 10 ] ; then
+			echo "                         │"
+		elif [[ $sha384_total -gt 9 && $sha384_total -lt 100 ]] ; then
+			echo "                        │"
+		elif [ $sha384_total -gt 99 ] ; then
+			echo "                       │"
+		fi
+	else
+		echo -e -n "│ SHA-384 score: $RED [ $sha384_total / 205 ] $RESET"
+		if [ $sha224_total -lt 10 ] ; then
+			echo "                         │"
+		elif [[ $sha384_total -gt 9 && $sha384_total -lt 100 ]] ; then
+			echo "                        │"
+		elif [ $sha384_total -gt 99 ] ; then
 			echo "                       │"
 		fi
 	fi
