@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 17:19:27 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/23 12:11:21 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/26 13:53:36 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ static uint32_t	change_endianness(uint32_t value)
 	result |= (value & 0x0000FF00) << 8;
 	result |= (value & 0x00FF0000) >> 8;
 	result |= (value & 0xFF000000) >> 24;
-	//	x = ((x << 8) & 0xFF00FF00 ) | ((x >> 8) & 0xFF00FF);
-	//	return (x << 16) | (x >> 16);
 	return (result);
 }
 

@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 17:19:27 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/26 12:46:08 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/26 13:50:29 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,16 +182,10 @@ static uint64_t	*padding(char *input, size_t input_len, size_t *msg_len)
 	message = ft_calloc((*msg_len) * 16, 64);
 	((uint8_t*)message)[input_len] = 0x80;
 	ft_memcpy(message, input, input_len);
-//	for (size_t j = 0; j < input_len; j++)
-//		ft_printf("%02llx", message[j]);
-//	ft_printf("\n");
 	i = -1;
 	while (++i < input_len + 1)
 		message[i] = change_endianness(message[i]);
 	message[((((*msg_len) * 1024) - 128) / 64) + 1] = bits_len;
-//	for (size_t j = 0; j < input_len; j++)
-//		ft_printf("%02llx", message[j]);
-//	ft_printf("\n");
 	return (message);
 }
 
@@ -201,10 +195,6 @@ void			sha512_algo(char *input)
 	size_t		msg_len;
 	uint64_t	vars[8];
 	size_t		i;
-
-//	for (size_t j = 0; j < g_input_len; j++)
-//		ft_printf("%02x", (unsigned int)input[j]);
-//	ft_printf("\n");
 
 	message = padding(input, g_input_len, &msg_len);
 	g_hash64[0] = 0x6a09e667f3bcc908;
