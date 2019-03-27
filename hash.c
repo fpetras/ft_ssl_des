@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 14:38:48 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/26 15:44:07 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/27 14:02:54 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ static void	hash_formatted(char *filename, char *input)
 		}
 	}
 	!ft_strcasecmp("md5", g_cmd) ? md5(input) : 0;
-	(!ft_strcasecmp("sha256", g_cmd) || !ft_strcasecmp("sha224", g_cmd)) ?
-	sha256(input) : 0;
-	(!ft_strcasecmp("sha512", g_cmd) || !ft_strcasecmp("sha384", g_cmd)) ?
-	sha512(input) : 0;
+	(!ft_strcasecmp("sha224", g_cmd) || !ft_strcasecmp("sha256", g_cmd)) ?
+	sha224_256(input) : 0;
+	(!ft_strcasecmp("sha384", g_cmd) || !ft_strcasecmp("sha512", g_cmd)) ?
+	sha384_512(input) : 0;
 	if (!g_opts[OPT_Q] && g_opts[OPT_R])
 	{
 		if (filename)
@@ -63,10 +63,10 @@ static int	hash_stdin(void)
 		return (EXIT_FAILURE);
 	g_opts[OPT_P] ? print(input) : 0;
 	!ft_strcasecmp("md5", g_cmd) ? md5(input) : 0;
-	(!ft_strcasecmp("sha256", g_cmd) || !ft_strcasecmp("sha224", g_cmd)) ?
-	sha256(input) : 0;
-	(!ft_strcasecmp("sha512", g_cmd) || !ft_strcasecmp("sha384", g_cmd)) ?
-	sha512(input) : 0;
+	(!ft_strcasecmp("sha224", g_cmd) || !ft_strcasecmp("sha256", g_cmd)) ?
+	sha224_256(input) : 0;
+	(!ft_strcasecmp("sha384", g_cmd) || !ft_strcasecmp("sha512", g_cmd)) ?
+	sha384_512(input) : 0;
 	ft_printf("\n");
 	free(input);
 	return (EXIT_SUCCESS);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sha512.c                                           :+:      :+:    :+:   */
+/*   sha384_512.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 15:05:43 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/26 17:17:14 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/27 13:58:12 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,12 @@ static void	initialize(char *command)
 ** SHA-384 output omits hash value 6 and 7
 */
 
-void		sha512(char *input)
+void		sha384_512(char *input)
 {
 	uint64_t *hash;
 
 	initialize(g_cmd);
-	sha512_algo(input);
+	sha384_512_algo(input);
 	hash = g_hash64;
 	if (g_is_384)
 		ft_printf("%.16llx%.16llx%.16llx%.16llx%.16llx%.16llx",

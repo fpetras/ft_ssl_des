@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sha512_algo.c                                      :+:      :+:    :+:   */
+/*   sha384_512_algo.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 17:19:27 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/26 17:24:13 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/27 13:59:50 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,14 +110,14 @@ static void		process(uint64_t *message, uint64_t vars[8], size_t i)
 		extend(w, round);
 		round++;
 	}
-	init64(vars);
+	init_values64(vars);
 	round = 0;
 	while (round < 80)
 	{
 		operations(vars, w, round);
 		round++;
 	}
-	add64(vars);
+	add_values64(vars);
 	free(w);
 }
 
@@ -144,7 +144,7 @@ static uint64_t	*padding(char *input, size_t input_len, size_t *msg_len)
 	return (message);
 }
 
-void			sha512_algo(char *input)
+void			sha384_512_algo(char *input)
 {
 	uint64_t	*message;
 	size_t		msg_len;

@@ -6,7 +6,7 @@
 #    By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/26 12:26:28 by fpetras           #+#    #+#              #
-#    Updated: 2019/03/26 17:15:12 by fpetras          ###   ########.fr        #
+#    Updated: 2019/03/27 14:08:33 by fpetras          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,10 +20,10 @@ SRC = main.c \
 	  hash.c \
 	  md5.c \
 	  md5_algo.c \
-	  sha256.c \
-	  sha256_algo.c \
-	  sha512.c \
-	  sha512_algo.c \
+	  sha224_256.c \
+	  sha224_256_algo.c \
+	  sha384_512.c \
+	  sha384_512_algo.c \
 	  hash_value.c \
 	  rotate.c \
 	  endianness.c
@@ -69,22 +69,26 @@ test: $(NAME)
 test_md5: $(NAME)
 	@./test.sh md5
 
-test_sha256: $(NAME)
-	@./test.sh sha256
+test_sha: $(NAME)
+	@./test.sh sha224 sha256 sha384 sha512
 
 test_sha224: $(NAME)
 	@./test.sh sha224
 
-test_sha512: $(NAME)
-	@./test.sh sha512
+test_sha256: $(NAME)
+	@./test.sh sha256
 
 test_sha384: $(NAME)
 	@./test.sh sha384
+
+test_sha512: $(NAME)
+	@./test.sh sha512
 
 clean:
 	@make clean -C libft
 	@rm -rf $(OBJPATH)
 	@rm -rf $(NAME).dSYM
+	@rm -f file file1 file2
 
 fclean: clean
 	@make fclean -C libft
@@ -92,4 +96,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re test test_md5 test_sha256
+.PHONY: all clean fclean re test test_md5 test_sha224 test_sha256 test_sha384 test_sha512

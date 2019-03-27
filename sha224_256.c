@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sha256.c                                           :+:      :+:    :+:   */
+/*   sha224_256.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 15:05:43 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/26 17:17:02 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/27 13:57:37 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,17 @@ static void	initialize(char *command)
 ** SHA-224 output omits hash value 7
 */
 
-void		sha256(char *input)
+void		sha224_256(char *input)
 {
 	uint32_t *hash;
 
 	initialize(g_cmd);
-	sha256_algo(input);
+	sha224_256_algo(input);
 	hash = g_hash;
-	if (g_is_224 == 0)
-		ft_printf("%.8x%.8x%.8x%.8x%.8x%.8x%.8x%.8x",
-		hash[0], hash[1], hash[2], hash[3], hash[4], hash[5], hash[6], hash[7]);
-	else
+	if (g_is_224)
 		ft_printf("%.8x%.8x%.8x%.8x%.8x%.8x%.8x",
 		hash[0], hash[1], hash[2], hash[3], hash[4], hash[5], hash[6]);
+	else
+		ft_printf("%.8x%.8x%.8x%.8x%.8x%.8x%.8x%.8x",
+		hash[0], hash[1], hash[2], hash[3], hash[4], hash[5], hash[6], hash[7]);
 }

@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 12:00:22 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/26 17:14:41 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/27 14:02:20 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,14 @@ char		*join(char const *s1, char const *s2, size_t len1, size_t len2);
 void		print(char *input);
 void		md5(char *input);
 void		md5_algo(char *input);
-void		sha256(char *input);
-void		sha256_algo(char *input);
-void		sha512(char *input);
-void		sha512_algo(char *input);
-void		init(uint32_t *vars);
-void		init64(uint64_t *vars);
-void		add(uint32_t *vars);
-void		add64(uint64_t *vars);
+void		sha224_256(char *input);
+void		sha224_256_algo(char *input);
+void		sha384_512(char *input);
+void		sha384_512_algo(char *input);
+void		init_values(uint32_t *vars);
+void		init_values64(uint64_t *vars);
+void		add_values(uint32_t *vars);
+void		add_values64(uint64_t *vars);
 uint32_t	leftrotate(uint32_t x, uint32_t n);
 uint32_t	rightrotate(uint32_t x, uint32_t n);
 uint64_t	rightrotate64(uint64_t x, uint64_t n);

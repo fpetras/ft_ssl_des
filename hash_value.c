@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 17:06:24 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/26 17:08:35 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/27 13:59:08 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 ** Initialize variables to the current hash value
 */
 
-void	init(uint32_t *vars)
+void	init_values(uint32_t *vars)
 {
 	vars[A] = g_hash[0];
 	vars[B] = g_hash[1];
@@ -28,7 +28,7 @@ void	init(uint32_t *vars)
 	vars[I] = g_hash[7];
 }
 
-void	init64(uint64_t *vars)
+void	init_values64(uint64_t *vars)
 {
 	vars[A] = g_hash64[0];
 	vars[B] = g_hash64[1];
@@ -44,7 +44,7 @@ void	init64(uint64_t *vars)
 ** Add compressed chunk to the current hash value
 */
 
-void	add(uint32_t *vars)
+void	add_values(uint32_t *vars)
 {
 	g_hash[0] += vars[A];
 	g_hash[1] += vars[B];
@@ -56,7 +56,7 @@ void	add(uint32_t *vars)
 	g_hash[7] += vars[I];
 }
 
-void	add64(uint64_t *vars)
+void	add_values64(uint64_t *vars)
 {
 	g_hash64[0] += vars[A];
 	g_hash64[1] += vars[B];

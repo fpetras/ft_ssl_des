@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sha256_algo.c                                      :+:      :+:    :+:   */
+/*   sha224_256_algo.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 17:19:27 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/26 17:25:29 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/27 13:58:41 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,14 +99,14 @@ static void		process(uint32_t *message, uint32_t vars[8], size_t i)
 		extend(w, round);
 		round++;
 	}
-	init(vars);
+	init_values(vars);
 	round = 0;
 	while (round < 64)
 	{
 		operations(vars, w, round);
 		round++;
 	}
-	add(vars);
+	add_values(vars);
 	free(w);
 }
 
@@ -133,7 +133,7 @@ static uint32_t	*padding(char *input, size_t input_len, size_t *msg_len)
 	return (message);
 }
 
-void			sha256_algo(char *input)
+void			sha224_256_algo(char *input)
 {
 	uint32_t	*message;
 	size_t		msg_len;
