@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 12:00:22 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/27 14:35:54 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/27 16:29:28 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@
 
 char		*g_cmd;
 int			g_opts[OPT_NUM];
+int			g_is_md5;
 int			g_is_224;
 int			g_is_256;
 int			g_is_384;

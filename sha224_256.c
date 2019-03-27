@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 15:05:43 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/27 14:37:27 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/27 16:20:21 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,10 @@
 ** SHA-224 initial hash values differ from SHA-256
 */
 
-static void	initialize(char *command)
+static void	initialize(void)
 {
-	if (!ft_strcmp("sha224", command))
+	if (g_is_224)
 	{
-		g_is_224 = 1;
 		g_hash[0] = 0xc1059ed8;
 		g_hash[1] = 0x367cd507;
 		g_hash[2] = 0x3070dd17;
@@ -30,9 +29,8 @@ static void	initialize(char *command)
 		g_hash[6] = 0x64f98fa7;
 		g_hash[7] = 0xbefa4fa4;
 	}
-	else
+	else if (g_is_256)
 	{
-		g_is_256 = 1;
 		g_hash[0] = 0x6a09e667;
 		g_hash[1] = 0xbb67ae85;
 		g_hash[2] = 0x3c6ef372;
@@ -52,7 +50,7 @@ void		sha224_256(char *input)
 {
 	uint32_t *hash;
 
-	initialize(g_cmd);
+	initialize();
 	sha224_256_algo(input);
 	hash = g_hash;
 	if (g_is_224)

@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 14:38:48 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/27 14:19:54 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/27 16:17:53 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,9 @@ static void	hash_formatted(char *filename, char *input)
 			ft_strlwr(g_cmd);
 		}
 	}
-	!ft_strcasecmp("md5", g_cmd) ? md5(input) : 0;
-	(!ft_strcasecmp("sha224", g_cmd) || !ft_strcasecmp("sha256", g_cmd)) ?
-	sha224_256(input) : 0;
-	(!ft_strcasecmp("sha384", g_cmd) || !ft_strcasecmp("sha512", g_cmd) ||
-	!ft_strcasecmp("sha512224", g_cmd) || !ft_strcasecmp("sha512256", g_cmd)) ?
-	sha384_512(input) : 0;
+	g_is_md5 ? md5(input) : 0;
+	g_is_224 || g_is_256 ? sha224_256(input) : 0;
+	g_is_384 || g_is_512 || g_is_512224 || g_is_512256 ? sha384_512(input) : 0;
 	if (!g_opts[OPT_Q] && g_opts[OPT_R])
 	{
 		if (filename)
@@ -63,15 +60,28 @@ static int	hash_stdin(void)
 	if ((input = read_stdin()) == NULL)
 		return (EXIT_FAILURE);
 	g_opts[OPT_P] ? print(input) : 0;
-	!ft_strcasecmp("md5", g_cmd) ? md5(input) : 0;
-	(!ft_strcasecmp("sha224", g_cmd) || !ft_strcasecmp("sha256", g_cmd)) ?
-	sha224_256(input) : 0;
-	(!ft_strcasecmp("sha384", g_cmd) || !ft_strcasecmp("sha512", g_cmd) ||
-	!ft_strcasecmp("sha512224", g_cmd) || !ft_strcasecmp("sha512256", g_cmd)) ?
-	sha384_512(input) : 0;
+	g_is_md5 ? md5(input) : 0;
+	g_is_224 || g_is_256 ? sha224_256(input) : 0;
+	g_is_384 || g_is_512 || g_is_512224 ||g_is_512256 ? sha384_512(input) : 0;
 	ft_printf("\n");
 	free(input);
 	return (EXIT_SUCCESS);
+}
+
+static void	which_sha_function(int sha)
+{
+	if (sha == 224)
+		g_is_224 = 1;
+	else if (sha == 256)
+		g_is_256 = 1;
+	else if (sha == 384)
+		g_is_384 = 1;
+	else if (sha == 512)
+		g_is_512 = 1;
+	else if (sha == 512224)
+		g_is_512224 = 1;
+	else if (sha == 512256)
+		g_is_512256 = 1;
 }
 
 int			hash(int ac, char **av)
@@ -81,6 +91,10 @@ int			hash(int ac, char **av)
 
 	i = 0;
 	ret = EXIT_SUCCESS;
+	if (!ft_strncasecmp("sha", g_cmd, 3))
+		which_sha_function(ft_atoi(&g_cmd[3]));
+	else
+		g_is_md5 = 1;
 	if (ac == 0 || g_opts[OPT_P])
 		if (hash_stdin() == EXIT_FAILURE)
 			return (EXIT_FAILURE);

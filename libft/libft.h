@@ -6,7 +6,7 @@
 /*   By: fpetras <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/07 08:33:21 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/22 23:20:02 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/27 16:01:29 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ char				*ft_strreplace(char *search, char *replace, char *subject);
 long				ft_atol(const char *str);
 long long			ft_atoll(const char *str);
 int					ft_strcasecmp(const char *s1, const char *s2);
+int					ft_strncasecmp(const char *s1, const char *s2, size_t n);
 char				*ft_strupr(char *s);
 char				*ft_strlwr(char *s);
 void				*ft_calloc(size_t count, size_t size);

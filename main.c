@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 11:54:09 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/27 14:18:11 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/27 16:05:31 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	error(int ac, char **av)
 		ft_dprintf(2, "\nStandard commands:\n");
 		ft_dprintf(2, "\nMessage Digest commands:\n");
 		ft_dprintf(2, "md5\nsha224\nsha256\nsha384\nsha512\n");
-		ft_dprintf(2, "sha512224\nsha512256");
+		ft_dprintf(2, "sha512224\nsha512256\n");
 		ft_dprintf(2, "\nCipher commands:\n");
 		return (EXIT_FAILURE);
 	}
@@ -60,17 +60,7 @@ int			main(int ac, char **av)
 		return (EXIT_FAILURE);
 	if (!ft_strcasecmp("md5", av[1]))
 		return (hash(ac - i, &av[i]));
-	else if (!ft_strcasecmp("sha224", av[1]))
-		return (hash(ac - i, &av[i]));
-	else if (!ft_strcasecmp("sha256", av[1]))
-		return (hash(ac - i, &av[i]));
-	else if (!ft_strcasecmp("sha384", av[1]))
-		return (hash(ac - i, &av[i]));
-	else if (!ft_strcasecmp("sha512", av[1]))
-		return (hash(ac - i, &av[i]));
-	else if (!ft_strcasecmp("sha512224", av[1]))
-		return (hash(ac - i, &av[i]));
-	else if (!ft_strcasecmp("sha512256", av[1]))
+	else if (!ft_strncasecmp("sha", av[1], 3))
 		return (hash(ac - i, &av[i]));
 	return (EXIT_SUCCESS);
 }
