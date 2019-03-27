@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 15:05:40 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/25 17:18:12 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/27 16:54:55 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	md5(char *input)
 	while (i < 4)
 	{
 		hash = (uint8_t*)&g_hash[i];
-		ft_printf("%.2x%.2x%.2x%.2x", hash[0], hash[1], hash[2], hash[3]);
+		ft_printf("%02x%02x%02x%02x", hash[0], hash[1], hash[2], hash[3]);
 		i++;
 	}
 }

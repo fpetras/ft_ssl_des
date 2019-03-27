@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 15:05:43 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/27 16:30:53 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/27 16:57:31 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,15 +82,15 @@ void		sha384_512(char *input)
 	sha384_512_algo(input);
 	hash = g_hash64;
 	if (g_is_384)
-		ft_printf("%.16llx%.16llx%.16llx%.16llx%.16llx%.16llx",
+		ft_printf("%016llx%016llx%016llx%016llx%016llx%016llx",
 		hash[0], hash[1], hash[2], hash[3], hash[4], hash[5]);
 	else if (g_is_512)
-		ft_printf("%.16llx%.16llx%.16llx%.16llx%.16llx%.16llx%.16llx%.16llx",
+		ft_printf("%016llx%016llx%016llx%016llx%016llx%016llx%016llx%016llx",
 		hash[0], hash[1], hash[2], hash[3], hash[4], hash[5], hash[6], hash[7]);
 	else if (g_is_512224)
-		ft_printf("%.16llx%.16llx%.16llx%.8llx",
+		ft_printf("%016llx%016llx%016llx%08llx",
 		hash[0], hash[1], hash[2], hash[3] / 0x100000000);
 	else if (g_is_512256)
-		ft_printf("%.16llx%.16llx%.16llx%.16llx",
+		ft_printf("%016llx%016llx%016llx%016llx",
 		hash[0], hash[1], hash[2], hash[3]);
 }

@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 15:05:43 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/27 16:20:21 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/27 16:56:13 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ void		sha224_256(char *input)
 	sha224_256_algo(input);
 	hash = g_hash;
 	if (g_is_224)
-		ft_printf("%.8x%.8x%.8x%.8x%.8x%.8x%.8x",
+		ft_printf("%08x%08x%08x%08x%08x%08x%08x",
 		hash[0], hash[1], hash[2], hash[3], hash[4], hash[5], hash[6]);
 	else if (g_is_256)
-		ft_printf("%.8x%.8x%.8x%.8x%.8x%.8x%.8x%.8x",
+		ft_printf("%08x%08x%08x%08x%08x%08x%08x%08x",
 		hash[0], hash[1], hash[2], hash[3], hash[4], hash[5], hash[6], hash[7]);
 }

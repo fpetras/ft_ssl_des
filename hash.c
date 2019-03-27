@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 14:38:48 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/27 16:17:53 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/27 16:51:21 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static int	hash_stdin(void)
 	g_opts[OPT_P] ? print(input) : 0;
 	g_is_md5 ? md5(input) : 0;
 	g_is_224 || g_is_256 ? sha224_256(input) : 0;
-	g_is_384 || g_is_512 || g_is_512224 ||g_is_512256 ? sha384_512(input) : 0;
+	g_is_384 || g_is_512 || g_is_512224 || g_is_512256 ? sha384_512(input) : 0;
 	ft_printf("\n");
 	free(input);
 	return (EXIT_SUCCESS);
