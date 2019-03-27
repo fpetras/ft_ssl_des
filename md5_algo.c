@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/14 12:20:52 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/26 14:23:34 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/27 17:33:36 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,11 @@ static uint8_t	*padding(char *input, size_t input_len, size_t *msg_len)
 	while ((*msg_len) % 512 != 448)
 		(*msg_len)++;
 	(*msg_len) /= CHAR_BIT;
-	message = ft_calloc((*msg_len) + 64, sizeof(uint8_t));
+	if ((message = ft_calloc((*msg_len) + 64, sizeof(uint8_t))) == NULL)
+	{
+		ft_dprintf(2, "Memory allocation failure\n");
+		exit(EXIT_FAILURE);
+	}
 	ft_memcpy(message, input, input_len);
 	message[input_len] = 0x80;
 	ft_memcpy(&message[(*msg_len)], &bits_len, sizeof(uint32_t));

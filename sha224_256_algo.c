@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 17:19:27 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/27 13:58:41 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/27 17:35:16 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,11 @@ static void		process(uint32_t *message, uint32_t vars[8], size_t i)
 	uint32_t	*w;
 	size_t		round;
 
-	w = ft_calloc(64, 32);
+	if ((w = ft_calloc(64, 32)) == NULL)
+	{
+		ft_dprintf(2, "Memory allocation failure\n");
+		exit(EXIT_FAILURE);
+	}
 	ft_memcpy(w, &message[i * 16], 512);
 	round = 16;
 	while (round < 64)
@@ -123,7 +127,11 @@ static uint32_t	*padding(char *input, size_t input_len, size_t *msg_len)
 	message = NULL;
 	bits_len = input_len * CHAR_BIT;
 	(*msg_len) = ((bits_len + 16 + 64) / 512) + 1;
-	message = ft_calloc((*msg_len) * 16, 32);
+	if ((message = ft_calloc((*msg_len) * 16, 32)) == NULL)
+	{
+		ft_dprintf(2, "Memory allocation failure\n");
+		exit(EXIT_FAILURE);
+	}
 	((uint8_t*)message)[input_len] = 0x80;
 	ft_memcpy(message, input, input_len);
 	i = -1;
