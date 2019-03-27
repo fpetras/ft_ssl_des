@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 15:05:43 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/27 13:57:37 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/27 14:37:27 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	initialize(char *command)
 	}
 	else
 	{
-		g_is_224 = 0;
+		g_is_256 = 1;
 		g_hash[0] = 0x6a09e667;
 		g_hash[1] = 0xbb67ae85;
 		g_hash[2] = 0x3c6ef372;
@@ -58,7 +58,7 @@ void		sha224_256(char *input)
 	if (g_is_224)
 		ft_printf("%.8x%.8x%.8x%.8x%.8x%.8x%.8x",
 		hash[0], hash[1], hash[2], hash[3], hash[4], hash[5], hash[6]);
-	else
+	else if (g_is_256)
 		ft_printf("%.8x%.8x%.8x%.8x%.8x%.8x%.8x%.8x",
 		hash[0], hash[1], hash[2], hash[3], hash[4], hash[5], hash[6], hash[7]);
 }
