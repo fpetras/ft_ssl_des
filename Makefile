@@ -6,7 +6,7 @@
 #    By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/26 12:26:28 by fpetras           #+#    #+#              #
-#    Updated: 2019/03/27 14:08:33 by fpetras          ###   ########.fr        #
+#    Updated: 2019/03/27 15:47:15 by fpetras          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,7 +70,7 @@ test_md5: $(NAME)
 	@./test.sh md5
 
 test_sha: $(NAME)
-	@./test.sh sha224 sha256 sha384 sha512
+	@./test.sh sha224 sha256 sha384 sha512 sha512224 sha512256
 
 test_sha224: $(NAME)
 	@./test.sh sha224
@@ -84,6 +84,12 @@ test_sha384: $(NAME)
 test_sha512: $(NAME)
 	@./test.sh sha512
 
+test_sha512224: $(NAME)
+	@./test.sh sha512224
+
+test_sha512256: $(NAME)
+	@./test.sh sha512256
+
 clean:
 	@make clean -C libft
 	@rm -rf $(OBJPATH)
@@ -96,4 +102,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re test test_md5 test_sha224 test_sha256 test_sha384 test_sha512
+.PHONY: all clean fclean re test test_md5 test_sha224 test_sha256 test_sha384 test_sha512 test_sha512224 test_sha512256

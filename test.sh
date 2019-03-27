@@ -21,6 +21,8 @@ sha224_total=0
 sha256_total=0
 sha384_total=0
 sha512_total=0
+sha512224_total=0
+sha512256_total=0
 TEST_NUM=11
 
 md5_set=0
@@ -28,6 +30,8 @@ sha224_set=0
 sha256_set=0
 sha384_set=0
 sha512_set=0
+sha512224_set=0
+sha512256_set=0
 
 function print_usage {
 	echo "usage: $0 <test> ..."
@@ -37,6 +41,8 @@ function print_usage {
 	echo "                 sha256"
 	echo "                 sha384"
 	echo "                 sha512"
+	echo "                 sha512224"
+	echo "                 sha512256"
 	echo "                 all"
 }
 
@@ -95,6 +101,28 @@ function sha512_header {
 	echo -e -n "$RESET"
 }
 
+function sha512224_header {
+	echo -e -n "$WHITE"
+	echo "███████╗██╗  ██╗ █████╗      ███████╗ ██╗██████╗     ██╗██████╗ ██████╗ ██╗  ██╗
+██╔════╝██║  ██║██╔══██╗     ██╔════╝███║╚════██╗   ██╔╝╚════██╗╚════██╗██║  ██║
+███████╗███████║███████║████╗███████╗╚██║ █████╔╝  ██╔╝  █████╔╝ █████╔╝███████║
+╚════██║██╔══██║██╔══██║╚═══╝╚════██║ ██║██╔═══╝  ██╔╝  ██╔═══╝ ██╔═══╝ ╚════██║
+███████║██║  ██║██║  ██║     ███████║ ██║███████╗██╔╝   ███████╗███████╗     ██║
+╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝     ╚══════╝ ╚═╝╚══════╝╚═╝    ╚══════╝╚══════╝     ╚═╝"
+	echo -e -n "$RESET"
+}
+
+function sha512256_header {
+	echo -e -n "$WHITE"
+	echo "███████╗██╗  ██╗ █████╗      ███████╗ ██╗██████╗     ██╗██████╗ ███████╗ ██████╗
+██╔════╝██║  ██║██╔══██╗     ██╔════╝███║╚════██╗   ██╔╝╚════██╗██╔════╝██╔════╝
+███████╗███████║███████║████╗███████╗╚██║ █████╔╝  ██╔╝  █████╔╝███████╗███████╗
+╚════██║██╔══██║██╔══██║╚═══╝╚════██║ ██║██╔═══╝  ██╔╝  ██╔═══╝ ╚════██║██╔═══█║
+███████║██║  ██║██║  ██║     ███████║ ██║███████╗██╔╝   ███████╗███████║╚██████║
+╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝     ╚══════╝ ╚═╝╚══════╝╚═╝    ╚══════╝╚══════╝ ╚═════╝"
+	echo -e -n "$RESET"
+}
+
 
 if [ $# -eq 0 ] ; then
 	print_usage
@@ -118,12 +146,20 @@ for arg in "$@" ; do
 		sha512)
 			sha512_set=1
 			;;
+		sha512224)
+			sha512224_set=1
+			;;
+		sha512256)
+			sha512256_set=1
+			;;
 		all)
 			md5_set=1
 			sha224_set=1
 			sha256_set=1
 			sha384_set=1
 			sha512_set=1
+			sha512224_set=1
+			sha512256_set=1
 			;;
 		*)
 			print_usage
@@ -1050,119 +1086,515 @@ fi
 
 
 
+#############################-------SHA-512/224-------##########################
+if [[ ($md5_set -eq 1 || $sha224_set -eq 1 || $sha256_set -eq 1 || $sha384_set -eq 1 || $sha512_set -eq 1) && $sha512224_set -eq 1 ]] ; then
+	echo ""
+	sha512224_header
+	sleep 2.5
+elif [ $sha512224_set -eq 1 ] ; then
+	echo -e $CLEAR_SCREEN
+	sha512224_header
+fi
+
+if [ $sha512224_set -eq 1 ] ; then
+
+echo "test" | openssl sha512224 > openssl_valid 2>&-
+if [ -s openssl_valid ] ; then
+	CMD="openssl sha512224"
+else
+	CMD="shasum -a 512224"
+fi
+rm openssl_valid
+
+#############################----------1----------##############################
+counter=0
+FT_SSL_SHA512224=$(echo "This is a simple test" | ./ft_ssl sha512224)
+if [ "$CMD" == "shasum -a 512224" ] ; then
+	FT_SSL_SHA512224=$FT_SSL_SHA512224"  -"
+fi
+SHA512224=$(echo "This is a simple test" | $CMD)
+if [ "$FT_SSL_SHA512224" == "$SHA512224" ] ; then
+	echo -e "$GREEN OK: $RESET" "echo \"This is a simple test\" | ./ft_ssl sha512224"
+	echo "$FT_SSL_SHA512224"
+	counter=$((counter+1))
+else
+	echo -e "$RED KO: $RESET" "echo \"This is a simple test\" | ./ft_ssl sha512224"
+fi
+#############################----------2----------##############################
+FT_SSL_SHA512224=$(./ft_ssl sha512224 -q -s "String test")
+if [ "$CMD" == "shasum -a 512224" ] ; then
+	FT_SSL_SHA512224=$FT_SSL_SHA512224"  -"
+fi
+SHA512224=$(echo -n "String test" | $CMD)
+if [ "$FT_SSL_SHA512224" == "$SHA512224" ] ; then
+	echo -e "$GREEN OK: $RESET" "./ft_ssl sha512224 -q -s \"String test\""
+	echo "$FT_SSL_SHA512224"
+	counter=$((counter+1))
+else
+	echo -e "$RED KO: $RESET" "./ft_ssl sha512224 -q -s \"String test\""
+fi
+#############################----------3----------##############################
+FT_SSL_SHA512224=$(cat $(whereis shasum) | ./ft_ssl sha512224)
+if [ "$CMD" == "shasum -a 512224" ] ; then
+	FT_SSL_SHA512224=$FT_SSL_SHA512224"  -"
+fi
+SHA512224=$(cat $(whereis shasum) | $CMD)
+if [ "$FT_SSL_SHA512224" == "$SHA512224" ] ; then
+	echo -e "$GREEN OK: $RESET" "cat $(whereis shasum) | ./ft_ssl sha512224"
+	echo "$FT_SSL_SHA512224"
+	counter=$((counter+1))
+else
+	echo -e "$RED KO: $RESET" "cat $(whereis shasum) | ./ft_ssl sha512224"
+fi
+#############################----------4----------##############################
+FT_SSL_SHA512224=$(echo -n "LJa0ugxQ/qEGzPeGEveyOmWDKi4Hyix1vunr2Lbz" | ./ft_ssl sha512224)
+if [ "$CMD" == "shasum -a 512224" ] ; then
+	FT_SSL_SHA512224=$FT_SSL_SHA512224"  -"
+fi
+SHA512224=$(echo -n "LJa0ugxQ/qEGzPeGEveyOmWDKi4Hyix1vunr2Lbz" | $CMD)
+if [ "$FT_SSL_SHA512224" == "$SHA512224" ] ; then
+	echo -e "$GREEN OK: $RESET" "echo -n \"LJa0ugxQ/qEGzPeGEveyOmWDKi4Hyix1vunr2Lbz\" | ./ft_ssl sha512224"
+	echo "$FT_SSL_SHA512224"
+	counter=$((counter+1))
+else
+	echo -e "$RED KO: $RESET" "echo -n \"LJa0ugxQ/qEGzPeGEveyOmWDKi4Hyix1vunr2Lbz\" | ./ft_ssl sha512224"
+fi
+#############################----------5----------##############################
+FT_SSL_SHA512224=$(./ft_ssl sha512224 -qs "")
+if [ "$CMD" == "shasum -a 512224" ] ; then
+	FT_SSL_SHA512224=$FT_SSL_SHA512224"  -"
+fi
+SHA512224=$(echo -n "" | $CMD)
+if [ "$FT_SSL_SHA512224" == "$SHA512224" ] ; then
+	echo -e "$GREEN OK: $RESET" "./ft_ssl sha512224 -qs \"\""
+	echo "$FT_SSL_SHA512224"
+	counter=$((counter+1))
+else
+	echo -e "$RED KO: $RESET" "./ft_ssl sha512224 -qs \"\""
+fi
+
+
+
+if [ "$counter" -eq 5 ]; then
+	echo -e "$GREEN [ $counter / 5 ] $RESET"
+else
+	echo -e "$RED [ $counter / 5 ] $RESET"
+fi
+
+################################################################################
+sha512224_total=$(($sha512224_total+$counter))
+counter=0
+echo -e "$WHITE SHA-512/224: Test random strings: $RESET"
+sleep 2
+for i in {1..100}; do
+	cat /dev/urandom | base64 | head -c 40 > file1
+	FT_SSL_SHA512224=$(./ft_ssl sha512224 -q file1)
+	if [ "$CMD" == "shasum -a 512224" ] ; then
+		FT_SSL_SHA512224=$FT_SSL_SHA512224"  -"
+	fi
+	SHA512224=$(cat file1 | $CMD)
+	if [ "$FT_SSL_SHA512224" == "$SHA512224" ] ; then
+		if [ $(tput cols) -lt 128 ] ; then
+			echo -e "$GREEN $counter OK $RESET\r\c"
+		else
+			echo -e "       " $CLEAR_LINE
+			echo -n -e "$FT_SSL_SHA512224\r\c"
+			echo -e "$GREEN $counter OK $RESET\r\c"
+		fi
+		counter=$((counter+1))
+	else
+		echo -e $CLEAR_LINE
+		echo -e "$RED KO $RESET" ; echo "## string: " ; cat file1 ; echo ""
+		echo $FT_SSL_SHA512224
+		echo $SHA512224
+	fi
+done
+
+
+if [ "$counter" -eq 100 ]; then
+	echo -e $CLEAR_LINE
+	echo -e "$GREEN [ $counter / 100 ] $RESET"
+else
+	echo -e "$RED [ $counter / 100 ] $RESET"
+fi
+
+################################################################################
+sha512224_total=$(($sha512224_total+$counter))
+counter=0
+echo -e "$WHITE SHA-512/224: Test random binary data: $RESET"
+sleep 2
+for i in {1..100}; do
+	cat /dev/urandom | head -c 40 > file2
+	FT_SSL_SHA512224=$(./ft_ssl sha512224 -q file2)
+	if [ "$CMD" == "shasum -a 512224" ] ; then
+		FT_SSL_SHA512224=$FT_SSL_SHA512224"  -"
+	fi
+	SHA512224=$(cat file2 | $CMD)
+	if [ "$FT_SSL_SHA512224" == "$SHA512224" ] ; then
+		if [ $(tput cols) -lt 128 ] ; then
+			echo -e "$GREEN $counter OK $RESET\r\c"
+		else
+			echo -e "       " $CLEAR_LINE
+			echo -n -e "$FT_SSL_SHA512224\r\c"
+			echo -e "$GREEN $counter OK $RESET\r\c"
+		fi
+		counter=$((counter+1))
+	else
+		echo -e $CLEAR_LINE
+		echo -e "$RED KO $RESET" ; echo "## data: " ; cat file2 ; echo ""
+		echo $FT_SSL_SHA512224
+		echo $SHA512224
+fi
+done
+rm file1 file2
+sha512224_total=$(($sha512224_total+$counter))
+
+
+if [ "$counter" -eq 100 ]; then
+	echo -e $CLEAR_LINE
+	echo -e "$GREEN [ $counter / 100 ] $RESET"
+else
+	echo -e "$RED [ $counter / 100 ] $RESET"
+fi
+fi
+
+
+
+#############################-------SHA-512/256-------##########################
+if [[ ($md5_set -eq 1 || $sha224_set -eq 1 || $sha256_set -eq 1 || $sha384_set -eq 1 || $sha512_set -eq 1 || $sha512224_set -eq 1) && $sha512256_set -eq 1 ]] ; then
+	echo ""
+	sha512256_header
+	sleep 2.5
+elif [ $sha512256_set -eq 1 ] ; then
+	echo -e $CLEAR_SCREEN
+	sha512256_header
+fi
+
+if [ $sha512256_set -eq 1 ] ; then
+
+echo "test" | openssl sha512256 > openssl_valid 2>&-
+if [ -s openssl_valid ] ; then
+	CMD="openssl sha512256"
+else
+	CMD="shasum -a 512256"
+fi
+rm openssl_valid
+
+#############################----------1----------##############################
+counter=0
+FT_SSL_SHA512256=$(echo "This is a simple test" | ./ft_ssl sha512256)
+if [ "$CMD" == "shasum -a 512256" ] ; then
+	FT_SSL_SHA512256=$FT_SSL_SHA512256"  -"
+fi
+SHA512256=$(echo "This is a simple test" | $CMD)
+if [ "$FT_SSL_SHA512256" == "$SHA512256" ] ; then
+	echo -e "$GREEN OK: $RESET" "echo \"This is a simple test\" | ./ft_ssl sha512256"
+	echo "$FT_SSL_SHA512256"
+	counter=$((counter+1))
+else
+	echo -e "$RED KO: $RESET" "echo \"This is a simple test\" | ./ft_ssl sha512256"
+fi
+#############################----------2----------##############################
+FT_SSL_SHA512256=$(./ft_ssl sha512256 -q -s "String test")
+if [ "$CMD" == "shasum -a 512256" ] ; then
+	FT_SSL_SHA512256=$FT_SSL_SHA512256"  -"
+fi
+SHA512256=$(echo -n "String test" | $CMD)
+if [ "$FT_SSL_SHA512256" == "$SHA512256" ] ; then
+	echo -e "$GREEN OK: $RESET" "./ft_ssl sha512256 -q -s \"String test\""
+	echo "$FT_SSL_SHA512256"
+	counter=$((counter+1))
+else
+	echo -e "$RED KO: $RESET" "./ft_ssl sha512256 -q -s \"String test\""
+fi
+#############################----------3----------##############################
+FT_SSL_SHA512256=$(cat $(whereis shasum) | ./ft_ssl sha512256)
+if [ "$CMD" == "shasum -a 512256" ] ; then
+	FT_SSL_SHA512256=$FT_SSL_SHA512256"  -"
+fi
+SHA512256=$(cat $(whereis shasum) | $CMD)
+if [ "$FT_SSL_SHA512256" == "$SHA512256" ] ; then
+	echo -e "$GREEN OK: $RESET" "cat $(whereis shasum) | ./ft_ssl sha512256"
+	echo "$FT_SSL_SHA512256"
+	counter=$((counter+1))
+else
+	echo -e "$RED KO: $RESET" "cat $(whereis shasum) | ./ft_ssl sha512256"
+fi
+#############################----------4----------##############################
+FT_SSL_SHA512256=$(echo -n "LJa0ugxQ/qEGzPeGEveyOmWDKi4Hyix1vunr2Lbz" | ./ft_ssl sha512256)
+if [ "$CMD" == "shasum -a 512256" ] ; then
+	FT_SSL_SHA512256=$FT_SSL_SHA512256"  -"
+fi
+SHA512256=$(echo -n "LJa0ugxQ/qEGzPeGEveyOmWDKi4Hyix1vunr2Lbz" | $CMD)
+if [ "$FT_SSL_SHA512256" == "$SHA512256" ] ; then
+	echo -e "$GREEN OK: $RESET" "echo -n \"LJa0ugxQ/qEGzPeGEveyOmWDKi4Hyix1vunr2Lbz\" | ./ft_ssl sha512256"
+	echo "$FT_SSL_SHA512256"
+	counter=$((counter+1))
+else
+	echo -e "$RED KO: $RESET" "echo -n \"LJa0ugxQ/qEGzPeGEveyOmWDKi4Hyix1vunr2Lbz\" | ./ft_ssl sha512256"
+fi
+#############################----------5----------##############################
+FT_SSL_SHA512256=$(./ft_ssl sha512256 -qs "")
+if [ "$CMD" == "shasum -a 512256" ] ; then
+	FT_SSL_SHA512256=$FT_SSL_SHA512256"  -"
+fi
+SHA512256=$(echo -n "" | $CMD)
+if [ "$FT_SSL_SHA512256" == "$SHA512256" ] ; then
+	echo -e "$GREEN OK: $RESET" "./ft_ssl sha512256 -qs \"\""
+	echo "$FT_SSL_SHA512256"
+	counter=$((counter+1))
+else
+	echo -e "$RED KO: $RESET" "./ft_ssl sha512256 -qs \"\""
+fi
+
+
+
+if [ "$counter" -eq 5 ]; then
+	echo -e "$GREEN [ $counter / 5 ] $RESET"
+else
+	echo -e "$RED [ $counter / 5 ] $RESET"
+fi
+
+################################################################################
+sha512256_total=$(($sha512256_total+$counter))
+counter=0
+echo -e "$WHITE SHA-512/256: Test random strings: $RESET"
+sleep 2
+for i in {1..100}; do
+	cat /dev/urandom | base64 | head -c 40 > file1
+	FT_SSL_SHA512256=$(./ft_ssl sha512256 -q file1)
+	if [ "$CMD" == "shasum -a 512256" ] ; then
+		FT_SSL_SHA512256=$FT_SSL_SHA512256"  -"
+	fi
+	SHA512256=$(cat file1 | $CMD)
+	if [ "$FT_SSL_SHA512256" == "$SHA512256" ] ; then
+		if [ $(tput cols) -lt 128 ] ; then
+			echo -e "$GREEN $counter OK $RESET\r\c"
+		else
+			echo -e "       " $CLEAR_LINE
+			echo -n -e "$FT_SSL_SHA512256\r\c"
+			echo -e "$GREEN $counter OK $RESET\r\c"
+		fi
+		counter=$((counter+1))
+	else
+		echo -e $CLEAR_LINE
+		echo -e "$RED KO $RESET" ; echo "## string: " ; cat file1 ; echo ""
+		echo $FT_SSL_SHA512256
+		echo $SHA512256
+	fi
+done
+
+
+if [ "$counter" -eq 100 ]; then
+	echo -e $CLEAR_LINE
+	echo -e "$GREEN [ $counter / 100 ] $RESET"
+else
+	echo -e "$RED [ $counter / 100 ] $RESET"
+fi
+
+################################################################################
+sha512256_total=$(($sha512256_total+$counter))
+counter=0
+echo -e "$WHITE SHA-512/256: Test random binary data: $RESET"
+sleep 2
+for i in {1..100}; do
+	cat /dev/urandom | head -c 40 > file2
+	FT_SSL_SHA512256=$(./ft_ssl sha512256 -q file2)
+	if [ "$CMD" == "shasum -a 512256" ] ; then
+		FT_SSL_SHA512256=$FT_SSL_SHA512256"  -"
+	fi
+	SHA512256=$(cat file2 | $CMD)
+	if [ "$FT_SSL_SHA512256" == "$SHA512256" ] ; then
+		if [ $(tput cols) -lt 128 ] ; then
+			echo -e "$GREEN $counter OK $RESET\r\c"
+		else
+			echo -e "       " $CLEAR_LINE
+			echo -n -e "$FT_SSL_SHA512256\r\c"
+			echo -e "$GREEN $counter OK $RESET\r\c"
+		fi
+		counter=$((counter+1))
+	else
+		echo -e $CLEAR_LINE
+		echo -e "$RED KO $RESET" ; echo "## data: " ; cat file2 ; echo ""
+		echo $FT_SSL_SHA512256
+		echo $SHA512256
+fi
+done
+rm file1 file2
+sha512256_total=$(($sha512256_total+$counter))
+
+
+if [ "$counter" -eq 100 ]; then
+	echo -e $CLEAR_LINE
+	echo -e "$GREEN [ $counter / 100 ] $RESET"
+else
+	echo -e "$RED [ $counter / 100 ] $RESET"
+fi
+fi
+
+
+
+
+
 
 
 echo "┌──────────────────────────────────────────────────────┐"
 
 if [ $md5_set -eq 1 ] ; then
 	if [ $md5_total -eq 214 ] ; then
-		echo -e -n "│ MD5 score: $GREEN     [ $md5_total / 214 ] $RESET"
+		echo -e -n "│ MD5 score: $GREEN         [ $md5_total / 214 ] $RESET"
 		if [ $md5_total -lt 10 ] ; then
-			echo "                         │"
+			echo "                     │"
 		elif [[ $md5_total -gt 9 && $md5_total -lt 100 ]] ; then
-			echo "                        │"
+			echo "                    │"
 		elif [ $md5_total -gt 99 ] ; then
-			echo "                       │"
+			echo "                   │"
 		fi
 	else
-		echo -e -n "│ MD5 score: $RED     [ $md5_total / 214 ] $RESET"
+		echo -e -n "│ MD5 score: $RED         [ $md5_total / 214 ] $RESET"
 		if [ $md5_total -lt 10 ] ; then
-			echo "                         │"
+			echo "                     │"
 		elif [[ $md5_total -gt 9 && $md5_total -lt 100 ]] ; then
-			echo "                        │"
+			echo "                    │"
 		elif [ $md5_total -gt 99 ] ; then
-			echo "                       │"
+			echo "                   │"
 		fi
 	fi
 fi
 
 if [ $sha224_set -eq 1 ] ; then
 	if [ $sha224_total -eq 205 ] ; then
-		echo -e -n "│ SHA-224 score: $GREEN [ $sha224_total / 205 ] $RESET"
+		echo -e -n "│ SHA-224 score: $GREEN     [ $sha224_total / 205 ] $RESET"
 		if [ $sha224_total -lt 10 ] ; then
-			echo "                         │"
+			echo "                     │"
 		elif [[ $sha224_total -gt 9 && $sha224_total -lt 100 ]] ; then
-			echo "                        │"
+			echo "                    │"
 		elif [ $sha224_total -gt 99 ] ; then
-			echo "                       │"
+			echo "                   │"
 		fi
 	else
-		echo -e -n "│ SHA-224 score: $RED [ $sha224_total / 205 ] $RESET"
+		echo -e -n "│ SHA-224 score: $RED     [ $sha224_total / 205 ] $RESET"
 		if [ $sha224_total -lt 10 ] ; then
-			echo "                         │"
+			echo "                     │"
 		elif [[ $sha224_total -gt 9 && $sha224_total -lt 100 ]] ; then
-			echo "                        │"
+			echo "                    │"
 		elif [ $sha224_total -gt 99 ] ; then
-			echo "                       │"
+			echo "                   │"
 		fi
 	fi
 fi
 
 if [ $sha256_set -eq 1 ] ; then
 	if [ $sha256_total -eq 205 ] ; then
-		echo -e -n "│ SHA-256 score: $GREEN [ $sha256_total / 205 ] $RESET"
+		echo -e -n "│ SHA-256 score: $GREEN     [ $sha256_total / 205 ] $RESET"
 		if [ $sha256_total -lt 10 ] ; then
-			echo "                         │"
+			echo "                     │"
 		elif [[ $sha256_total -gt 9 && $sha256_total -lt 100 ]] ; then
-			echo "                        │"
+			echo "                    │"
 		elif [ $sha256_total -gt 99 ] ; then
-			echo "                       │"
+			echo "                   │"
 		fi
 	else
-		echo -e -n "│ SHA-256 score: $RED [ $sha256_total / 205 ] $RESET"
+		echo -e -n "│ SHA-256 score: $RED     [ $sha256_total / 205 ] $RESET"
 		if [ $sha256_total -lt 10 ] ; then
-			echo "                         │"
+			echo "                     │"
 		elif [[ $sha256_total -gt 9 && $sha256_total -lt 100 ]] ; then
-			echo "                        │"
+			echo "                    │"
 		elif [ $sha256_total -gt 99 ] ; then
-			echo "                       │"
+			echo "                   │"
 		fi
 	fi
 fi
 
 if [ $sha384_set -eq 1 ] ; then
 	if [ $sha384_total -eq 205 ] ; then
-		echo -e -n "│ SHA-384 score: $GREEN [ $sha384_total / 205 ] $RESET"
+		echo -e -n "│ SHA-384 score: $GREEN     [ $sha384_total / 205 ] $RESET"
 		if [ $sha384_total -lt 10 ] ; then
-			echo "                         │"
+			echo "                     │"
 		elif [[ $sha384_total -gt 9 && $sha384_total -lt 100 ]] ; then
-			echo "                        │"
+			echo "                    │"
 		elif [ $sha384_total -gt 99 ] ; then
-			echo "                       │"
+			echo "                   │"
 		fi
 	else
-		echo -e -n "│ SHA-384 score: $RED [ $sha384_total / 205 ] $RESET"
+		echo -e -n "│ SHA-384 score: $RED     [ $sha384_total / 205 ] $RESET"
 		if [ $sha384_total -lt 10 ] ; then
-			echo "                         │"
+			echo "                     │"
 		elif [[ $sha384_total -gt 9 && $sha384_total -lt 100 ]] ; then
-			echo "                        │"
+			echo "                    │"
 		elif [ $sha384_total -gt 99 ] ; then
-			echo "                       │"
+			echo "                   │"
 		fi
 	fi
 fi
 
 if [ $sha512_set -eq 1 ] ; then
 	if [ $sha512_total -eq 205 ] ; then
-		echo -e -n "│ SHA-512 score: $GREEN [ $sha512_total / 205 ] $RESET"
+		echo -e -n "│ SHA-512 score: $GREEN     [ $sha512_total / 205 ] $RESET"
 		if [ $sha512_total -lt 10 ] ; then
-			echo "                         │"
+			echo "                     │"
 		elif [[ $sha512_total -gt 9 && $sha512_total -lt 100 ]] ; then
-			echo "                        │"
+			echo "                    │"
 		elif [ $sha512_total -gt 99 ] ; then
-			echo "                       │"
+			echo "                   │"
 		fi
 	else
-		echo -e -n "│ SHA-512 score: $RED [ $sha512_total / 205 ] $RESET"
+		echo -e -n "│ SHA-512 score: $RED     [ $sha512_total / 205 ] $RESET"
 		if [ $sha512_total -lt 10 ] ; then
-			echo "                         │"
+			echo "                     │"
 		elif [[ $sha512_total -gt 9 && $sha512_total -lt 100 ]] ; then
-			echo "                        │"
+			echo "                    │"
 		elif [ $sha512_total -gt 99 ] ; then
-			echo "                       │"
+			echo "                   │"
 		fi
 	fi
 fi
+
+if [ $sha512224_set -eq 1 ] ; then
+	if [ $sha512224_total -eq 205 ] ; then
+		echo -e -n "│ SHA-512/224 score: $GREEN [ $sha512224_total / 205 ] $RESET"
+		if [ $sha512224_total -lt 10 ] ; then
+			echo "                     │"
+		elif [[ $sha512224_total -gt 9 && $sha512224_total -lt 100 ]] ; then
+			echo "                    │"
+		elif [ $sha512224_total -gt 99 ] ; then
+			echo "                   │"
+		fi
+	else
+		echo -e -n "│ SHA-512/224 score: $RED [ $sha512224_total / 205 ] $RESET"
+		if [ $sha512224_total -lt 10 ] ; then
+			echo "                     │"
+		elif [[ $sha512224_total -gt 9 && $sha512224_total -lt 100 ]] ; then
+			echo "                    │"
+		elif [ $sha512224_total -gt 99 ] ; then
+			echo "                   │"
+		fi
+	fi
+fi
+
+if [ $sha512256_set -eq 1 ] ; then
+	if [ $sha512256_total -eq 205 ] ; then
+		echo -e -n "│ SHA-512/256 score: $GREEN [ $sha512256_total / 205 ] $RESET"
+		if [ $sha512256_total -lt 10 ] ; then
+			echo "                     │"
+		elif [[ $sha512256_total -gt 9 && $sha512256_total -lt 100 ]] ; then
+			echo "                    │"
+		elif [ $sha512256_total -gt 99 ] ; then
+			echo "                   │"
+		fi
+	else
+		echo -e -n "│ SHA-512/256 score: $RED [ $sha512256_total / 205 ] $RESET"
+		if [ $sha512256_total -lt 10 ] ; then
+			echo "                     │"
+		elif [[ $sha512256_total -gt 9 && $sha512256_total -lt 100 ]] ; then
+			echo "                    │"
+		elif [ $sha512256_total -gt 99 ] ; then
+			echo "                   │"
+		fi
+	fi
+fi
+
+
 
 
 echo "└──────────────────────────────────────────────────────┘"
