@@ -306,7 +306,7 @@ fi
 md5_total=$(($md5_total+$counter))
 counter=0
 echo -e "$WHITE MD5: Test binary files: $RESET"
-sleep 2
+sleep 1
 #############################----------1----------##############################
 FT_SSL_MD5=$(cat $(whereis ls) | ./ft_ssl md5)
 MD5=$(cat $(whereis ls) | md5)
@@ -349,7 +349,7 @@ fi
 md5_total=$(($md5_total+$counter))
 counter=0
 echo -e "$WHITE MD5: Test random strings: $RESET"
-sleep 2
+sleep 1
 for i in {1..100}; do
 	cat /dev/urandom | base64 | head -c 40 > file1
 	FT_SSL_MD5=$(./ft_ssl md5 -q file1)
@@ -377,7 +377,7 @@ fi
 md5_total=$(($md5_total+$counter))
 counter=0
 echo -e "$WHITE MD5: Test random binary data: $RESET"
-sleep 2
+sleep 1
 for i in {1..100}; do
 	cat /dev/urandom | head -c 40 > file2
 	FT_SSL_MD5=$(./ft_ssl md5 -q file2)
@@ -410,7 +410,7 @@ fi
 if [[ $md5_set -eq 1 && $sha224_set -eq 1 ]] ; then
 	echo ""
 	sha224_header
-	sleep 2.5
+	sleep 1.5
 elif [ $sha224_set -eq 1 ] ; then
 	echo -e $CLEAR_SCREEN
 	sha224_header
@@ -505,7 +505,7 @@ fi
 sha224_total=$(($sha224_total+$counter))
 counter=0
 echo -e "$WHITE SHA-224: Test random strings: $RESET"
-sleep 2
+sleep 1
 for i in {1..100}; do
 	cat /dev/urandom | base64 | head -c 40 > file1
 	FT_SSL_SHA224=$(./ft_ssl sha224 -q file1)
@@ -538,7 +538,7 @@ fi
 sha224_total=$(($sha224_total+$counter))
 counter=0
 echo -e "$WHITE SHA-224: Test random binary data: $RESET"
-sleep 2
+sleep 1
 for i in {1..100}; do
 	cat /dev/urandom | head -c 40 > file2
 	FT_SSL_SHA224=$(./ft_ssl sha224 -q file2)
@@ -576,7 +576,7 @@ fi
 if [[ ($md5_set -eq 1 || $sha224_set -eq 1) && $sha256_set -eq 1 ]] ; then
 	echo ""
 	sha256_header
-	sleep 2.5
+	sleep 1.5
 elif [ $sha256_set -eq 1 ] ; then
 	echo -e $CLEAR_SCREEN
 	sha256_header
@@ -671,7 +671,7 @@ fi
 sha256_total=$(($sha256_total+$counter))
 counter=0
 echo -e "$WHITE SHA-256: Test random strings: $RESET"
-sleep 2
+sleep 1
 for i in {1..100}; do
 	cat /dev/urandom | base64 | head -c 40 > file1
 	FT_SSL_SHA256=$(./ft_ssl sha256 -q file1)
@@ -704,7 +704,7 @@ fi
 sha256_total=$(($sha256_total+$counter))
 counter=0
 echo -e "$WHITE SHA-256: Test random binary data: $RESET"
-sleep 2
+sleep 1
 for i in {1..100}; do
 	cat /dev/urandom | head -c 40 > file2
 	FT_SSL_SHA256=$(./ft_ssl sha256 -q file2)
@@ -742,7 +742,7 @@ fi
 if [[ ($md5_set -eq 1 || $sha224_set -eq 1 || $sha256_set -eq 1) && $sha384_set -eq 1 ]] ; then
 	echo ""
 	sha384_header
-	sleep 2.5
+	sleep 1.5
 elif [ $sha384_set -eq 1 ] ; then
 	echo -e $CLEAR_SCREEN
 	sha384_header
@@ -837,7 +837,7 @@ fi
 sha384_total=$(($sha384_total+$counter))
 counter=0
 echo -e "$WHITE SHA-384: Test random strings: $RESET"
-sleep 2
+sleep 1
 for i in {1..100}; do
 	cat /dev/urandom | base64 | head -c 40 > file1
 	FT_SSL_SHA384=$(./ft_ssl sha384 -q file1)
@@ -874,7 +874,7 @@ fi
 sha384_total=$(($sha384_total+$counter))
 counter=0
 echo -e "$WHITE SHA-384: Test random binary data: $RESET"
-sleep 2
+sleep 1
 for i in {1..100}; do
 	cat /dev/urandom | head -c 40 > file2
 	FT_SSL_SHA384=$(./ft_ssl sha384 -q file2)
@@ -916,7 +916,7 @@ fi
 if [[ ($md5_set -eq 1 || $sha224_set -eq 1 || $sha256_set -eq 1 || $sha384_set -eq 1) && $sha512_set -eq 1 ]] ; then
 	echo ""
 	sha512_header
-	sleep 2.5
+	sleep 1.5
 elif [ $sha512_set -eq 1 ] ; then
 	echo -e $CLEAR_SCREEN
 	sha512_header
@@ -1011,7 +1011,7 @@ fi
 sha512_total=$(($sha512_total+$counter))
 counter=0
 echo -e "$WHITE SHA-512: Test random strings: $RESET"
-sleep 2
+sleep 1
 for i in {1..100}; do
 	cat /dev/urandom | base64 | head -c 40 > file1
 	FT_SSL_SHA512=$(./ft_ssl sha512 -q file1)
@@ -1048,7 +1048,7 @@ fi
 sha512_total=$(($sha512_total+$counter))
 counter=0
 echo -e "$WHITE SHA-512: Test random binary data: $RESET"
-sleep 2
+sleep 1
 for i in {1..100}; do
 	cat /dev/urandom | head -c 40 > file2
 	FT_SSL_SHA512=$(./ft_ssl sha512 -q file2)
@@ -1090,7 +1090,7 @@ fi
 if [[ ($md5_set -eq 1 || $sha224_set -eq 1 || $sha256_set -eq 1 || $sha384_set -eq 1 || $sha512_set -eq 1) && $sha512224_set -eq 1 ]] ; then
 	echo ""
 	sha512224_header
-	sleep 2.5
+	sleep 1.5
 elif [ $sha512224_set -eq 1 ] ; then
 	echo -e $CLEAR_SCREEN
 	sha512224_header
@@ -1185,7 +1185,7 @@ fi
 sha512224_total=$(($sha512224_total+$counter))
 counter=0
 echo -e "$WHITE SHA-512/224: Test random strings: $RESET"
-sleep 2
+sleep 1
 for i in {1..100}; do
 	cat /dev/urandom | base64 | head -c 40 > file1
 	FT_SSL_SHA512224=$(./ft_ssl sha512224 -q file1)
@@ -1222,7 +1222,7 @@ fi
 sha512224_total=$(($sha512224_total+$counter))
 counter=0
 echo -e "$WHITE SHA-512/224: Test random binary data: $RESET"
-sleep 2
+sleep 1
 for i in {1..100}; do
 	cat /dev/urandom | head -c 40 > file2
 	FT_SSL_SHA512224=$(./ft_ssl sha512224 -q file2)
@@ -1264,7 +1264,7 @@ fi
 if [[ ($md5_set -eq 1 || $sha224_set -eq 1 || $sha256_set -eq 1 || $sha384_set -eq 1 || $sha512_set -eq 1 || $sha512224_set -eq 1) && $sha512256_set -eq 1 ]] ; then
 	echo ""
 	sha512256_header
-	sleep 2.5
+	sleep 1.5
 elif [ $sha512256_set -eq 1 ] ; then
 	echo -e $CLEAR_SCREEN
 	sha512256_header
@@ -1359,7 +1359,7 @@ fi
 sha512256_total=$(($sha512256_total+$counter))
 counter=0
 echo -e "$WHITE SHA-512/256: Test random strings: $RESET"
-sleep 2
+sleep 1
 for i in {1..100}; do
 	cat /dev/urandom | base64 | head -c 40 > file1
 	FT_SSL_SHA512256=$(./ft_ssl sha512256 -q file1)
@@ -1396,7 +1396,7 @@ fi
 sha512256_total=$(($sha512256_total+$counter))
 counter=0
 echo -e "$WHITE SHA-512/256: Test random binary data: $RESET"
-sleep 2
+sleep 1
 for i in {1..100}; do
 	cat /dev/urandom | head -c 40 > file2
 	FT_SSL_SHA512256=$(./ft_ssl sha512256 -q file2)
