@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 17:19:27 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/27 17:35:16 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/28 08:56:06 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ static uint32_t g_k[] = {
 
 static void		operations(uint32_t *vars, uint32_t *w, size_t i)
 {
-	uint32_t s[2];
 	uint32_t ch;
-	uint32_t tmp[2];
 	uint32_t maj;
+	uint32_t s[2];
+	uint32_t tmp[2];
 
 	ch = (vars[E] & vars[F]) ^ ((~vars[E]) & vars[G]);
 	maj = (vars[A] & vars[B]) ^ (vars[A] & vars[C]) ^ (vars[B] & vars[C]);

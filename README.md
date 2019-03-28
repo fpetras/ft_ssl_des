@@ -33,11 +33,62 @@ OPTIONS
 
 ## Examples:
 
-Placeholder
+Mimics the behaviour of the `md5` utility:
 
-### GIF:
+```
+echo -n "hello world" | ./ft_ssl md5
+5eb63bbbe01eeed093cb22bb8f5acdc3
+```
 
-Placeholder
+```
+echo "MD5 was designed by Ronald Rivest in 1991" | ./ft_ssl md5 -p
+MD5 was designed by Ronald Rivest in 1991
+b10422a016cb412cc9d432ff3c05e238
+```
+
+```
+./ft_ssl md5 main.c
+MD5 (main.c) = be16150db42da912a37c1b42d82c9506
+```
+
+```
+./ft_ssl md5 -rs "abcdefghijklmnopqrstuvwxyz"
+c3fcd3d76192e4007dfb496cca67e13b "abcdefghijklmnopqrstuvwxyz"
+```
+
+Works with binary files:
+
+```
+cat ft_ssl | ./ft_ssl sha256
+2839fa4cd4c8fe52c41a09c5dbcab9b4fadb9e9a00861b2dd569a2474c33b007
+```
+
+Empty string hash values:
+
+```
+./ft_ssl md5 -qs ""
+d41d8cd98f00b204e9800998ecf8427e
+```
+
+```
+./ft_ssl sha224 -qs ""
+d14a028c2a3a2bc9476102bb288234c415a2b01f828ea62ac5b3e42f
+
+./ft_ssl sha256 -qs ""
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+
+./ft_ssl sha384 -qs ""
+38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95b
+
+./ft_ssl sha512 -qs ""
+cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e
+
+./ft_ssl sha512224 -qs ""
+6ed0dd02806fa89e25de060c19d3ac86cabb87d6a0ddd05c333b84f4
+
+./ft_ssl sha512256 -qs ""
+c672b8d1ef56ed28ab87c3622c5114069bdd3ad7b8f9737498d0c01ecef0967a
+```
 
 ### Test script:
 
@@ -48,6 +99,8 @@ Test the hash functions by running
 or
 
 `make test[_<command>]`
+
+![sha256_test_gif](http://g.recordit.co/YUL0DdvJ3z.gif)
 
 ## FAQ:
 
@@ -69,8 +122,42 @@ http://www.iwar.org.uk/comsec/resources/cipher/sha256-384-512.pdf
 
 https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf
 
-## Code snippet:
+## Code snippets:
 
-Placeholder
+SHA-256 hash computation:
+
+``` C
+static void     operations(uint32_t *vars, uint32_t *w, size_t i)
+{
+    uint32_t ch;
+    uint32_t maj;
+    uint32_t s[2];
+    uint32_t tmp[2];
+
+    ch = (vars[E] & vars[F]) ^ ((~vars[E]) & vars[G]);
+    maj = (vars[A] & vars[B]) ^ (vars[A] & vars[C]) ^ (vars[B] & vars[C]);
+    s[0] = rightrotate(vars[A], 2) ^ rightrotate(vars[A], 13) ^
+    rightrotate(vars[A], 22);
+    s[1] = rightrotate(vars[E], 6) ^ rightrotate(vars[E], 11) ^
+    rightrotate(vars[E], 25);
+    tmp[0] = vars[I] + s[1] + ch + g_k[i] + w[i];
+    tmp[1] = s[0] + maj;
+    vars[I] = vars[G];
+    vars[G] = vars[F];
+    vars[F] = vars[E];
+    vars[E] = vars[D] + tmp[0];
+    vars[D] = vars[C];
+    vars[C] = vars[B];
+    vars[B] = vars[A];
+    vars[A] = tmp[0] + tmp[1];
+}
+```
+
+Printing of the final SHA-512 hash:
+
+``` C
+ft_printf("%016llx%016llx%016llx%016llx%016llx%016llx%016llx%016llx",
+hash[0], hash[1], hash[2], hash[3], hash[4], hash[5], hash[6], hash[7]);
+```
 
 ## [Subject](https://github.com/fpetras/42-subjects/blob/master/ft_ssl_md5.en.pdf "ft_ssl_md5.en.pdf")
