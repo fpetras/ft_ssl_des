@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 12:00:22 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/27 16:29:28 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/28 06:58:15 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@
 # include <stdint.h>
 # include <errno.h>
 # include <limits.h>
+
+# define WHITE "\033[37;1m"
+# define TEXT_RESET "\033[0;0m"
 
 # define OPT_STR "pqrs"
 # define OPT_NUM 4

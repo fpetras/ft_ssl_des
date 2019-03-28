@@ -34,7 +34,7 @@ sha512224_set=0
 sha512256_set=0
 
 function print_usage {
-	echo "usage: $0 <test> ..."
+	echo "usage: $0 <test>..."
 	echo ""
 	echo "available tests: md5"
 	echo "                 sha224"

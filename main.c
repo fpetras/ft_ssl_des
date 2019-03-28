@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 11:54:09 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/27 16:05:31 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/28 07:07:06 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,11 @@
 
 void		print_usage(char **av)
 {
-	ft_dprintf(2, "usage: %s [md5 | sha[224|256|384|512[224|256]]] ", av[0]);
-	ft_dprintf(2, "[options] [arg1 ...]\n");
-	ft_dprintf(2, "\n\033[1;37mOPTIONS\033[0;0m\n");
+	ft_dprintf(2, "usage: %s <command> [options] [<arg>...]\n", av[0]);
+	ft_dprintf(2, "\n%sCOMMANDS:%s\n", WHITE, TEXT_RESET);
+	ft_dprintf(2, "     md5\n");
+	ft_dprintf(2, "     sha224 sha256 sha384 sha512 sha512224 sha512256\n");
+	ft_dprintf(2, "\n%sOPTIONS%s\n", WHITE, TEXT_RESET);
 	ft_dprintf(2, "     -p            echo stdin to stdout and append ");
 	ft_dprintf(2, "checksum to stdout\n");
 	ft_dprintf(2, "     -q            quiet mode\n");
