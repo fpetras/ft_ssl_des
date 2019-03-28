@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 11:54:09 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/28 07:07:06 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/28 12:39:48 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,7 @@ int			main(int ac, char **av)
 	g_cmd = av[1];
 	if ((i = parse_options(ac, av)) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	if (!ft_strcasecmp("md5", av[1]))
-		return (hash(ac - i, &av[i]));
-	else if (!ft_strncasecmp("sha", av[1], 3))
+	if (!ft_strcasecmp("md5", av[1]) || !ft_strncasecmp("sha", av[1], 3))
 		return (hash(ac - i, &av[i]));
 	return (EXIT_SUCCESS);
 }

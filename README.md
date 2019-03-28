@@ -48,7 +48,7 @@ b10422a016cb412cc9d432ff3c05e238
 
 ```
 ./ft_ssl md5 main.c
-MD5 (main.c) = be16150db42da912a37c1b42d82c9506
+MD5 (main.c) = 41cb609c2116f0df629ceb754e722102
 ```
 
 ```
@@ -60,7 +60,7 @@ Works with binary files:
 
 ```
 cat ft_ssl | ./ft_ssl sha256
-2839fa4cd4c8fe52c41a09c5dbcab9b4fadb9e9a00861b2dd569a2474c33b007
+5251a7472a4a729e7ed0812ed0802b0fcec7a53bc836b0a445d4b3d606fc9bc6
 ```
 
 Empty string hash values:
