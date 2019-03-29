@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 15:05:43 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/27 16:57:31 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/29 13:15:11 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 static void	initialize_2(void)
 {
-	if (g_is_512224)
+	if (g_sha == 512224)
 	{
 		g_hash64[0] = 0x8c3d37c819544da2;
 		g_hash64[1] = 0x73e1996689dcd4d6;
@@ -29,7 +29,7 @@ static void	initialize_2(void)
 		g_hash64[6] = 0x3f9d85a86a1d36c8;
 		g_hash64[7] = 0x1112e6ad91d692a1;
 	}
-	else if (g_is_512256)
+	else if (g_sha == 512256)
 	{
 		g_hash64[0] = 0x22312194fc2bf72c;
 		g_hash64[1] = 0x9f555fa3c84c64c2;
@@ -44,7 +44,7 @@ static void	initialize_2(void)
 
 static void	initialize(void)
 {
-	if (g_is_384)
+	if (g_sha == 384)
 	{
 		g_hash64[0] = 0xcbbb9d5dc1059ed8;
 		g_hash64[1] = 0x629a292a367cd507;
@@ -55,7 +55,7 @@ static void	initialize(void)
 		g_hash64[6] = 0xdb0c2e0d64f98fa7;
 		g_hash64[7] = 0x47b5481dbefa4fa4;
 	}
-	else if (g_is_512)
+	else if (g_sha == 512)
 	{
 		g_hash64[0] = 0x6a09e667f3bcc908;
 		g_hash64[1] = 0xbb67ae8584caa73b;
@@ -81,16 +81,16 @@ void		sha384_512(char *input)
 	initialize();
 	sha384_512_algo(input);
 	hash = g_hash64;
-	if (g_is_384)
+	if (g_sha == 384)
 		ft_printf("%016llx%016llx%016llx%016llx%016llx%016llx",
 		hash[0], hash[1], hash[2], hash[3], hash[4], hash[5]);
-	else if (g_is_512)
+	else if (g_sha == 512)
 		ft_printf("%016llx%016llx%016llx%016llx%016llx%016llx%016llx%016llx",
 		hash[0], hash[1], hash[2], hash[3], hash[4], hash[5], hash[6], hash[7]);
-	else if (g_is_512224)
+	else if (g_sha == 512224)
 		ft_printf("%016llx%016llx%016llx%08llx",
 		hash[0], hash[1], hash[2], hash[3] / 0x100000000);
-	else if (g_is_512256)
+	else if (g_sha == 512256)
 		ft_printf("%016llx%016llx%016llx%016llx",
 		hash[0], hash[1], hash[2], hash[3]);
 }

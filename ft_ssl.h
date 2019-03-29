@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 12:00:22 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/28 06:58:15 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/29 14:11:51 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # define WHITE "\033[37;1m"
 # define TEXT_RESET "\033[0;0m"
 
-# define OPT_STR "pqrs"
+# define HASH_OPT_STR "pqrs"
 # define OPT_NUM 4
 # define OPT_P 0
 # define OPT_Q 1
@@ -48,19 +48,19 @@
 
 char		*g_cmd;
 int			g_opts[OPT_NUM];
+int			g_is_hash;
 int			g_is_md5;
-int			g_is_224;
-int			g_is_256;
-int			g_is_384;
-int			g_is_512;
-int			g_is_512224;
-int			g_is_512256;
+int			g_sha;
 size_t		g_input_len;
 uint32_t	g_hash[8];
 uint64_t	g_hash64[8];
 
-void		print_usage(char **av);
+int			print_usage(char **av);
+int			command_is_hash(char **av);
 int			parse_options(int ac, char **av);
+int			parse_hash_options(int ac, char **av);
+int			illegal_option(char opt, char **av);
+int			print_hash_usage(char **av);
 int			hash(int ac, char **av);
 char		*read_stdin(void);
 char		*read_file(char *filename);

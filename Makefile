@@ -6,14 +6,17 @@
 #    By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/26 12:26:28 by fpetras           #+#    #+#              #
-#    Updated: 2019/03/27 15:47:15 by fpetras          ###   ########.fr        #
+#    Updated: 2019/03/29 14:09:58 by fpetras          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_ssl
 
 SRC = main.c \
+	  usage.c \
+	  command.c \
 	  options.c \
+	  hash_options.c \
 	  read.c \
 	  join.c \
 	  print.c \

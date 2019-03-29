@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 15:05:43 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/27 16:56:13 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/29 13:13:55 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 static void	initialize(void)
 {
-	if (g_is_224)
+	if (g_sha == 224)
 	{
 		g_hash[0] = 0xc1059ed8;
 		g_hash[1] = 0x367cd507;
@@ -29,7 +29,7 @@ static void	initialize(void)
 		g_hash[6] = 0x64f98fa7;
 		g_hash[7] = 0xbefa4fa4;
 	}
-	else if (g_is_256)
+	else if (g_sha == 256)
 	{
 		g_hash[0] = 0x6a09e667;
 		g_hash[1] = 0xbb67ae85;
@@ -53,10 +53,10 @@ void		sha224_256(char *input)
 	initialize();
 	sha224_256_algo(input);
 	hash = g_hash;
-	if (g_is_224)
+	if (g_sha == 224)
 		ft_printf("%08x%08x%08x%08x%08x%08x%08x",
 		hash[0], hash[1], hash[2], hash[3], hash[4], hash[5], hash[6]);
-	else if (g_is_256)
+	else if (g_sha == 256)
 		ft_printf("%08x%08x%08x%08x%08x%08x%08x%08x",
 		hash[0], hash[1], hash[2], hash[3], hash[4], hash[5], hash[6], hash[7]);
 }
