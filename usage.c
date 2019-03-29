@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/29 12:04:59 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/29 14:13:01 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/29 15:13:47 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int		print_hash_usage(char **av)
 int		print_usage(char **av)
 {
 	ft_dprintf(2, "usage: %s <command> [<options>] [<arg>...]\n", av[0]);
-	ft_dprintf(2, "\n%sCOMMANDS:%s\n", WHITE, TEXT_RESET);
+	ft_dprintf(2, "\n%sCOMMANDS%s\n", WHITE, TEXT_RESET);
 	ft_dprintf(2, "     md5\n");
 	ft_dprintf(2, "     sha224 sha256 sha384 sha512 sha512224 sha512256\n");
 	return (EXIT_FAILURE);

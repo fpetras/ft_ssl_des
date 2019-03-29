@@ -18,9 +18,9 @@ Built from the ground up using only these functions:
 ## Usage:
 
 ```
-usage: ./ft_ssl <command> [options] [<arg>...]
+usage: ./ft_ssl <command> [-pqr] [-s <string>] [<file>...]
 
-COMMANDS:
+COMMANDS
      md5
      sha224 sha256 sha384 sha512 sha512224 sha512256
 
@@ -28,7 +28,7 @@ OPTIONS
      -p            echo stdin to stdout and append checksum to stdout
      -q            quiet mode
      -r            reverse the format of the output
-     -s string     print the sum of the given string
+     -s <string>   print the sum of the given string
 ```
 
 ## Examples:
@@ -48,7 +48,7 @@ b10422a016cb412cc9d432ff3c05e238
 
 ```
 ./ft_ssl md5 main.c
-MD5 (main.c) = 41cb609c2116f0df629ceb754e722102
+MD5 (main.c) = 8c8aba54ba8118a9c8d811c610a4193b
 ```
 
 ```
@@ -60,7 +60,7 @@ Works with binary files:
 
 ```
 cat ft_ssl | ./ft_ssl sha256
-5251a7472a4a729e7ed0812ed0802b0fcec7a53bc836b0a445d4b3d606fc9bc6
+ffec58c4b91f656a0b5e26ad8141dc5915cefaa6006ecf2371ea6496187c95d2
 ```
 
 Empty string hash values:

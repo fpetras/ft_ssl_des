@@ -12,3 +12,4 @@ ft_ssl
 *.dSYM/
 
 # OS generated files
+.DS_Store
