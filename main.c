@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 11:54:09 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/29 14:48:12 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/03/29 15:35:03 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	error(int ac, char **av)
 {
 	if (ac == 1)
 		return (print_usage(av));
-	else if (command_is_hash(av) == 1)
+	else if (command_is_hash(av))
 		g_is_hash = 1;
 	else
 		return (error_message(av));
