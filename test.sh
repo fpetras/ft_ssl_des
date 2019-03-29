@@ -33,6 +33,14 @@ sha512_set=0
 sha512224_set=0
 sha512256_set=0
 
+function ctrl_c {
+	rm -f file file1 file2
+	exit $?
+}
+
+trap ctrl_c SIGINT
+trap ctrl_c SIGTERM
+
 function print_usage {
 	echo "usage: $0 <test>..."
 	echo ""
