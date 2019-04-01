@@ -6,7 +6,7 @@
 #    By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/26 12:26:28 by fpetras           #+#    #+#              #
-#    Updated: 2019/03/29 14:09:58 by fpetras          ###   ########.fr        #
+#    Updated: 2019/04/01 10:53:54 by fpetras          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,7 +63,7 @@ $(NAME): $(OBJ)
 
 $(OBJPATH)%.o: %.c
 	@test -d $(OBJPATH) || mkdir $(OBJPATH)
-	@echo "$(CYAN)Compiling $<"
+	@echo "$(CYAN)Compiling $< $(TEXT_RESET)"
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 test: $(NAME)
