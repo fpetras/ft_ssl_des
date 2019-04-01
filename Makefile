@@ -6,7 +6,7 @@
 #    By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/26 12:26:28 by fpetras           #+#    #+#              #
-#    Updated: 2019/04/01 10:53:54 by fpetras          ###   ########.fr        #
+#    Updated: 2019/04/01 16:44:07 by fpetras          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ SRC = main.c \
 	  usage.c \
 	  command.c \
 	  options.c \
-	  hash_options.c \
+	  options_hash.c \
 	  read.c \
 	  join.c \
 	  print.c \

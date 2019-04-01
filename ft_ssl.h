@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 12:00:22 by fpetras           #+#    #+#             */
-/*   Updated: 2019/04/01 15:02:21 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/01 16:45:46 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ enum	e_vars
 char		*g_cmd;
 int			g_opts[OPT_NUM];
 int			g_is_hash;
-int			g_is_md5;
+int			g_md;
 int			g_sha;
 size_t		g_input_len;
 uint32_t	g_hash[8];

@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/29 14:08:56 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/29 15:32:33 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/01 16:47:33 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	strisdigit(char *str)
 int			command_is_hash(char **av)
 {
 	if (!ft_strcasecmp("md5", av[1]))
-		g_is_md5 = 1;
+		g_md = 5;
 	else if (!ft_strncasecmp("sha", av[1], 3) && ft_strlen(av[1]) > 3 &&
 		strisdigit(&av[1][3]))
 	{
