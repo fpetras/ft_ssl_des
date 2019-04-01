@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 12:00:22 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/29 14:11:51 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/01 15:02:21 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,21 +30,28 @@
 # define TEXT_RESET "\033[0;0m"
 
 # define HASH_OPT_STR "pqrs"
-# define OPT_NUM 4
-# define OPT_P 0
-# define OPT_Q 1
-# define OPT_R 2
-# define OPT_S 3
 
-# define A 0
-# define B 1
-# define C 2
-# define D 3
-# define E 4
-# define F 5
-# define G 6
-# define I 7
-# define TMP 4
+enum	e_opts
+{
+	OPT_P,
+	OPT_Q,
+	OPT_R,
+	OPT_S,
+	OPT_NUM
+};
+
+enum	e_vars
+{
+	A,
+	B,
+	C,
+	D,
+	E,
+	F,
+	G,
+	I,
+	TMP = 4
+};
 
 char		*g_cmd;
 int			g_opts[OPT_NUM];
