@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/29 13:39:06 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/29 14:11:28 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/01 11:43:32 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	parse_hash_options_2(char **av, int i, int j)
 		return (i + 1);
 	else if (ft_strchr(HASH_OPT_STR, av[i][j]))
 		set_option(av[i][j]);
-	else if (!ft_strchr(HASH_OPT_STR, av[i][j]))
+	else
 		return (illegal_option(av[i][j], av));
 	if (!ft_strcmp("-s", av[i]))
 		return (i + 1);
