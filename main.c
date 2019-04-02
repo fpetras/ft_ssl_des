@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 11:54:09 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/29 15:35:03 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/01 11:25:22 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static int	error_message(char **av)
 	ft_dprintf(2, "md5\nsha224\nsha256\nsha384\nsha512\n");
 	ft_dprintf(2, "sha512224\nsha512256\n");
 	ft_dprintf(2, "\n%sCipher commands%s\n", WHITE, TEXT_RESET);
+	ft_dprintf(2, "base64\ndes\ndes-ecb\ndes-cbc\n");
 	return (EXIT_FAILURE);
 }
 
@@ -29,6 +30,8 @@ static int	error(int ac, char **av)
 		return (print_usage(av));
 	else if (command_is_hash(av))
 		g_is_hash = 1;
+	else if (command_is_cipher(av))
+		g_is_cipher = 1;
 	else
 		return (error_message(av));
 	return (EXIT_SUCCESS);
@@ -45,5 +48,7 @@ int			main(int ac, char **av)
 		return (EXIT_FAILURE);
 	if (g_is_hash)
 		return (hash(ac - i, &av[i]));
+	else if (g_is_cipher)
+		return (cipher(ac - i, &av[i]));
 	return (EXIT_SUCCESS);
 }
