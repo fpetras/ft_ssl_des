@@ -6,35 +6,44 @@
 #    By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/26 12:26:28 by fpetras           #+#    #+#              #
-#    Updated: 2019/04/02 17:15:09 by fpetras          ###   ########.fr        #
+#    Updated: 2019/04/03 13:04:51 by fpetras          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_ssl
 
+SRC_PATH = src/
 SRC = main.c \
 	  usage.c \
 	  command.c \
 	  options.c \
-	  options_hash.c \
-	  options_cipher.c \
 	  read.c \
 	  join.c \
 	  print.c \
-	  hash.c \
-	  cipher.c \
-	  md5.c \
-	  md5_algo.c \
-	  sha224_256.c \
-	  sha224_256_algo.c \
-	  sha384_512.c \
-	  sha384_512_algo.c \
-	  hash_value.c \
-	  rotate.c \
-	  endianness.c
+	  \
+	  message_digest/options_hash.c \
+	  message_digest/hash.c \
+	  message_digest/md5/md5.c \
+	  message_digest/md5/md5_algo.c \
+	  message_digest/sha/sha224_256.c \
+	  message_digest/sha/sha224_256_algo.c \
+	  message_digest/sha/sha384_512.c \
+	  message_digest/sha/sha384_512_algo.c \
+	  message_digest/hash_value.c \
+	  message_digest/rotate.c \
+	  message_digest/endianness.c \
+	  \
+	  cipher/options_cipher.c \
+	  cipher/cipher.c
 
-OBJPATH = obj/
-OBJ = $(addprefix $(OBJPATH),$(SRC:.c=.o))
+OBJ_PATH = obj/
+OBJ = $(addprefix $(OBJ_PATH),$(SRC:.c=.o))
+
+HEADER_PATH = include/
+
+MD5_PATH = message_digest/md5/
+SHA_PATH = message_digest/sha/
+BASE64_PATH = cipher/base64/
 
 CC = gcc
 CFLAGS = -Wall -Werror -Wextra
@@ -60,13 +69,16 @@ $(NAME): $(OBJ)
 	@make -C libft
 	@echo "$(TEXT_RESET)"
 	@echo "Generating executable file:\n$(WHITE)$@\n$(TEXT_RESET)"
-	@$(CC) $(CFLAGS) $(SRC) -o $(NAME) libft/libft.a
+	@$(CC) $(CFLAGS) $(OBJ) -o $(NAME) -Llibft/ -lft
 	@echo "$(GREEN)Success$(TEXT_RESET)"
 
-$(OBJPATH)%.o: %.c
-	@test -d $(OBJPATH) || mkdir $(OBJPATH)
+$(OBJ_PATH)%.o: $(SRC_PATH)%.c
+	@test -d $(OBJ_PATH) || mkdir $(OBJ_PATH)
+	@test -d $(OBJ_PATH)$(MD5_PATH) || mkdir -p $(OBJ_PATH)$(MD5_PATH)
+	@test -d $(OBJ_PATH)$(SHA_PATH) || mkdir -p $(OBJ_PATH)$(SHA_PATH)
+	@test -d $(OBJ_PATH)$(BASE64_PATH) || mkdir -p $(OBJ_PATH)$(BASE64_PATH)
 	@echo "$(CYAN)Compiling $< $(TEXT_RESET)"
-	@$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -I$(HEADER_PATH) -I libft/ -c $< -o $@
 
 test_hash: $(NAME)
 	@./test_hash.sh all
@@ -97,7 +109,7 @@ test_sha512256: $(NAME)
 
 clean:
 	@make clean -C libft
-	@rm -rf $(OBJPATH)
+	@rm -rf $(OBJ_PATH)
 	@rm -rf $(NAME).dSYM
 	@rm -f file file1 file2
 

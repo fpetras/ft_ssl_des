@@ -6,16 +6,14 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 12:00:22 by fpetras           #+#    #+#             */
-/*   Updated: 2019/04/02 15:35:20 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/03 11:30:18 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_SSL_H
 # define FT_SSL_H
 
-# include "libft/libft.h"
-# include "libft/get_next_line/get_next_line.h"
-# include "libft/ft_printf/ft_printf.h"
+# include "libft.h"
 
 # include <fcntl.h>
 # include <unistd.h>
