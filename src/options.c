@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 14:51:45 by fpetras           #+#    #+#             */
-/*   Updated: 2019/04/03 14:28:26 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/03 14:52:41 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,10 @@ int		illegal_option(char opt, char **av)
 	ft_dprintf(2, "%s: %s: illegal option -- %c\n", av[0], av[1], opt);
 	if (g_is_hash)
 		return (print_hash_usage(av));
-//	if (g_is_cipher)
-//		return (print_cipher_usage(av));
+	if (g_is_cipher && g_is_base64)
+		return (print_base64_usage(av));
+	else if (g_is_cipher)
+		return (print_des_usage(av));
 	return (EXIT_FAILURE);
 }
 

@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/29 12:04:59 by fpetras           #+#    #+#             */
-/*   Updated: 2019/04/01 17:34:51 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/03 15:15:10 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,35 @@ int		print_hash_usage(char **av)
 	ft_dprintf(2, "     -q            quiet mode\n");
 	ft_dprintf(2, "     -r            reverse the format of the output\n");
 	ft_dprintf(2, "     -s <string>   print the sum of the given string\n");
+	return (EXIT_FAILURE);
+}
+
+int		print_base64_usage(char **av)
+{
+	ft_dprintf(2, "usage: %s %s [-d | -e] [-i <file>] [-o <file>]\n",
+	av[0], av[1]);
+	ft_dprintf(2, "\n%sOPTIONS%s\n", WHITE, TEXT_RESET);
+	ft_dprintf(2, "     -d            decode mode\n");
+	ft_dprintf(2, "     -e            encode mode (default)\n");
+	ft_dprintf(2, "     -i <file>     input file\n");
+	ft_dprintf(2, "     -o <file>     output file\n");
+	return (EXIT_FAILURE);
+}
+
+int		print_des_usage(char **av)
+{
+	ft_dprintf(2, "usage: %s %s [-a] [-d | -e] [-i <file>] [-o <file>]\n",
+	av[0], av[1]);
+	ft_dprintf(2, "%7c[-p <password>] [-s <salt>] [-v <vector>]\n", ' ');
+	ft_dprintf(2, "\n%sOPTIONS%s\n", WHITE, TEXT_RESET);
+	ft_dprintf(2, "     -a%12cdecode/encode the input/output in Base64\n", ' ');
+	ft_dprintf(2, "     -d            decrypt mode\n");
+	ft_dprintf(2, "     -e            encrypt mode\n");
+	ft_dprintf(2, "     -i <file>     input file\n");
+	ft_dprintf(2, "     -o <file>     output file\n");
+	ft_dprintf(2, "     -p <password> password (in ASCII)\n");
+	ft_dprintf(2, "     -s <salt>     salt (in hexadecimal)\n");
+	ft_dprintf(2, "     -v <vector>%3cinitialization vector (in hexadecimal)\n",
+	' ');
 	return (EXIT_FAILURE);
 }

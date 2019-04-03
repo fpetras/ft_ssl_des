@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 13:26:10 by fpetras           #+#    #+#             */
-/*   Updated: 2019/04/03 14:04:58 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/03 14:56:22 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int		g_is_cbc;
 int		command_is_cipher(char **av);
 int		parse_cipher_options(int ac, char **av);
 int		print_base64_usage(char **av);
+int		print_des_usage(char **av);
 
 int		cipher(int ac, char **av);
 
