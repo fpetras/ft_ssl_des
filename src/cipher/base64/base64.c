@@ -32,7 +32,7 @@ static void	padding(char *input, char *output, size_t i, size_t *j)
 	output[(*j)++] = '=';
 }
 
-void		base64_encode(char *input)
+void		base64_encode(char *input, int fd)
 {
 	size_t	i;
 	size_t	j;
@@ -56,7 +56,7 @@ void		base64_encode(char *input)
 	if (i < g_input_len)
 		padding(input, output, i, &j);
 	output[j++] = '\0';
-	ft_printf("%s", output); // base64 output
+	ft_dprintf(fd, "%s", output); // base64 output
 //	j = -1;
 //	while (output[++j]) // openssl base64 output (with \n every 64 chars)
 //		j && !(j % 64) ?

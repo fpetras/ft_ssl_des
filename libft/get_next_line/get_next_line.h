@@ -17,7 +17,7 @@
 # include <sys/types.h>
 # include <sys/uio.h>
 
-# define BUFF_SIZE	4096
+# define BUFF_SIZE	4242
 # define MAX_FD		4865
 
 int		get_next_line(const int fd, char **line);

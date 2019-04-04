@@ -35,6 +35,6 @@ int		print_des_usage(char **av);
 
 int		cipher(void);
 int		read_base64(void);
-void	base64_encode(char *input);
+void	base64_encode(char *input, int fd);
 
 #endif

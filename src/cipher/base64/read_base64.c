@@ -12,38 +12,109 @@
 
 #include "ft_ssl.h"
 
-int		file_error(char *filename, int fd)
+static int	file_error(char *filename, int fd)
 {
 	ft_dprintf(2, "ft_ssl: %s: %s: %s\n", g_cmd, filename, strerror(errno));
 	close(fd);
 	return (EXIT_FAILURE);
 }
 
-int		read_base64(void)
+static int	malloc_error(char *to_free)
 {
-	int		fd;
-	int		ret;
-	char	buf[4242];
+	to_free ? free(to_free) : 0;
+	ft_dprintf(2, "Memory allocation failure\n");
+	return (EXIT_FAILURE);
+}
 
-	if (!g_input_file || !ft_strcmp("-", g_input_file))
-		fd = STDIN_FILENO;
-	else
-		if ((fd = open(g_input_file, O_RDONLY)) == -1)
-		{
-			ft_dprintf(2, "ft_ssl: %s: %s: %s\n",
-			g_cmd, g_input_file, strerror(errno));
-			return (EXIT_FAILURE);
-		}
-	while ((ret = read(fd, &buf, 4242)) > 0)
-	{
-		g_input_len = ret;
-		if (!g_opts[OPT_D])
-			base64_encode(buf);
-//		else
-//			base64_decode();
-	}
+static int	finish_base64(int i_fd, int o_fd, int ret, char *input)
+{
 	if (ret == -1)
-		return (file_error(g_input_file, fd));
-	ft_printf("\n");
+		return (file_error(g_input_file, i_fd));
+	g_input_len != BUFF_SIZE && !g_opts[OPT_D] ? base64_encode(input, o_fd) : 0;
+	input ? free(input) : 0;
+	ft_dprintf(o_fd, "\n");
+	i_fd != STDIN_FILENO ? close(i_fd) : 0;
+	o_fd != STDOUT_FILENO ? close(o_fd) : 0;
 	return (EXIT_SUCCESS);
+}
+
+
+static char	*join_input(int ret, char *buf, char *input)
+{
+	char *tmp;
+
+	tmp = input;
+	g_input_len = g_input_len == BUFF_SIZE ? 0 : g_input_len;
+	if ((input = join(input, buf, g_input_len, ret)) == NULL)
+		exit(malloc_error(g_input_len > 0 && g_input_len < BUFF_SIZE ?
+		tmp : NULL));
+	g_input_len += ret;
+	free(tmp);
+	return (input);
+}
+
+static int	output_file_descriptor(char *output_file)
+{
+	int fd;
+
+	if (!output_file || !ft_strcmp("-", output_file))
+		return (STDOUT_FILENO);
+	fd = open(output_file, O_RDWR | O_CREAT | O_TRUNC,
+	S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
+	if (fd == -1)
+	{
+		ft_dprintf(2, "ft_ssl: %s: %s: %s\n",
+		g_cmd, output_file, strerror(errno));
+		return (-1);
+	}
+	return (fd);
+}
+
+static int	input_file_descriptor(char *input_file)
+{
+	int fd;
+
+	if (!input_file || !ft_strcmp("-", input_file))
+		return (STDIN_FILENO);
+	if ((fd = open(input_file, O_RDONLY)) == -1)
+	{
+		ft_dprintf(2, "ft_ssl: %s: %s: %s\n",
+		g_cmd, input_file, strerror(errno));
+		return (-1);
+	}
+	return (fd);
+}
+
+/*
+** BUFF_SIZE needs to be a multiple of three
+** (otherwise, we get padding after every read() iteration)
+*/
+
+
+int			read_base64(void)
+{
+	int		i_fd;
+	int		o_fd;
+	int		ret;
+	char	buf[BUFF_SIZE];
+	char	*input;
+
+	if ((i_fd = input_file_descriptor(g_input_file)) == -1)
+		return (EXIT_FAILURE);
+	if ((o_fd = output_file_descriptor(g_output_file)) == -1)
+		return (EXIT_FAILURE);
+	if ((input = ft_strnew(0)) == NULL)
+		exit(malloc_error(NULL));
+	g_input_len = 0;
+	while ((ret = read(i_fd, &buf, BUFF_SIZE)) > 0)
+	{
+		if (ret < BUFF_SIZE)
+			input = join_input(ret, buf, input);
+		else
+		{
+			g_input_len = ret;
+			!g_opts[OPT_D] ? base64_encode(buf, o_fd) : /*base64_decode()*/ 0;
+		}
+	}
+	return (finish_base64(i_fd, o_fd, ret, input));
 }

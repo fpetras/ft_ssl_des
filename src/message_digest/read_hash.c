@@ -21,8 +21,7 @@ static char	*file_error(char *filename, int fd)
 
 static int	malloc_error(char *to_free)
 {
-	if (to_free)
-		free(to_free);
+	to_free ? free(to_free) : 0;
 	ft_dprintf(2, "Memory allocation failure\n");
 	return (EXIT_FAILURE);
 }
@@ -34,7 +33,6 @@ char		*read_file(char *filename)
 	char	buf[BUFF_SIZE];
 	char	*file[2];
 
-	g_input_len = 0;
 	if ((fd = open(filename, O_RDONLY)) == -1)
 	{
 		ft_dprintf(2, "ft_ssl: %s: %s: %s\n", g_cmd, filename, strerror(errno));
@@ -42,6 +40,7 @@ char		*read_file(char *filename)
 	}
 	if ((file[0] = ft_strnew(0)) == NULL)
 		exit(malloc_error(NULL));
+	g_input_len = 0;
 	while ((ret = read(fd, &buf, BUFF_SIZE)) > 0)
 	{
 		file[1] = file[0];
@@ -62,9 +61,9 @@ char		*read_stdin(void)
 	char	buf[BUFF_SIZE];
 	char	*input[2];
 
-	g_input_len = 0;
 	if ((input[0] = ft_strnew(0)) == NULL)
 		exit(malloc_error(NULL));
+	g_input_len = 0;
 	while ((ret = read(STDIN_FILENO, &buf, BUFF_SIZE)) > 0)
 	{
 		input[1] = input[0];
