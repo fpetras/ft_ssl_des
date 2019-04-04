@@ -6,7 +6,7 @@
 #    By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/26 12:26:28 by fpetras           #+#    #+#              #
-#    Updated: 2019/04/03 13:04:51 by fpetras          ###   ########.fr        #
+#    Updated: 2019/04/04 14:51:09 by fpetras          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,12 +17,12 @@ SRC = main.c \
 	  usage.c \
 	  command.c \
 	  options.c \
-	  read.c \
 	  join.c \
 	  print.c \
 	  \
 	  message_digest/options_hash.c \
 	  message_digest/hash.c \
+	  message_digest/read_hash.c \
 	  message_digest/md5/md5.c \
 	  message_digest/md5/md5_algo.c \
 	  message_digest/sha/sha224_256.c \
@@ -34,7 +34,9 @@ SRC = main.c \
 	  message_digest/endianness.c \
 	  \
 	  cipher/options_cipher.c \
-	  cipher/cipher.c
+	  cipher/cipher.c \
+	  cipher/base64/read_base64.c \
+	  cipher/base64/base64.c
 
 OBJ_PATH = obj/
 OBJ = $(addprefix $(OBJ_PATH),$(SRC:.c=.o))

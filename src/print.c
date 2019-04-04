@@ -6,18 +6,18 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 17:47:39 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/19 17:38:54 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/04 11:43:23 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ssl.h"
 
-void	print(char *input)
+void	print(char *input, size_t input_len)
 {
 	size_t i;
 
 	i = 0;
-	while (i < g_input_len)
+	while (i < input_len)
 	{
 		ft_printf("%c", input[i]);
 		i++;

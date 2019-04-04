@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 11:54:09 by fpetras           #+#    #+#             */
-/*   Updated: 2019/04/01 11:25:22 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/04 11:12:38 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,6 @@ int			main(int ac, char **av)
 	if (g_is_hash)
 		return (hash(ac - i, &av[i]));
 	else if (g_is_cipher)
-		return (cipher(ac - i, &av[i]));
+		return (cipher());
 	return (EXIT_SUCCESS);
 }

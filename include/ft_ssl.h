@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 12:00:22 by fpetras           #+#    #+#             */
-/*   Updated: 2019/04/03 14:04:40 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/04 11:41:37 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,6 @@ int		argument_missing(char opt, char **av);
 char	*read_stdin(void);
 char	*read_file(char *filename);
 char	*join(char const *s1, char const *s2, size_t len1, size_t len2);
-void	print(char *input);
+void	print(char *input, size_t input_len);
 
 #endif

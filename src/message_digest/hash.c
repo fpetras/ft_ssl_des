@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 14:38:48 by fpetras           #+#    #+#             */
-/*   Updated: 2019/04/01 16:47:48 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/04 11:42:32 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static int	hash_stdin(void)
 
 	if ((input = read_stdin()) == NULL)
 		return (EXIT_FAILURE);
-	g_opts[OPT_P] ? print(input) : 0;
+	g_opts[OPT_P] ? print(input, g_input_len) : 0;
 	(g_md == 5) ? md5(input) : 0;
 	(g_sha == 224 || g_sha == 256) ? sha224_256(input) : 0;
 	(g_sha == 384 || g_sha == 512 || g_sha == 512224 || g_sha == 512256) ?
