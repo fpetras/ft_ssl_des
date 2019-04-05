@@ -30,12 +30,15 @@ static int	finish_base64(int ifd, int ofd, int ret, char *input)
 {
 	if (ret == -1)
 		return (file_error(g_input_file, ifd));
-	g_input_len != BUFF_SIZE && !g_opts[OPT_D] ? base64_encode(ofd, input) : 0;
+	ret = (ret == -2) ? EXIT_FAILURE : EXIT_SUCCESS;
+	if (g_input_len != BUFF_SIZE)
+		ret = !g_opts[OPT_D] ?
+		base64_encode(ofd, input) : base64_decode(ofd, input);
 	input ? free(input) : 0;
-	ft_dprintf(ofd, "\n");
+	!g_opts[OPT_D] ? ft_dprintf(ofd, "\n") : 0;
 	ifd != STDIN_FILENO ? close(ifd) : 0;
 	ofd != STDOUT_FILENO ? close(ofd) : 0;
-	return (EXIT_SUCCESS);
+	return (ret);
 }
 
 
@@ -96,7 +99,7 @@ int			read_base64(void)
 	int		ifd;
 	int		ofd;
 	int		ret;
-	char	buf[BUFF_SIZE];
+	char	buf[BUFF_SIZE + 1];
 	char	*input;
 
 	if ((ifd = input_file_descriptor(g_input_file)) == -1)
@@ -108,12 +111,15 @@ int			read_base64(void)
 	g_input_len = 0;
 	while ((ret = read(ifd, &buf, BUFF_SIZE)) > 0)
 	{
+		buf[ret] = '\0';
 		if (ret < BUFF_SIZE)
 			input = join_input(ret, buf, input);
 		else
 		{
 			g_input_len = ret;
-			!g_opts[OPT_D] ? base64_encode(ofd, buf) : base64_decode(ofd, buf);
+			if ((!g_opts[OPT_D]) ?
+			base64_encode(ofd, buf) : base64_decode(ofd, buf) == EXIT_FAILURE)
+				return (finish_base64(ifd, ofd, -2, input));
 		}
 	}
 	return (finish_base64(ifd, ofd, ret, input));

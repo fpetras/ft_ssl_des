@@ -15,7 +15,7 @@
 int		cipher(void)
 {
 	if (g_is_base64)
-		read_base64();
+		return (read_base64());
 
 //	ft_printf("%s\n", g_cmd);
 //	g_opts[OPT_A] ? ft_printf("-a\n") : 0;
@@ -29,5 +29,5 @@ int		cipher(void)
 //	g_opts[OPT_V] ? ft_printf("-v %s\n", g_vector) : 0;
 //
 //	ft_printf("input file: %s\n", g_input_file);
-	return (0);
+	return (EXIT_SUCCESS);
 }

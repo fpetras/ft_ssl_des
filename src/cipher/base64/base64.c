@@ -15,11 +15,89 @@
 static char	radix[] =
 	"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
-void		base64_decode(int fd, char *input)
+static char table[256] =
 {
-	(void)input;
-	(void)fd;
-	return ;
+	-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+	-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+	-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 62, -1, -1, -1, 63,
+	52, 53, 54, 55, 56, 57, 58, 59, 60, 61, -1, -1, -1, -1, -1, -1,
+	-1,  0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14,
+	15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, -1, -1, -1, -1, -1,
+	-1, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+	41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, -1, -1, -1, -1, -1,
+	-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+	-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+	-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+	-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+	-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+	-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+	-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+	-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
+};
+
+static int	invalid_character(void)
+{
+	ft_dprintf(2, "Invalid character in input stream.\n");
+	return (EXIT_FAILURE);
+}
+
+static int	parse_input(char *input)
+{
+	int i;
+
+	i = 0;
+	while (input[i])
+	{
+		if (!ft_strchr(radix, input[i]) && input[i] != '=' &&
+			!ft_isspace(input[i]))
+			return (invalid_character());
+		else if (ft_isspace(input[i]))
+		{
+			ft_memmove(&input[i], &input[i + 1], ft_strlen(input) - i);
+			i--;
+		}
+		i++;
+	}
+	i = -1;
+	while (input[++i])
+		if (input[i] == '=')
+			if (!ft_strequ("=", &input[i]) && !ft_strequ("==", &input[i]))
+				return (invalid_character());
+	return (EXIT_SUCCESS);
+}
+
+int			base64_decode(int fd, char *input)
+{
+	int i;
+	int input_len;
+//	int output_len;
+
+	if (parse_input(input) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	if (!g_input_len)
+		return (EXIT_SUCCESS);
+	input_len = ft_strlen(input) - ft_strlen(ft_strchr(input, '='));
+//	output_len = input_len - (input_len / 4);
+//	ft_printf("input_len: %d\noutput_len: %d\n", input_len, output_len);
+	i = 0;
+	while (input_len > 4)
+	{
+		ft_dprintf(fd, "%c",
+		table[(int)input[i]] << 2 | table[(int)input[i + 1]] >> 4);
+		ft_dprintf(fd, "%c",
+		table[(int)input[i + 1]] << 4 | table[(int)input[i + 2]] >> 2);
+		ft_dprintf(fd, "%c",
+		table[(int)input[i + 2]] << 6 | table[(int)input[i + 3]]);
+		i += 4;
+		input_len -= 4;
+	}
+	(input_len > 1) ? ft_dprintf(fd, "%c",
+	table[(int)input[i]] << 2 | table[(int)input[i + 1]] >> 4) : 0;
+	(input_len > 2) ? ft_dprintf(fd, "%c",
+	table[(int)input[i + 1]] << 4 | table[(int)input[i + 2]] >> 2) : 0;
+	(input_len > 3) ? ft_dprintf(fd, "%c",
+	table[(int)input[i + 2]] << 6 | table[(int)input[i + 3]]) : 0;
+	return (EXIT_SUCCESS);
 }
 
 static void	print_newline(int fd, char *output)
@@ -54,7 +132,7 @@ static void	padding(char *input, char *output, size_t i, size_t *j)
 	output[(*j)++] = '=';
 }
 
-void		base64_encode(int fd, char *input)
+int		base64_encode(int fd, char *input)
 {
 	size_t	i;
 	size_t	j;
@@ -64,7 +142,7 @@ void		base64_encode(int fd, char *input)
 	i = 0;
 	j = 0;
 	if (!g_input_len)
-		return ;
+		return (EXIT_SUCCESS);
 	(g_opts[OPT_N]) ? print_newline(fd, NULL) : 0;
 	pad = (g_input_len >= 2) ? 2 : 1;
 	while (i < g_input_len - pad)
@@ -80,25 +158,5 @@ void		base64_encode(int fd, char *input)
 		padding(input, output, i, &j);
 	output[j++] = '\0';
 	(g_opts[OPT_N]) ? print_newline(fd, output) : ft_dprintf(fd, "%s", output);
+	return (EXIT_SUCCESS);
 }
-
-//int		base64(void)
-//{
-//	char *input;
-
-//	if ((input = (!g_input_file || !ft_strcmp("-", g_input_file)) ?
-//		read_stdin() : read_file(g_input_file)) == NULL)
-//		return (EXIT_FAILURE);
-//	if (!g_opts[OPT_D])
-//		base64_encode(input);
-//	else
-//		base64_decode(input);
-//	return (EXIT_SUCCESS);
-//}
-
-//int	main()
-//{
-//	char str[] = "All our Base64 are belong to you";
-//	base64_encode(str2, strlen(str2));
-//	return (0);
-//}
