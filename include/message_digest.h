@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 13:25:54 by fpetras           #+#    #+#             */
-/*   Updated: 2019/04/03 14:30:59 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/05 09:02:57 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,6 @@
 # define MESSAGE_DIGEST_H
 
 # define HASH_OPT_STR "pqrs"
-
-enum	e_opts
-{
-	OPT_P, OPT_Q, OPT_R, OPT_S, OPT_D, OPT_E,
-	OPT_I, OPT_O, OPT_A, OPT_K, OPT_V, OPT_NUM
-};
 
 enum	e_vars
 {

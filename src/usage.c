@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/29 12:04:59 by fpetras           #+#    #+#             */
-/*   Updated: 2019/04/03 15:15:10 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/05 09:32:32 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int		print_base64_usage(char **av)
 	ft_dprintf(2, "     -e            encode mode (default)\n");
 	ft_dprintf(2, "     -i <file>     input file\n");
 	ft_dprintf(2, "     -o <file>     output file\n");
+	ft_dprintf(2, "     -n            print a newline every 64 characters\n");
 	return (EXIT_FAILURE);
 }
 

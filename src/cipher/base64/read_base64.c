@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 11:16:09 by fpetras           #+#    #+#             */
-/*   Updated: 2019/04/04 15:13:15 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/05 09:29:39 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,15 @@ static int	malloc_error(char *to_free)
 	return (EXIT_FAILURE);
 }
 
-static int	finish_base64(int i_fd, int o_fd, int ret, char *input)
+static int	finish_base64(int ifd, int ofd, int ret, char *input)
 {
 	if (ret == -1)
-		return (file_error(g_input_file, i_fd));
-	g_input_len != BUFF_SIZE && !g_opts[OPT_D] ? base64_encode(input, o_fd) : 0;
+		return (file_error(g_input_file, ifd));
+	g_input_len != BUFF_SIZE && !g_opts[OPT_D] ? base64_encode(ofd, input) : 0;
 	input ? free(input) : 0;
-	ft_dprintf(o_fd, "\n");
-	i_fd != STDIN_FILENO ? close(i_fd) : 0;
-	o_fd != STDOUT_FILENO ? close(o_fd) : 0;
+	ft_dprintf(ofd, "\n");
+	ifd != STDIN_FILENO ? close(ifd) : 0;
+	ofd != STDOUT_FILENO ? close(ofd) : 0;
 	return (EXIT_SUCCESS);
 }
 
@@ -93,28 +93,28 @@ static int	input_file_descriptor(char *input_file)
 
 int			read_base64(void)
 {
-	int		i_fd;
-	int		o_fd;
+	int		ifd;
+	int		ofd;
 	int		ret;
 	char	buf[BUFF_SIZE];
 	char	*input;
 
-	if ((i_fd = input_file_descriptor(g_input_file)) == -1)
+	if ((ifd = input_file_descriptor(g_input_file)) == -1)
 		return (EXIT_FAILURE);
-	if ((o_fd = output_file_descriptor(g_output_file)) == -1)
+	if ((ofd = output_file_descriptor(g_output_file)) == -1)
 		return (EXIT_FAILURE);
 	if ((input = ft_strnew(0)) == NULL)
 		exit(malloc_error(NULL));
 	g_input_len = 0;
-	while ((ret = read(i_fd, &buf, BUFF_SIZE)) > 0)
+	while ((ret = read(ifd, &buf, BUFF_SIZE)) > 0)
 	{
 		if (ret < BUFF_SIZE)
 			input = join_input(ret, buf, input);
 		else
 		{
 			g_input_len = ret;
-			!g_opts[OPT_D] ? base64_encode(buf, o_fd) : /*base64_decode()*/ 0;
+			!g_opts[OPT_D] ? base64_encode(ofd, buf) : base64_decode(ofd, buf);
 		}
 	}
-	return (finish_base64(i_fd, o_fd, ret, input));
+	return (finish_base64(ifd, ofd, ret, input));
 }

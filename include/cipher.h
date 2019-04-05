@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 13:26:10 by fpetras           #+#    #+#             */
-/*   Updated: 2019/04/04 12:16:04 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/05 09:29:10 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <pwd.h>
 
-# define BASE64_OPT_STR "deio"
+# define BASE64_OPT_STR "deion"
 # define DES_OPT_STR "adeiokpsv"
 
 char	*g_input_file;
@@ -35,6 +35,7 @@ int		print_des_usage(char **av);
 
 int		cipher(void);
 int		read_base64(void);
-void	base64_encode(char *input, int fd);
+void	base64_encode(int fd, char *input);
+void	base64_decode(int fd, char *input);
 
 #endif

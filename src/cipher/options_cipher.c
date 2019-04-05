@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/29 13:39:06 by fpetras           #+#    #+#             */
-/*   Updated: 2019/04/02 17:12:16 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/05 09:02:08 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ static void	set_option(char opt)
 	g_opts[OPT_E] = (opt == 'e') ? 1 : g_opts[OPT_E];
 	g_opts[OPT_I] = (opt == 'i') ? 1 : g_opts[OPT_I];
 	g_opts[OPT_O] = (opt == 'o') ? 1 : g_opts[OPT_O];
+	g_opts[OPT_N] = (opt == 'n') ? 1 : g_opts[OPT_N];
 	g_opts[OPT_A] = (opt == 'a') ? 1 : g_opts[OPT_A];
 	g_opts[OPT_K] = (opt == 'k') ? 1 : g_opts[OPT_K];
 	g_opts[OPT_P] = (opt == 'p') ? 1 : g_opts[OPT_P];

@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 11:31:39 by fpetras           #+#    #+#             */
-/*   Updated: 2019/04/04 15:13:07 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/05 09:39:23 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,28 @@
 
 static char	radix[] =
 	"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+
+void		base64_decode(int fd, char *input)
+{
+	(void)input;
+	(void)fd;
+	return ;
+}
+
+static void	print_newline(int fd, char *output)
+{
+	static int	first_line = 1;
+	int			j;
+
+	if (!output)
+		return ;
+	j = -1;
+	!first_line ? ft_dprintf(fd, "\n") : 0;
+	while (output[++j])
+		j && !(j % 64) ?
+		ft_dprintf(fd, "\n%c", output[j]) : ft_printf("%c", output[j]);
+	first_line = 0;
+}
 
 static void	padding(char *input, char *output, size_t i, size_t *j)
 {
@@ -32,7 +54,7 @@ static void	padding(char *input, char *output, size_t i, size_t *j)
 	output[(*j)++] = '=';
 }
 
-void		base64_encode(char *input, int fd)
+void		base64_encode(int fd, char *input)
 {
 	size_t	i;
 	size_t	j;
@@ -43,6 +65,7 @@ void		base64_encode(char *input, int fd)
 	j = 0;
 	if (!g_input_len)
 		return ;
+	(g_opts[OPT_N]) ? print_newline(fd, NULL) : 0;
 	pad = (g_input_len >= 2) ? 2 : 1;
 	while (i < g_input_len - pad)
 	{
@@ -56,11 +79,7 @@ void		base64_encode(char *input, int fd)
 	if (i < g_input_len)
 		padding(input, output, i, &j);
 	output[j++] = '\0';
-	ft_dprintf(fd, "%s", output); // base64 output
-//	j = -1;
-//	while (output[++j]) // openssl base64 output (with \n every 64 chars)
-//		j && !(j % 64) ?
-//		ft_printf("\n%c", output[j]) : ft_printf("%c", output[j]);
+	(g_opts[OPT_N]) ? print_newline(fd, output) : ft_dprintf(fd, "%s", output);
 }
 
 //int		base64(void)
