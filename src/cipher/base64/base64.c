@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 11:31:39 by fpetras           #+#    #+#             */
-/*   Updated: 2019/04/06 16:45:39 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/07 01:33:29 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,19 @@ static int	invalid_character(char c)
 	return (EXIT_FAILURE);
 }
 
-static int	parse_input(char *input)
+static int	parse_padding(char *input)
+{
+	int i;
+
+	i = -1;
+	while (input[++i])
+		if (input[i] == '=')
+			if (ft_strcmp("=", &input[i]) && ft_strcmp("==", &input[i]))
+				return (invalid_character(input[i]));
+	return (EXIT_SUCCESS);
+}
+
+static int	parse_whitespaces(char *input)
 {
 	int i;
 
@@ -59,40 +71,77 @@ static int	parse_input(char *input)
 		}
 		i++;
 	}
-	i = -1;
-	while (input[++i])
-		if (input[i] == '=')
-			if (!ft_strequ("=", &input[i]) && !ft_strequ("==", &input[i]))
-				return (invalid_character(input[i]));
 	return (EXIT_SUCCESS);
 }
 
 /*
-** Relies on input size being a multiple of four
+** Pads the encoded input if padding characters are missing
+** Truncates the input if it cannot be padded
+**				(if a single character is remaining at the end)
+** Pads or truncates the input if it was improperly padded
+**				(if it contains padding but is not a multiple of 4)
 */
 
 int			base64_decode(int fd, char *input)
 {
-	int i;
-	int input_len;
-	unsigned char *in;
-//	int output_len;
+	int				i;
+	int				input_len;
+	char			*padded_input;
+	unsigned char	*in;
 
-	if (parse_input(input) == EXIT_FAILURE)
+	if (parse_whitespaces(input) == EXIT_FAILURE ||
+		parse_padding(input) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	if (!g_input_len)
+	if ((input_len = ft_strlen(input)) == 0 || input_len == 1 || input_len == 2)
 		return (EXIT_SUCCESS);
-	input_len = ft_strlen(input);
-	if (input_len % 4)
+	padded_input = NULL;
+	if (input_len % 4 == 1) // TODO: refactor this
 	{
-		ft_dprintf(2, "Invalid input size -- %d. Needs to be a multiple of 4\n",
-		input_len);
-		return (EXIT_FAILURE);
+		input[input_len - 1] = '\0';
+		input_len -= 1;
+		ft_dprintf(2, "Invalid input size. Your input has been truncated\n");
 	}
-//	output_len = input_len - (input_len / 4);
-//	ft_printf("input_len: %d\noutput_len: %d\n", input_len, output_len);
+	else if (input_len % 4 == 2)
+	{
+		if (ft_strchr(input, '='))
+		{
+			ft_strchr(input, '=')[-1] = '\0';
+			input_len -= 2;
+			ft_dprintf(2, "Invalid input size. Your input has been truncated\n");
+		}
+		else
+		{
+			padded_input = ft_strjoin(input, "==");
+			input_len += 2;
+			ft_dprintf(2, "Invalid input size. Your input has been padded\n");
+		}
+	}
+	else if (input_len % 4 == 3)
+	{
+		if ((ft_strchr(input, '=') && ft_strrchr(input, '=')) &&
+			(ft_strchr(input, '=') != ft_strrchr(input, '=')))
+		{
+			if (input_len == 3)
+				return (EXIT_SUCCESS);
+			ft_strchr(input, '=')[-1] = '\0';
+			input_len -= 2;
+			ft_dprintf(2, "Invalid input size. Your input has been truncated\n");
+		}
+		else
+		{
+			padded_input = ft_strjoin(input, "=");
+			input_len += 1;
+			ft_dprintf(2, "Invalid input size. Your input has been padded\n");
+		}
+	}
+//	if (input_len % 4)
+//	{
+//		ft_dprintf(2, "Invalid input size -- %d. Needs to be a multiple of 4\n",
+//		input_len);
+//		return (EXIT_FAILURE);
+//	}
 	i = 0;
-	in = (unsigned char*)input;
+	in = padded_input ? (unsigned char*)padded_input : (unsigned char*)input;
 	while (input_len > 4)
 	{
 		ft_dprintf(fd, "%c", table[in[i]] << 2 | table[in[i + 1]] >> 4);
@@ -101,15 +150,12 @@ int			base64_decode(int fd, char *input)
 		i += 4;
 		input_len -= 4;
 	}
-	if (in[i + 2] != '=' && in[i + 3] == '=')
+	if (in[i + 3] == '=')
 	{
 		ft_dprintf(fd, "%c", table[in[i]] << 2 | table[in[i + 1]] >> 4);
-		ft_dprintf(fd, "%c", table[in[i + 1]] << 4 | table[in[i + 2]] >> 2);
-		return (EXIT_SUCCESS);
-	}
-	else if (in[i + 3] == '=')
-	{
-		ft_dprintf(fd, "%c", table[in[i]] << 2 | table[in[i + 1]] >> 4);
+		if (in[i + 2] != '=')
+			ft_dprintf(fd, "%c", table[in[i + 1]] << 4 | table[in[i + 2]] >> 2);
+		padded_input ? free(padded_input) : 0;
 		return (EXIT_SUCCESS);
 	}
 	if (input_len > 1)
@@ -118,6 +164,7 @@ int			base64_decode(int fd, char *input)
 		ft_dprintf(fd, "%c", table[in[i + 1]] << 4 | table[in[i + 2]] >> 2);
 	if (input_len > 3)
 		ft_dprintf(fd, "%c", table[in[i + 2]] << 6 | table[in[i + 3]]);
+	padded_input ? free(padded_input) : 0;
 	return (EXIT_SUCCESS);
 }
 
