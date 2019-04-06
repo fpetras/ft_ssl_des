@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 11:31:39 by fpetras           #+#    #+#             */
-/*   Updated: 2019/04/06 16:17:25 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/06 16:45:39 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,10 @@ static char table[256] =
 	-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
 };
 
-static int	invalid_character(void)
+static int	invalid_character(char c)
 {
-	ft_dprintf(2, "Invalid character in input stream.\n");
+	ft_dprintf(2, "ft_ssl: %s: Invalid%scharacter in input stream -- %c\n",
+	g_cmd, c == '=' ? " padding " : " ", c);
 	return (EXIT_FAILURE);
 }
 
@@ -50,7 +51,7 @@ static int	parse_input(char *input)
 	{
 		if (!ft_strchr(radix, input[i]) && input[i] != '=' &&
 			!ft_isspace(input[i]))
-			return (invalid_character());
+			return (invalid_character(input[i]));
 		else if (ft_isspace(input[i]))
 		{
 			ft_memmove(&input[i], &input[i + 1], ft_strlen(input) - i);
@@ -62,14 +63,19 @@ static int	parse_input(char *input)
 	while (input[++i])
 		if (input[i] == '=')
 			if (!ft_strequ("=", &input[i]) && !ft_strequ("==", &input[i]))
-				return (invalid_character());
+				return (invalid_character(input[i]));
 	return (EXIT_SUCCESS);
 }
+
+/*
+** Relies on input size being a multiple of four
+*/
 
 int			base64_decode(int fd, char *input)
 {
 	int i;
 	int input_len;
+	unsigned char *in;
 //	int output_len;
 
 	if (parse_input(input) == EXIT_FAILURE)
@@ -79,53 +85,39 @@ int			base64_decode(int fd, char *input)
 	input_len = ft_strlen(input);
 	if (input_len % 4)
 	{
-		ft_dprintf(2, "Invalid input length.");
+		ft_dprintf(2, "Invalid input size -- %d. Needs to be a multiple of 4\n",
+		input_len);
 		return (EXIT_FAILURE);
 	}
-//	ft_printf("%d\n", input_len);
-//	ft_printf("%s\n", input);
 //	output_len = input_len - (input_len / 4);
 //	ft_printf("input_len: %d\noutput_len: %d\n", input_len, output_len);
 	i = 0;
-//	ft_printf("input_len: %d\n", input_len);
+	in = (unsigned char*)input;
 	while (input_len > 4)
 	{
-		ft_dprintf(fd, "%c",
-		table[(int)input[i]] << 2 | table[(int)input[i + 1]] >> 4);
-		ft_dprintf(fd, "%c",
-		table[(int)input[i + 1]] << 4 | table[(int)input[i + 2]] >> 2);
-		ft_dprintf(fd, "%c",
-		table[(int)input[i + 2]] << 6 | table[(int)input[i + 3]]);
+		ft_dprintf(fd, "%c", table[in[i]] << 2 | table[in[i + 1]] >> 4);
+		ft_dprintf(fd, "%c", table[in[i + 1]] << 4 | table[in[i + 2]] >> 2);
+		ft_dprintf(fd, "%c", table[in[i + 2]] << 6 | table[in[i + 3]]);
 		i += 4;
 		input_len -= 4;
 	}
-//	ft_printf("input_len: %d\n", input_len);
-//	ft_printf("char: %c\n", input[input_len]);
-//	ft_printf("=: %c\n", ft_strchr(&input[input_len], '=')[1]);
-//	ft_printf("\n i : %d\n", i);
-//	ft_printf("\n%s\n", &input[i]);
-	if (ft_strchr(&input[i], '=') &&
-		ft_strchr(&input[i], '=')[1] == '\0')
+	if (in[i + 2] != '=' && in[i + 3] == '=')
 	{
-		ft_dprintf(fd, "%c%c",
-		table[(int)input[i]] << 2 | table[(int)input[i + 1]] >> 4,
-		table[(int)input[i + 1]] << 4 | table[(int)input[i + 2]] >> 2);
+		ft_dprintf(fd, "%c", table[in[i]] << 2 | table[in[i + 1]] >> 4);
+		ft_dprintf(fd, "%c", table[in[i + 1]] << 4 | table[in[i + 2]] >> 2);
 		return (EXIT_SUCCESS);
 	}
-	else if (ft_strchr(&input[i], '=') &&
-		ft_strchr(&input[i], '=')[2] == '\0')
+	else if (in[i + 3] == '=')
 	{
-		ft_dprintf(fd, "%c",
-		table[(int)input[i]] << 2 | table[(int)input[i + 1]] >> 4);
+		ft_dprintf(fd, "%c", table[in[i]] << 2 | table[in[i + 1]] >> 4);
 		return (EXIT_SUCCESS);
 	}
-
-	(input_len > 1) ? ft_dprintf(fd, "%c",
-	table[(int)input[i]] << 2 | table[(int)input[i + 1]] >> 4) : 0;
-	(input_len > 2) ? ft_dprintf(fd, "%c",
-	table[(int)input[i + 1]] << 4 | table[(int)input[i + 2]] >> 2) : 0;
-	(input_len > 3) ? ft_dprintf(fd, "%c",
-	table[(int)input[i + 2]] << 6 | table[(int)input[i + 3]]) : 0;
+	if (input_len > 1)
+		ft_dprintf(fd, "%c", table[in[i]] << 2 | table[in[i + 1]] >> 4);
+	if (input_len > 2)
+		ft_dprintf(fd, "%c", table[in[i + 1]] << 4 | table[in[i + 2]] >> 2);
+	if (input_len > 3)
+		ft_dprintf(fd, "%c", table[in[i + 2]] << 6 | table[in[i + 3]]);
 	return (EXIT_SUCCESS);
 }
 
