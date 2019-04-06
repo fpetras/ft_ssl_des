@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 11:31:39 by fpetras           #+#    #+#             */
-/*   Updated: 2019/04/05 09:39:23 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/06 12:40:55 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,14 @@ int			base64_decode(int fd, char *input)
 		return (EXIT_FAILURE);
 	if (!g_input_len)
 		return (EXIT_SUCCESS);
-	input_len = ft_strlen(input) - ft_strlen(ft_strchr(input, '='));
+	input_len = ft_strlen(input);
+	if (input_len % 4)
+	{
+		ft_dprintf(2, "Invalid input length.");
+		return (EXIT_FAILURE);
+	}
+//	ft_printf("%d\n", input_len);
+//	ft_printf("%s\n", input);
 //	output_len = input_len - (input_len / 4);
 //	ft_printf("input_len: %d\noutput_len: %d\n", input_len, output_len);
 	i = 0;
@@ -91,6 +98,25 @@ int			base64_decode(int fd, char *input)
 		i += 4;
 		input_len -= 4;
 	}
+//	ft_printf("input_len: %d\n", input_len);
+//	ft_printf("char: %c\n", input[input_len]);
+//	ft_printf("=: %c\n", ft_strchr(&input[input_len], '=')[1]);
+	if (ft_strchr(&input[input_len], '=') &&
+		ft_strchr(&input[input_len], '=')[1] == '\0')
+	{
+		ft_dprintf(fd, "%c%c",
+		table[(int)input[i]] << 2 | table[(int)input[i + 1]] >> 4,
+		table[(int)input[i + 1]] << 4 | table[(int)input[i + 2]] >> 2);
+		return (EXIT_SUCCESS);
+	}
+	else if (ft_strchr(&input[input_len], '=') &&
+		ft_strchr(&input[input_len], '=')[2] == '\0')
+	{
+		ft_dprintf(fd, "%c",
+		table[(int)input[i]] << 2 | table[(int)input[i + 1]] >> 4);
+		return (EXIT_SUCCESS);
+	}
+
 	(input_len > 1) ? ft_dprintf(fd, "%c",
 	table[(int)input[i]] << 2 | table[(int)input[i + 1]] >> 4) : 0;
 	(input_len > 2) ? ft_dprintf(fd, "%c",
