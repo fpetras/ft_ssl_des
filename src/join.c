@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 15:29:33 by fpetras           #+#    #+#             */
-/*   Updated: 2019/03/26 14:35:33 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/06 15:53:05 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static char	*concatenate(char *s1, const char *s2, int len1, int len2)
 		i++;
 		j++;
 	}
+	s1[i] = '\0';
 	return (s1);
 }
 
@@ -38,6 +39,7 @@ static char	*copy(char *dst, const char *src, int len1)
 		dst[i] = src[i];
 		i++;
 	}
+	dst[i] = '\0';
 	return (dst);
 }
 
