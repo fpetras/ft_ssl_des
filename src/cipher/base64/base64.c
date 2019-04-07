@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 11:31:39 by fpetras           #+#    #+#             */
-/*   Updated: 2019/04/07 01:33:29 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/07 09:16:39 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,41 @@ static int	parse_whitespaces(char *input)
 **				(if it contains padding but is not a multiple of 4)
 */
 
+static char	*pad_input(char *input, int *input_len)
+{
+	char *padded_input;
+
+	padded_input = ft_strjoin(input, (*input_len) % 4 == 2 ? "==" : "=");
+	input_len += ((*input_len) % 4 == 2) ? 2 : 1;
+	ft_dprintf(2, "Invalid input size. Your input has been padded\n");
+	return (padded_input);
+
+}
+
+static int	truncate_input(char *input, int *input_len)
+{
+	if ((*input_len) % 4 == 1)
+	{
+		input[(*input_len) - 1] = '\0';
+		(*input_len) -= 1;
+		ft_dprintf(2, "Invalid input size. Your input has been truncated\n");
+	}
+	else if ((*input_len) % 4 == 2 || ((*input_len) % 4 == 3 &&
+		((ft_strchr(input, '=') && ft_strrchr(input, '=')) &&
+		(ft_strchr(input, '=') != ft_strrchr(input, '=')))))
+	{
+		if ((*input_len) == 3)
+			return (-1);
+		ft_strchr(input, '=')[-1] = '\0';
+		(*input_len) -= 2;
+		ft_dprintf(2, "Invalid input size. Your input has been truncated\n");
+	}
+	else
+		return (1);
+	return (0);
+
+}
+
 int			base64_decode(int fd, char *input)
 {
 	int				i;
@@ -95,45 +130,21 @@ int			base64_decode(int fd, char *input)
 	if ((input_len = ft_strlen(input)) == 0 || input_len == 1 || input_len == 2)
 		return (EXIT_SUCCESS);
 	padded_input = NULL;
-	if (input_len % 4 == 1) // TODO: refactor this
-	{
-		input[input_len - 1] = '\0';
-		input_len -= 1;
-		ft_dprintf(2, "Invalid input size. Your input has been truncated\n");
-	}
+	if (input_len % 4 == 1)
+		truncate_input(input, &input_len);
+	else if (input_len % 4 == 2 && ft_strchr(input, '='))
+		truncate_input(input, &input_len);
 	else if (input_len % 4 == 2)
+		padded_input = pad_input(input, &input_len);
+	else if (input_len % 4 == 3 &&
+		((ft_strchr(input, '=') && ft_strrchr(input, '=')) &&
+		(ft_strchr(input, '=') != ft_strrchr(input, '='))))
 	{
-		if (ft_strchr(input, '='))
-		{
-			ft_strchr(input, '=')[-1] = '\0';
-			input_len -= 2;
-			ft_dprintf(2, "Invalid input size. Your input has been truncated\n");
-		}
-		else
-		{
-			padded_input = ft_strjoin(input, "==");
-			input_len += 2;
-			ft_dprintf(2, "Invalid input size. Your input has been padded\n");
-		}
+		if (truncate_input(input, &input_len) == -1)
+			return (EXIT_SUCCESS);
 	}
 	else if (input_len % 4 == 3)
-	{
-		if ((ft_strchr(input, '=') && ft_strrchr(input, '=')) &&
-			(ft_strchr(input, '=') != ft_strrchr(input, '=')))
-		{
-			if (input_len == 3)
-				return (EXIT_SUCCESS);
-			ft_strchr(input, '=')[-1] = '\0';
-			input_len -= 2;
-			ft_dprintf(2, "Invalid input size. Your input has been truncated\n");
-		}
-		else
-		{
-			padded_input = ft_strjoin(input, "=");
-			input_len += 1;
-			ft_dprintf(2, "Invalid input size. Your input has been padded\n");
-		}
-	}
+		padded_input = pad_input(input, &input_len);
 //	if (input_len % 4)
 //	{
 //		ft_dprintf(2, "Invalid input size -- %d. Needs to be a multiple of 4\n",
