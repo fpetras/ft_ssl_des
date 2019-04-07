@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 11:31:39 by fpetras           #+#    #+#             */
-/*   Updated: 2019/04/07 09:39:00 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/07 10:09:39 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,19 +42,7 @@ static int	invalid_character(char c)
 	return (EXIT_FAILURE);
 }
 
-static int	parse_padding(char *input)
-{
-	int i;
-
-	i = -1;
-	while (input[++i])
-		if (input[i] == '=')
-			if (ft_strcmp("=", &input[i]) && ft_strcmp("==", &input[i]))
-				return (invalid_character(input[i]));
-	return (EXIT_SUCCESS);
-}
-
-static int	parse_whitespaces(char *input)
+static int	parse_input(char *input)
 {
 	int i;
 
@@ -71,6 +59,11 @@ static int	parse_whitespaces(char *input)
 		}
 		i++;
 	}
+	i = -1;
+	while (input[++i])
+		if (input[i] == '=')
+			if (ft_strcmp("=", &input[i]) && ft_strcmp("==", &input[i]))
+				return (invalid_character(input[i]));
 	return (EXIT_SUCCESS);
 }
 
@@ -90,11 +83,12 @@ static char	*pad_input(char *input, int *input_len)
 	if ((*input_len) % 4 == 2 || (*input_len) % 4 == 3)
 	{
 		padded_input = ft_strjoin(input, (*input_len) % 4 == 2 ? "==" : "=");
-		input_len += ((*input_len) % 4 == 2) ? 2 : 1;
-		ft_dprintf(2, "Invalid input size. Your input has been padded\n");
+		(*input_len) += ((*input_len) % 4 == 2) ? 2 : 1;
+		ft_dprintf(2, "Invalid input size. Your input has been padded");
+		ft_dprintf(2, " by %s %s.\n", (*input_len) % 4 == 2 ? "two" : "one",
+		(*input_len) % 4 == 2 ? "characters" : "character");
 	}
 	return (padded_input);
-
 }
 
 static int	truncate_input(char *input, int *input_len)
@@ -103,20 +97,22 @@ static int	truncate_input(char *input, int *input_len)
 	{
 		input[(*input_len) - 1] = '\0';
 		(*input_len) -= 1;
-		ft_dprintf(2, "Invalid input size. Your input has been truncated\n");
+		ft_dprintf(2, "Invalid input size. Your input has been truncated");
+		ft_dprintf(2, " by one character.\n");
 	}
-	else if ((*input_len) % 4 == 2 || ((*input_len) % 4 == 3 &&
+	else if (((*input_len) % 4 == 2  && ft_strchr(input, '=')) ||
+		((*input_len) % 4 == 3 &&
 		((ft_strchr(input, '=') && ft_strrchr(input, '=')) &&
 		(ft_strchr(input, '=') != ft_strrchr(input, '=')))))
 	{
 		ft_strchr(input, '=')[-1] = '\0';
 		(*input_len) -= 2;
-		ft_dprintf(2, "Invalid input size. Your input has been truncated\n");
+		ft_dprintf(2, "Invalid input size. Your input has been truncated");
+		ft_dprintf(2, " by two characters.\n");
 	}
 	else
 		return (0);
 	return (1);
-
 }
 
 int			base64_decode(int fd, char *input)
@@ -126,8 +122,7 @@ int			base64_decode(int fd, char *input)
 	char			*padded_input;
 	unsigned char	*in;
 
-	if (parse_whitespaces(input) == EXIT_FAILURE ||
-		parse_padding(input) == EXIT_FAILURE)
+	if (parse_input(input) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	if (((input_len = ft_strlen(input)) >= 0 && input_len <= 2) ||
 		(input_len == 3 && input[1] == '=' && input[2] == '='))
