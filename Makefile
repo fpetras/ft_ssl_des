@@ -6,7 +6,7 @@
 #    By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/26 12:26:28 by fpetras           #+#    #+#              #
-#    Updated: 2019/04/08 14:17:47 by fpetras          ###   ########.fr        #
+#    Updated: 2019/04/08 16:34:42 by fpetras          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -110,6 +110,9 @@ test_sha512224: $(NAME)
 test_sha512256: $(NAME)
 	@./test_hash.sh sha512256
 
+test_base64: $(NAME)
+	@./test_base64.sh
+
 clean:
 	@make clean -C libft
 	@rm -rf $(OBJ_PATH)
@@ -122,4 +125,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re test_hash test_md5 test_sha224 test_sha256 test_sha384 test_sha512 test_sha512224 test_sha512256
+.PHONY: all clean fclean re test_hash test_md5 test_sha224 test_sha256 test_sha384 test_sha512 test_sha512224 test_sha512256 test_base64
