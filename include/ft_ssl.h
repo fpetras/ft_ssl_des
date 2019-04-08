@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 12:00:22 by fpetras           #+#    #+#             */
-/*   Updated: 2019/04/05 09:03:35 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/08 14:21:47 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int		argument_missing(char opt, char **av);
 
 char	*read_input(char *filename);
 char	*join(char const *s1, char const *s2, size_t len1, size_t len2);
+int		malloc_error(char *ptr);
 void	print_input(char *input, size_t input_len);
 
 #endif

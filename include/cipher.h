@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 13:26:10 by fpetras           #+#    #+#             */
-/*   Updated: 2019/04/05 09:29:10 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/08 14:43:21 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,6 @@ int		cipher(void);
 int		read_base64(void);
 int		base64_encode(int fd, char *input);
 int		base64_decode(int fd, char *input);
+int		invalid_character(char c);
 
 #endif

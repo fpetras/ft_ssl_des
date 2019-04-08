@@ -6,7 +6,7 @@
 #    By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/26 12:26:28 by fpetras           #+#    #+#              #
-#    Updated: 2019/04/04 14:51:09 by fpetras          ###   ########.fr        #
+#    Updated: 2019/04/08 14:17:47 by fpetras          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ SRC = main.c \
 	  usage.c \
 	  command.c \
 	  options.c \
+	  error.c \
 	  join.c \
 	  print.c \
 	  \

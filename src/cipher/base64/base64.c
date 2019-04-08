@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 11:31:39 by fpetras           #+#    #+#             */
-/*   Updated: 2019/04/07 10:09:39 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/08 14:46:44 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,6 @@ static char table[256] =
 	-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
 	-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
 };
-
-static int	invalid_character(char c)
-{
-	ft_dprintf(2, "ft_ssl: %s: Invalid%scharacter in input stream -- %c\n",
-	g_cmd, c == '=' ? " padding " : " ", c);
-	return (EXIT_FAILURE);
-}
 
 static int	parse_input(char *input)
 {
@@ -83,10 +76,10 @@ static char	*pad_input(char *input, int *input_len)
 	if ((*input_len) % 4 == 2 || (*input_len) % 4 == 3)
 	{
 		padded_input = ft_strjoin(input, (*input_len) % 4 == 2 ? "==" : "=");
-		(*input_len) += ((*input_len) % 4 == 2) ? 2 : 1;
 		ft_dprintf(2, "Invalid input size. Your input has been padded");
 		ft_dprintf(2, " by %s %s.\n", (*input_len) % 4 == 2 ? "two" : "one",
 		(*input_len) % 4 == 2 ? "characters" : "character");
+		(*input_len) += ((*input_len) % 4 == 2) ? 2 : 1;
 	}
 	return (padded_input);
 }
@@ -106,13 +99,22 @@ static int	truncate_input(char *input, int *input_len)
 		(ft_strchr(input, '=') != ft_strrchr(input, '=')))))
 	{
 		ft_strchr(input, '=')[-1] = '\0';
-		(*input_len) -= 2;
 		ft_dprintf(2, "Invalid input size. Your input has been truncated");
-		ft_dprintf(2, " by two characters.\n");
+		ft_dprintf(2, " by %s characters.\n",
+		(*input_len) % 4 == 2 ? "two" : "three");
+		(*input_len) -= (*input_len) % 4 == 2 ? 2 : 3;
 	}
 	else
 		return (0);
 	return (1);
+}
+
+static void	padding_decode(int fd, unsigned char *in)
+{
+	if (in[3] == '=')
+		ft_dprintf(fd, "%c", table[in[0]] << 2 | table[in[1]] >> 4);
+	if (in[2] != '=' && in[3] == '=')
+		ft_dprintf(fd, "%c", table[in[1]] << 4 | table[in[2]] >> 2);
 }
 
 int			base64_decode(int fd, char *input)
@@ -132,7 +134,7 @@ int			base64_decode(int fd, char *input)
 	padded_input = pad_input(input, &input_len) : 0;
 	i = 0;
 	in = padded_input ? (unsigned char*)padded_input : (unsigned char*)input;
-	while (input_len > 4)
+	while (input_len >= 4 && in[i + 3] != '=')
 	{
 		ft_dprintf(fd, "%c", table[in[i]] << 2 | table[in[i + 1]] >> 4);
 		ft_dprintf(fd, "%c", table[in[i + 1]] << 4 | table[in[i + 2]] >> 2);
@@ -140,20 +142,7 @@ int			base64_decode(int fd, char *input)
 		i += 4;
 		input_len -= 4;
 	}
-	if (in[i + 3] == '=')
-	{
-		ft_dprintf(fd, "%c", table[in[i]] << 2 | table[in[i + 1]] >> 4);
-		if (in[i + 2] != '=')
-			ft_dprintf(fd, "%c", table[in[i + 1]] << 4 | table[in[i + 2]] >> 2);
-		padded_input ? free(padded_input) : 0;
-		return (EXIT_SUCCESS);
-	}
-	if (input_len > 1)
-		ft_dprintf(fd, "%c", table[in[i]] << 2 | table[in[i + 1]] >> 4);
-	if (input_len > 2)
-		ft_dprintf(fd, "%c", table[in[i + 1]] << 4 | table[in[i + 2]] >> 2);
-	if (input_len > 3)
-		ft_dprintf(fd, "%c", table[in[i + 2]] << 6 | table[in[i + 3]]);
+	padding_decode(fd, &in[i]);
 	padded_input ? free(padded_input) : 0;
 	return (EXIT_SUCCESS);
 }
@@ -173,7 +162,7 @@ static void	print_newline(int fd, char *output)
 	first_line = 0;
 }
 
-static void	padding(char *input, char *output, size_t i, size_t *j)
+static void	padding_encode(char *input, char *output, size_t i, size_t *j)
 {
 	output[(*j)++] = radix[(input[i] >> 2) & 0x3f];
 	if (i == g_input_len - 1)
@@ -213,7 +202,7 @@ int		base64_encode(int fd, char *input)
 		i += 3;
 	}
 	if (i < g_input_len)
-		padding(input, output, i, &j);
+		padding_encode(input, output, i, &j);
 	output[j++] = '\0';
 	(g_opts[OPT_N]) ? print_newline(fd, output) : ft_dprintf(fd, "%s", output);
 	return (EXIT_SUCCESS);

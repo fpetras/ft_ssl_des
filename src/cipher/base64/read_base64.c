@@ -6,30 +6,22 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 11:16:09 by fpetras           #+#    #+#             */
-/*   Updated: 2019/04/06 15:59:14 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/08 14:29:37 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ssl.h"
 
-static int	file_error(char *filename, int fd)
-{
-	ft_dprintf(2, "ft_ssl: %s: %s: %s\n", g_cmd, filename, strerror(errno));
-	close(fd);
-	return (EXIT_FAILURE);
-}
-
-static int	malloc_error(char *to_free)
-{
-	to_free ? free(to_free) : 0;
-	ft_dprintf(2, "Memory allocation failure\n");
-	return (EXIT_FAILURE);
-}
-
 static int	finish_base64(int ifd, int ofd, int ret, char *input)
 {
 	if (ret == -1)
-		return (file_error(g_input_file, ifd));
+	{
+		ft_dprintf(2, "ft_ssl: %s: %s: %s\n",
+		g_cmd, g_input_file, strerror(errno));
+		ifd != STDIN_FILENO ? close(ifd) : 0;
+		ofd != STDOUT_FILENO ? close(ofd) : 0;
+		return (EXIT_FAILURE);
+	}
 	ret = (ret == -2) ? EXIT_FAILURE : EXIT_SUCCESS;
 	if (g_input_len != BUFF_SIZE)
 		ret = !g_opts[OPT_D] ?

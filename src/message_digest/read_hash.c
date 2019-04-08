@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 10:15:45 by fpetras           #+#    #+#             */
-/*   Updated: 2019/04/05 01:34:43 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/08 14:09:57 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,6 @@ static char	*file_error(char *filename, int fd)
 	ft_dprintf(2, "ft_ssl: %s: %s: %s\n", g_cmd, filename, strerror(errno));
 	close(fd);
 	return (NULL);
-}
-
-static int	malloc_error(char *to_free)
-{
-	to_free ? free(to_free) : 0;
-	ft_dprintf(2, "Memory allocation failure\n");
-	return (EXIT_FAILURE);
 }
 
 char		*read_input(char *filename)
