@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 11:31:39 by fpetras           #+#    #+#             */
-/*   Updated: 2019/04/09 15:02:13 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/09 15:24:05 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	padding_encode(char *input, char *output, size_t i, size_t j)
 		if (i == g_input_len - 1)
 		{
 			output[j++] = g_radix[(input[i] & 0x3) << 4];
-			output[j++] = '=';
+			output[j++] = (g_is_base64url) ? '\0' : '=';
 		}
 		else
 		{
@@ -45,12 +45,9 @@ static void	padding_encode(char *input, char *output, size_t i, size_t j)
 			(input[i + 1] & 0xf0) >> 4];
 			output[j++] = g_radix[(input[i + 1] & 0xf) << 2];
 		}
-		output[j++] = '=';
+		output[j++] = (g_is_base64url) ? '\0' : '=';
 	}
-	if (g_is_base64url)
-		ft_strchr(output, '=')[0] = '\0';
-	else
-		output[j++] = '\0';
+	output[j++] = '\0';
 }
 
 /*

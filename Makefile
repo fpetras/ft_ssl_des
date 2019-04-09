@@ -6,7 +6,7 @@
 #    By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/26 12:26:28 by fpetras           #+#    #+#              #
-#    Updated: 2019/04/09 13:01:33 by fpetras          ###   ########.fr        #
+#    Updated: 2019/04/09 15:40:16 by fpetras          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -112,7 +112,7 @@ test_sha512256: $(NAME)
 	@./test_hash.sh sha512256
 
 test_base64: $(NAME)
-	@./test_base64.sh
+	@./test_base64.sh all
 
 clean:
 	@make clean -C libft
