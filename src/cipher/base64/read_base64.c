@@ -6,33 +6,32 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 11:16:09 by fpetras           #+#    #+#             */
-/*   Updated: 2019/04/08 14:29:37 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/08 23:13:23 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ssl.h"
 
-static int	finish_base64(int ifd, int ofd, int ret, char *input)
+static int	finish_base64(int i_fd, int o_fd, int ret, char *input)
 {
 	if (ret == -1)
 	{
 		ft_dprintf(2, "ft_ssl: %s: %s: %s\n",
 		g_cmd, g_input_file, strerror(errno));
-		ifd != STDIN_FILENO ? close(ifd) : 0;
-		ofd != STDOUT_FILENO ? close(ofd) : 0;
+		i_fd != STDIN_FILENO ? close(i_fd) : 0;
+		o_fd != STDOUT_FILENO ? close(o_fd) : 0;
 		return (EXIT_FAILURE);
 	}
 	ret = (ret == -2) ? EXIT_FAILURE : EXIT_SUCCESS;
 	if (g_input_len != BUFF_SIZE)
 		ret = !g_opts[OPT_D] ?
-		base64_encode(ofd, input) : base64_decode(ofd, input);
+		base64_encode(o_fd, input) : base64_decode(o_fd, input);
 	input ? free(input) : 0;
-	!g_opts[OPT_D] ? ft_dprintf(ofd, "\n") : 0;
-	ifd != STDIN_FILENO ? close(ifd) : 0;
-	ofd != STDOUT_FILENO ? close(ofd) : 0;
+	!g_opts[OPT_D] ? ft_dprintf(o_fd, "\n") : 0;
+	i_fd != STDIN_FILENO ? close(i_fd) : 0;
+	o_fd != STDOUT_FILENO ? close(o_fd) : 0;
 	return (ret);
 }
-
 
 static char	*join_input(int ret, char *buf, char *input)
 {
@@ -85,23 +84,20 @@ static int	input_file_descriptor(char *input_file)
 ** (otherwise, we get padding after every read() iteration)
 */
 
-
 int			read_base64(void)
 {
-	int		ifd;
-	int		ofd;
+	int		fd[2];
 	int		ret;
 	char	buf[BUFF_SIZE + 1];
 	char	*input;
 
-	if ((ifd = input_file_descriptor(g_input_file)) == -1)
+	if ((fd[0] = input_file_descriptor(g_input_file)) == -1)
 		return (EXIT_FAILURE);
-	if ((ofd = output_file_descriptor(g_output_file)) == -1)
+	if ((fd[1] = output_file_descriptor(g_output_file)) == -1)
 		return (EXIT_FAILURE);
 	if ((input = ft_strnew(0)) == NULL)
 		exit(malloc_error(NULL));
-	g_input_len = 0;
-	while ((ret = read(ifd, &buf, BUFF_SIZE)) > 0)
+	while ((ret = read(fd[0], &buf, BUFF_SIZE)) > 0)
 	{
 		buf[ret] = '\0';
 		if (ret < BUFF_SIZE)
@@ -109,10 +105,10 @@ int			read_base64(void)
 		else
 		{
 			g_input_len = ret;
-			if ((!g_opts[OPT_D]) ?
-			base64_encode(ofd, buf) : base64_decode(ofd, buf) == EXIT_FAILURE)
-				return (finish_base64(ifd, ofd, -2, input));
+			if ((!g_opts[OPT_D]) ? base64_encode(fd[1], buf) :
+				base64_decode(fd[1], buf) == EXIT_FAILURE)
+				return (finish_base64(fd[0], fd[1], -2, input));
 		}
 	}
-	return (finish_base64(ifd, ofd, ret, input));
+	return (finish_base64(fd[0], fd[1], ret, input));
 }

@@ -6,14 +6,14 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/29 13:39:06 by fpetras           #+#    #+#             */
-/*   Updated: 2019/04/05 09:02:08 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/08 17:19:53 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ssl.h"
 
-# define BRK 2
-# define SKIP 3
+#define BRK 2
+#define SKIP 3
 
 static int	check_argument(char **av, int i, int j, char opt)
 {
@@ -88,13 +88,13 @@ static int	parse_cipher_options_2(char **av, int i, int j)
 	{
 		g_input_file = av[i][j + 1] ? &av[i][j + 1] : NULL;
 		g_input_file = !g_input_file && av[i + 1] ? av[i + 1] : g_input_file;
-		return (check_argument(av, i, j, av[i][j]));//to support -i"file" syntax
+		return (check_argument(av, i, j, av[i][j]));
 	}
 	if (av[i][j] == 'o')
 	{
 		g_output_file = av[i][j + 1] ? &av[i][j + 1] : NULL;
 		g_output_file = !g_output_file && av[i + 1] ? av[i + 1] : g_output_file;
-		return (check_argument(av, i, j, av[i][j]));//to support -o"file" syntax
+		return (check_argument(av, i, j, av[i][j]));
 	}
 	if (g_is_ecb || g_is_cbc)
 		return (parse_cipher_options_3(av, i, j));
@@ -128,10 +128,9 @@ int			parse_cipher_options(int ac, char **av)
 			g_input_file = av[i];
 		while (av[i][j] && av[i][0] == '-' && !opt_end)
 		{
-			if ((opt_end = !ft_strcmp("--", av[i])))
+			if ((opt_end = !ft_strcmp("--", av[i])) ||
+			((ret = parse_cipher_options_2(av, i, j)) == BRK || ret == SKIP))
 				break ;
-			if ((ret = parse_cipher_options_2(av, i, j)) == BRK || ret == SKIP)
-				break ;              // break if -i"file" syntax is used
 			if (ret == EXIT_FAILURE)
 				return (ret);
 			j++;

@@ -6,7 +6,7 @@
 #    By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/26 12:26:28 by fpetras           #+#    #+#              #
-#    Updated: 2019/04/08 16:34:42 by fpetras          ###   ########.fr        #
+#    Updated: 2019/04/09 13:01:33 by fpetras          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,8 @@ SRC = main.c \
 	  cipher/options_cipher.c \
 	  cipher/cipher.c \
 	  cipher/base64/read_base64.c \
-	  cipher/base64/base64.c
+	  cipher/base64/base64_encode.c \
+	  cipher/base64/base64_decode.c
 
 OBJ_PATH = obj/
 OBJ = $(addprefix $(OBJ_PATH),$(SRC:.c=.o))
