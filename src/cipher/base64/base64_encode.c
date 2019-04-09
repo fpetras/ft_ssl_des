@@ -6,13 +6,13 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 11:31:39 by fpetras           #+#    #+#             */
-/*   Updated: 2019/04/09 13:15:43 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/09 15:02:13 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ssl.h"
 
-static char	g_radix[] = ALNUM"+/";
+static char	g_radix[65] = ALNUM;
 
 static void	print_newline(int fd, char *output)
 {
@@ -47,8 +47,15 @@ static void	padding_encode(char *input, char *output, size_t i, size_t j)
 		}
 		output[j++] = '=';
 	}
-	output[j++] = '\0';
+	if (g_is_base64url)
+		ft_strchr(output, '=')[0] = '\0';
+	else
+		output[j++] = '\0';
 }
+
+/*
+** Base64URL uses '-' and '_' instead of '+' and '/' and omits padding
+*/
 
 int			base64_encode(int fd, char *input)
 {
@@ -59,10 +66,11 @@ int			base64_encode(int fd, char *input)
 
 	if (!g_input_len)
 		return (EXIT_SUCCESS);
-	(g_opts[OPT_N]) ? print_newline(fd, NULL) : 0;
+	g_opts[OPT_N] ? print_newline(fd, NULL) : 0;
 	i = 0;
 	j = 0;
 	pad = (g_input_len >= 2) ? 2 : 1;
+	g_is_base64url ? ft_strcat(g_radix, "-_") : ft_strcat(g_radix, "+/");
 	while (i < g_input_len - pad)
 	{
 		output[j++] = g_radix[(input[i] >> 2) & 0x3f];
@@ -74,6 +82,6 @@ int			base64_encode(int fd, char *input)
 		i += 3;
 	}
 	padding_encode(input, output, i, j);
-	(g_opts[OPT_N]) ? print_newline(fd, output) : ft_dprintf(fd, "%s", output);
+	g_opts[OPT_N] ? print_newline(fd, output) : ft_dprintf(fd, "%s", output);
 	return (EXIT_SUCCESS);
 }

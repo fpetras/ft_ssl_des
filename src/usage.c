@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/29 12:04:59 by fpetras           #+#    #+#             */
-/*   Updated: 2019/04/05 09:32:32 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/09 13:30:52 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int		print_usage(char **av)
 	ft_dprintf(2, "     md5\n");
 	ft_dprintf(2, "     sha224 sha256 sha384 sha512 sha512224 sha512256\n");
 	ft_dprintf(2, "\n%sCIPHER COMMANDS%s\n", WHITE, TEXT_RESET);
-	ft_dprintf(2, "     base64\n");
+	ft_dprintf(2, "     base64 base64url\n");
 	ft_dprintf(2, "     des des-ecb des-cbc\n");
 	return (EXIT_FAILURE);
 }

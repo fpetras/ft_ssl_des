@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 11:31:39 by fpetras           #+#    #+#             */
-/*   Updated: 2019/04/09 13:11:25 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/09 15:03:44 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,10 @@ static int	parse_input(char *input)
 {
 	int i;
 
+	i = -1;
+	while (input[++i])
+		if (input[i] == '-' || input[i] == '_')
+			input[i] = (input[i] == '-') ? '+' : '/';
 	i = 0;
 	while (input[i])
 	{
@@ -64,7 +68,7 @@ static int	parse_input(char *input)
 ** Pads or truncates the input if it was improperly padded
 **				(i.e. if it contains padding but is not a multiple of 4)
 ** e.g.
-** "ABCDE" and "ABCDE=[=]" will be truncated to "ABCD"
+** "ABCDE[=[=]]" will be truncated to "ABCD"
 ** "ABCDEF[=]" will be padded to "ABCDEF=="
 */
 
@@ -76,6 +80,8 @@ static char	*pad_input(char *input, int *input_len)
 	if ((*input_len) % 4 == 2 || (*input_len) % 4 == 3)
 	{
 		padded_input = ft_strjoin(input, (*input_len) % 4 == 2 ? "==" : "=");
+		if (padded_input == NULL || g_is_base64url)
+			return (padded_input);
 		ft_dprintf(2, "Invalid input size. Your input has been padded");
 		ft_dprintf(2, " by %s %s.\n", (*input_len) % 4 == 2 ? "two" : "one",
 		(*input_len) % 4 == 2 ? "characters" : "character");

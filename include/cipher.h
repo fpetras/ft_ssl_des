@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 13:26:10 by fpetras           #+#    #+#             */
-/*   Updated: 2019/04/08 23:08:23 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/09 13:25:17 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ char	*g_passwd;
 char	*g_salt;
 char	*g_vector;
 int		g_is_base64;
+int		g_is_base64url;
 int		g_is_ecb;
 int		g_is_cbc;
 

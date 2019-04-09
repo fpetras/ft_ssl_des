@@ -2,7 +2,7 @@
 
 ## ENCODE ##
 
-echo "ENCODING:"
+echo "BASE64 ENCODING:"
 
 BASE64=$(echo -n "a" | base64)
 FT_SSL_BASE64=$(echo -n "a" | ./ft_ssl base64)
@@ -48,9 +48,38 @@ fi
 
 rm file1
 
-## DECODE ##
+## BASE64 URL ENCODE ##
 
-echo "DECODING:"
+echo "BASE64 URL ENCODING:"
+
+echo "��m��My���׆�Ӈ�y�<�]Z��m��My���׆�Ӈ�y�<�]Z�ƱqSi�C��u�Ɔ�Z�y���8u�n��\u�m]�XF:j��[v����M��	��#=��CE�D �VI�I" > url_test
+./ft_ssl base64url -i url_test -o file1
+echo "77-977-9be-_ve-_vU1577-977-977-914bvv73Th--_vXnvv70877-9XVrvv73vv71t77-977-9TXnvv73vv73vv73Xhu-_vdOH77-9ee-_vTzvv71dWu-_vcaxcVNp77-9Q--_ve-_vXXvv73Ghu-_vVrvv71577-977-977-9OHXvv71u77-977-9XHXvv71tXe-_vVhGOmrvv73vv71bdu-_ve-_ve-_ve-_vU3vv73vv70J77-977-9Iz3vv73vv71DRe-_vUQg77-9Vknvv71JCg" > file2
+FILE1=$(./ft_ssl md5 -q file1)
+FILE2=$(./ft_ssl md5 -q file2)
+if [ "$FILE1" == "$FILE2" ] ; then
+	echo OK
+else
+	echo KO
+fi
+
+## BASE64 URL DECODE ##
+
+echo "BASE64 URL DECODING:"
+
+./ft_ssl base64url -d -i file2 -o decoded
+FILE1=$(./ft_ssl md5 -q decoded)
+FILE2=$(./ft_ssl md5 -q url_test)
+if [ "$FILE1" == "$FILE2" ] ; then
+	echo OK
+else
+	echo KO
+fi
+rm -f file1 file2 url_test decoded
+
+## BASE64 DECODE ##
+
+echo "BASE64 DECODING:"
 
 echo "1234" | ./ft_ssl base64 -d > file1
 echo "1234" | base64 -D > file2

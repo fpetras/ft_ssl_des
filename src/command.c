@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command2.c                                         :+:      :+:    :+:   */
+/*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/29 14:08:56 by fpetras           #+#    #+#             */
-/*   Updated: 2019/04/01 17:07:32 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/09 13:30:27 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,11 @@ int			command_is_cipher(char **av)
 {
 	if (!ft_strcasecmp("base64", av[1]))
 		g_is_base64 = 1;
+	else if (!ft_strcasecmp("base64url", av[1]))
+	{
+		g_is_base64 = 1;
+		g_is_base64url = 1;
+	}
 	else if (!ft_strcasecmp("des", av[1]))
 		g_is_cbc = 1;
 	else if (!ft_strncasecmp("des", av[1], 3) && ft_strlen(av[1]) == 7)
