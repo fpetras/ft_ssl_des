@@ -1,15 +1,20 @@
 #!/bin/bash
+exec 2>&-
+
+# TODO: Make less ugly, add more information if tests are failed
 
 GREEN="\033[1;32m"
 RED="\033[1;31m"
 WHITE="\033[1;37m"
 RESET="\033[0;0m"
+CLEAR_LINE="\033[2K\c"
 
 base64_set=0
 base64url_set=0
 
 function ctrl_c {
-	rm -f file1 file2 ft_ssl_encoded new_ft_ssl file_encoded url_test decoded
+	rm -f file1 file2 ft_ssl_encoded new_ft_ssl file_encoded url_test decoded \
+	out1 out2
 	exit $?
 }
 
@@ -89,6 +94,15 @@ else
 	echo -e "$RED KO $RESET"
 fi
 
+BASE64=$(openssl enc -base64 -in Makefile)
+FT_SSL_BASE64=$(./ft_ssl base64 -n -i Makefile)
+if [ "$BASE64" == "$FT_SSL_BASE64" ] ; then
+	echo -e "$GREEN OK $RESET"
+else
+	echo -e "$RED KO $RESET"
+fi
+
+
 cat /dev/urandom | head -c $RANDOM > file1
 
 BASE64=$(cat file1 | base64)
@@ -100,6 +114,25 @@ else
 fi
 
 rm file1
+
+counter=0
+sleep 1
+for i in {1..100}; do
+	cat /dev/urandom | head -c $RANDOM > file1
+	FT_SSL_BASE64=$(./ft_ssl base64 file1)
+	BASE64=$(base64 file1)
+	if [ "$FT_SSL_BASE64" == "$BASE64" ] ; then
+		echo -e "       " $CLEAR_LINE
+		END=$(echo $FT_SSL_BASE64 | tail -c 40)
+		echo -n -e "$END\r\c"
+		echo -e "$GREEN $counter OK $RESET\r\c"
+		counter=$((counter+1))
+	else
+		echo -e $CLEAR_LINE
+		echo -e "$RED KO $RESET"
+	fi
+done
+echo -e $CLEAR_LINE
 
 
 ## BASE64 DECODE ##
@@ -234,7 +267,7 @@ rm file1 file2
 
 cat ft_ssl | ./ft_ssl base64 > ft_ssl_encoded
 cat ft_ssl_encoded | ./ft_ssl base64 -d > new_ft_ssl
-chmod 744 new_ft_ssl
+chmod 755 new_ft_ssl
 cat /dev/urandom | head -c $RANDOM > file1
 ./new_ft_ssl base64 file1 | ./ft_ssl base64 -d > file2
 ./new_ft_ssl base64 file1 > file_encoded
@@ -247,12 +280,39 @@ else
 	echo -e "$RED KO $RESET"
 fi
 
-echo $FILE1 $FILE2
-cat file_encoded | tail -c 100
-cat file_encoded | wc
+#echo $FILE1 $FILE2
+#cat file_encoded | tail -c 100
+#cat file_encoded | wc
 rm -f file1 file2 ft_ssl_encoded new_ft_ssl file_encoded
 
 fi
+
+counter=0
+sleep 1
+for i in {1..100}; do
+	i=$RANDOM
+	while [ $(( $i % 4 )) -ne 0 ] ; do
+		i=$RANDOM
+	done
+	cat /dev/urandom | base64 | head -c $i  > file1
+	./ft_ssl base64 -d -i file1 -o out1
+	base64 -D -i file1 -o out2
+	FT_SSL_BASE64=$(./ft_ssl md5 -q out1)
+	BASE64=$(./ft_ssl md5 -q out2)
+	if [ "$FT_SSL_BASE64" == "$BASE64" ] ; then
+		echo -e "       " $CLEAR_LINE
+		END=$(cat file1  | tail -c 40)
+		echo -n -e "$END\r\c"
+		echo -e "$GREEN $counter OK $RESET\r\c"
+		counter=$((counter+1))
+	else
+		echo -e $CLEAR_LINE
+		echo -e "$RED KO $RESET"
+	fi
+done
+echo -e $CLEAR_LINE
+rm -f file1 out1 out2
+
 
 
 
