@@ -6,7 +6,7 @@
 #    By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/26 12:26:28 by fpetras           #+#    #+#              #
-#    Updated: 2019/04/09 15:40:16 by fpetras          ###   ########.fr        #
+#    Updated: 2019/04/10 17:14:05 by fpetras          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,10 @@ SRC = main.c \
 	  cipher/cipher.c \
 	  cipher/base64/read_base64.c \
 	  cipher/base64/base64_encode.c \
-	  cipher/base64/base64_decode.c
+	  cipher/base64/base64_decode.c \
+	  cipher/base64/base64_error.c \
+	  cipher/des/des.c \
+	  cipher/des/des_error.c
 
 OBJ_PATH = obj/
 OBJ = $(addprefix $(OBJ_PATH),$(SRC:.c=.o))
@@ -48,6 +51,7 @@ HEADER_PATH = include/
 MD5_PATH = message_digest/md5/
 SHA_PATH = message_digest/sha/
 BASE64_PATH = cipher/base64/
+DES_PATH = cipher/des/
 
 CC = gcc
 CFLAGS = -Wall -Werror -Wextra
@@ -81,6 +85,7 @@ $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 	@test -d $(OBJ_PATH)$(MD5_PATH) || mkdir -p $(OBJ_PATH)$(MD5_PATH)
 	@test -d $(OBJ_PATH)$(SHA_PATH) || mkdir -p $(OBJ_PATH)$(SHA_PATH)
 	@test -d $(OBJ_PATH)$(BASE64_PATH) || mkdir -p $(OBJ_PATH)$(BASE64_PATH)
+	@test -d $(OBJ_PATH)$(DES_PATH) || mkdir -p $(OBJ_PATH)$(DES_PATH)
 	@echo "$(CYAN)Compiling $< $(TEXT_RESET)"
 	@$(CC) $(CFLAGS) -I$(HEADER_PATH) -I libft/ -c $< -o $@
 

@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/01 12:41:38 by fpetras           #+#    #+#             */
-/*   Updated: 2019/04/08 17:17:15 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/10 11:33:09 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int		cipher(void)
 {
 	if (g_is_base64)
 		return (read_base64());
+	if (g_is_ecb || g_is_cbc)
+		return (des());
 	debug();
 	return (EXIT_SUCCESS);
 }

@@ -1,20 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   ft_isxdigit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/08 14:09:31 by fpetras           #+#    #+#             */
-/*   Updated: 2019/04/10 13:15:29 by fpetras          ###   ########.fr       */
+/*   Created: 2019/04/10 11:59:22 by fpetras           #+#    #+#             */
+/*   Updated: 2019/04/10 12:00:52 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_ssl.h"
+#include "libft.h"
 
-int		malloc_error(char *ptr)
+int		ft_isxdigit(int c)
 {
-	ptr ? free(ptr) : 0;
-	ft_dprintf(2, "Memory allocation failure\n");
-	return (EXIT_FAILURE);
+	if (c >= '0' && c <= '9')
+		return (1);
+	else if (c >= 'A' && c <= 'F')
+		return (1);
+	else if (c >= 'a' && c <= 'f')
+		return (1);
+	return (0);
 }

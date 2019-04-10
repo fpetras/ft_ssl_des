@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 12:00:22 by fpetras           #+#    #+#             */
-/*   Updated: 2019/04/08 14:21:47 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/10 12:21:07 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include "cipher.h"
 
 # define WHITE "\033[37;1m"
+# define RED "\033[1;31m"
 # define TEXT_RESET "\033[0;0m"
 
 enum	e_opts
