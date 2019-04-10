@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 11:33:21 by fpetras           #+#    #+#             */
-/*   Updated: 2019/04/10 17:26:13 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/10 17:47:36 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,11 @@ int			des(void)
 	}
 	g_salt ? ft_printf("salt=%s\n", g_salt) : 0;
 	g_key ? ft_printf("key=%s\n", g_key) : 0;
-//	set_salt();
-//	get_key();
-//	if (g_is_cbc)
+//	if (!g_salt)
+//		set_salt();
+//	if (!g_key)
+//		get_key();
+//	if (g_is_cbc && !g_vector)
 //		get_iv();
 //	read_input();
 	return (EXIT_SUCCESS);
