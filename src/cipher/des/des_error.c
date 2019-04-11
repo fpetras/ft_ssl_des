@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 13:21:18 by fpetras           #+#    #+#             */
-/*   Updated: 2019/04/10 17:44:08 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/11 10:26:47 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,14 @@ int			invalid_arguments(void)
 	int ret;
 
 	ret = EXIT_SUCCESS;
-	(g_salt && ft_strlen(g_salt) > 16) ? g_salt[16] = '\0' : 0;
-	(g_key && ft_strlen(g_key) > 16) ? g_key[16] = '\0' : 0;
-	(g_vector && ft_strlen(g_vector) > 16) ? g_vector[16] = '\0' : 0;
-	if (g_salt && !is_hex(g_salt))
-		ret = print_error("Salt", g_salt);
-	if (g_key && !is_hex(g_key))
-		ret = print_error("Key", g_key);
-	if (g_is_cbc && g_vector && !is_hex(g_vector))
-		ret = print_error("Initialization vector", g_vector);
+	(g_s_ && ft_strlen(g_s_) > 16) ? g_s_[16] = '\0' : 0;
+	(g_k_ && ft_strlen(g_k_) > 16) ? g_k_[16] = '\0' : 0;
+	(g_v_ && ft_strlen(g_v_) > 16) ? g_v_[16] = '\0' : 0;
+	if (g_s_ && !is_hex(g_s_))
+		ret = print_error("Salt", g_s_);
+	if (g_k_ && !is_hex(g_k_))
+		ret = print_error("Key", g_k_);
+	if (g_is_cbc && g_v_ && !is_hex(g_v_))
+		ret = print_error("Initialization vector", g_v_);
 	return (ret);
 }

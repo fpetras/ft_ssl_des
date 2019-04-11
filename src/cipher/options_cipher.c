@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/29 13:39:06 by fpetras           #+#    #+#             */
-/*   Updated: 2019/04/08 17:19:53 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/11 18:04:55 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ static int	check_argument(char **av, int i, int j, char opt)
 		return (argument_missing(opt, av));
 	else if (opt == 'o' && g_output_file == NULL)
 		return (argument_missing(opt, av));
-	else if (opt == 'k' && g_key == NULL)
+	else if (opt == 'k' && g_k_ == NULL)
 		return (argument_missing(opt, av));
 	else if (opt == 'p' && g_passwd == NULL)
 		return (argument_missing(opt, av));
-	else if (opt == 's' && g_salt == NULL)
+	else if (opt == 's' && g_s_ == NULL)
 		return (argument_missing(opt, av));
-	else if (opt == 'v' && g_vector == NULL)
+	else if (opt == 'v' && g_v_ == NULL)
 		return (argument_missing(opt, av));
 	else if (!av[i][j + 1])
 		return (SKIP);
@@ -53,8 +53,8 @@ static int	parse_cipher_options_3(char **av, int i, int j)
 {
 	if (av[i][j] == 'k')
 	{
-		g_key = av[i][j + 1] ? &av[i][j + 1] : NULL;
-		g_key = !g_key && av[i + 1] ? av[i + 1] : g_key;
+		g_k_ = av[i][j + 1] ? &av[i][j + 1] : NULL;
+		g_k_ = !g_k_ && av[i + 1] ? av[i + 1] : g_k_;
 		return (check_argument(av, i, j, av[i][j]));
 	}
 	if (av[i][j] == 'p')
@@ -65,14 +65,14 @@ static int	parse_cipher_options_3(char **av, int i, int j)
 	}
 	if (av[i][j] == 's')
 	{
-		g_salt = av[i][j + 1] ? &av[i][j + 1] : NULL;
-		g_salt = !g_salt && av[i + 1] ? av[i + 1] : g_salt;
+		g_s_ = av[i][j + 1] ? &av[i][j + 1] : NULL;
+		g_s_ = !g_s_ && av[i + 1] ? av[i + 1] : g_s_;
 		return (check_argument(av, i, j, av[i][j]));
 	}
 	if (av[i][j] == 'v')
 	{
-		g_vector = av[i][j + 1] ? &av[i][j + 1] : NULL;
-		g_vector = !g_vector && av[i + 1] ? av[i + 1] : g_vector;
+		g_v_ = av[i][j + 1] ? &av[i][j + 1] : NULL;
+		g_v_ = !g_v_ && av[i + 1] ? av[i + 1] : g_v_;
 		return (check_argument(av, i, j, av[i][j]));
 	}
 	return (0);
@@ -108,7 +108,7 @@ static int	parse_cipher_options_2(char **av, int i, int j)
 ** -i file syntax
 ** -o"file" syntax
 ** Both, i.e. -adk"Key"
-** Example usage: ./ft_ssl des -ao file -k"Key" -s Salt -- -
+** Example usage: ./ft_ssl des -ao file -p"Pass" -s Salt -- -
 */
 
 int			parse_cipher_options(int ac, char **av)

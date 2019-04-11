@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/29 12:04:59 by fpetras           #+#    #+#             */
-/*   Updated: 2019/04/09 13:30:52 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/11 17:53:36 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ int		print_des_usage(char **av)
 {
 	ft_dprintf(2, "usage: %s %s [-a] [-d | -e] [-i <file>] [-o <file>]\n",
 	av[0], av[1]);
-	ft_dprintf(2, "%7c[-p <password>] [-s <salt>] [-v <vector>]\n", ' ');
+	ft_dprintf(2, "%7c[[-k <key>] | [-p <password>] [-s <salt>]]", ' ');
+	ft_dprintf(2, "%s", g_is_cbc ? " [-v <vector]\n" : "\n");
 	ft_dprintf(2, "\n%sOPTIONS%s\n", WHITE, TEXT_RESET);
 	ft_dprintf(2, "     -a%12cdecode/encode the input/output in Base64\n", ' ');
 	ft_dprintf(2, "     -d            decrypt mode\n");

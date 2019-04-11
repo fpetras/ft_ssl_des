@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 13:26:10 by fpetras           #+#    #+#             */
-/*   Updated: 2019/04/10 17:05:33 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/11 18:04:08 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,13 @@
 
 char	*g_input_file;
 char	*g_output_file;
-char	*g_key;
+char	*g_k_;
+char	g_key[17];
 char	*g_passwd;
-char	*g_salt;
-char	*g_vector;
+char	*g_s_;
+char	g_salt[17];
+char	*g_v_;
+char	g_vector[17];
 int		g_is_base64;
 int		g_is_base64url;
 int		g_is_ecb;
@@ -43,5 +46,6 @@ int		base64_decode(int fd, char *input);
 int		invalid_character(char c);
 int		des(void);
 int		invalid_arguments(void);
+int		set_salt(void);
 
 #endif

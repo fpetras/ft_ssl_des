@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 11:33:21 by fpetras           #+#    #+#             */
-/*   Updated: 2019/04/10 17:47:36 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/11 10:28:57 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int			des(void)
 			g_cmd, g_input_file, strerror(errno));
 			return (EXIT_FAILURE);
 	}
-	if (!g_key && !g_passwd && get_password() == EXIT_FAILURE)
+	if (!g_k_ && !g_passwd && get_password() == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	if (ft_strlen(g_passwd) > _PASSWORD_LEN)
 	{
@@ -68,11 +68,10 @@ int			des(void)
 		_PASSWORD_LEN);
 		return (EXIT_FAILURE);
 	}
-	g_salt ? ft_printf("salt=%s\n", g_salt) : 0;
-	g_key ? ft_printf("key=%s\n", g_key) : 0;
-//	if (!g_salt)
-//		set_salt();
-//	if (!g_key)
+	set_salt();
+	ft_printf("salt=%s\n", g_salt);
+	ft_printf("key=%s\n", g_k_ ? g_k_ : g_key);
+//	if (!g_k_)
 //		get_key();
 //	if (g_is_cbc && !g_vector)
 //		get_iv();
