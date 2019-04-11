@@ -1,0 +1,73 @@
+#compdef _ft_ssl ft_ssl
+
+function _ft_ssl {
+	local line
+
+	_arguments -C \
+		"1: :(md5 sha224 sha256 sha384 sha512 sha512224 sha512256 \
+			base64 base64url des des-ecb des-cbc)" \
+		"*::arg:->args"
+
+	case $line[1] in
+		md5|sha224|sha256|sha384|sha512|sha512224|sha512256)
+			_hash
+		;;
+		base64|base64url)
+			_base64
+		;;
+		des|des-cbc)
+			_des-cbc
+		;;
+		des-ecb)
+			_des-ecb
+		;;
+	esac
+}
+
+function _hash {
+	_arguments -S -s -A "-*" \
+		"-p[echo stdin to stdout and append checksum to stdout]" \
+		"-q[quiet mode]" \
+		"-r[reverse the format of the output]" \
+		"-s+[print the sum of the given string]:message" \
+		"*: :_files"
+}
+
+function _base64 {
+	_arguments -S -s \
+		"-i+[input file]:filename:_files" \
+		"-o+[output file]:filename:_files" \
+		"-n[print a newline every 64 characters]" \
+		- set1 \
+			"-d[decode mode]" \
+		- set2 \
+			"-e[encode mode]" \
+		"*: :_files"
+}
+
+function _des-cbc {
+	_arguments -S -s \
+		"-a[decode/encode the input/output in Base64]" \
+		"-i+[input file]:filename:_files" \
+		"-o+[output file]:filename:_files" \
+		"-p+[password (in ASCII)]:message" \
+		"-s+[salt (in hexadecimal)]:message" \
+		"-k+[key (in hexadecimal)]:message" \
+		"-v+[initialization vector (in hexadecimal)]:message" \
+		"(-e)-d[decrypt mode]" \
+		"(-d)-e[encrypt mode]" \
+		"*: :_files"
+}
+
+function _des-ecb {
+	_arguments -S -s \
+		"-a[decode/encode the input/output in Base64]" \
+		"-i+[input file]:filename:_files" \
+		"-o+[output file]:filename:_files" \
+		"-p+[password (in ASCII)]:message" \
+		"-s+[salt (in hexadecimal)]:message" \
+		"-k+[key (in hexadecimal)]:message" \
+		"(-e)-d[decrypt mode]" \
+		"(-d)-e[encrypt mode]" \
+		"*: :_files"
+}
