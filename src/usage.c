@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/29 12:04:59 by fpetras           #+#    #+#             */
-/*   Updated: 2019/04/11 17:53:36 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/12 10:19:59 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ int		print_base64_usage(char **av)
 
 int		print_des_usage(char **av)
 {
+	char hex[] = "(in hexadecimal)";
+
 	ft_dprintf(2, "usage: %s %s [-a] [-d | -e] [-i <file>] [-o <file>]\n",
 	av[0], av[1]);
 	ft_dprintf(2, "%7c[[-k <key>] | [-p <password>] [-s <salt>]]", ' ');
@@ -62,9 +64,10 @@ int		print_des_usage(char **av)
 	ft_dprintf(2, "     -e            encrypt mode\n");
 	ft_dprintf(2, "     -i <file>     input file\n");
 	ft_dprintf(2, "     -o <file>     output file\n");
+	ft_dprintf(2, "     -k <key>      key %s\n", hex);
 	ft_dprintf(2, "     -p <password> password (in ASCII)\n");
-	ft_dprintf(2, "     -s <salt>     salt (in hexadecimal)\n");
-	ft_dprintf(2, "     -v <vector>%3cinitialization vector (in hexadecimal)\n",
-	' ');
+	ft_dprintf(2, "     -s <salt>     salt %s\n", hex);
+	g_is_cbc ?
+	ft_dprintf(2, "     -v <vector>   initialization vector %s\n", hex) : 0;
 	return (EXIT_FAILURE);
 }

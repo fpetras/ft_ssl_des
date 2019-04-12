@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 13:26:10 by fpetras           #+#    #+#             */
-/*   Updated: 2019/04/11 18:04:08 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/12 11:56:28 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,9 @@ int		base64_decode(int fd, char *input);
 int		invalid_character(char c);
 int		des(void);
 int		invalid_arguments(void);
+int		get_key(void);
+int		get_password(void);
 int		set_salt(void);
+int		zero_padding(char *dst, char *src);
 
 #endif

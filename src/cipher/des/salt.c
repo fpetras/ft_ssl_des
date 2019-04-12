@@ -6,7 +6,7 @@
 /*   By: fpetras <fpetras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 09:45:46 by fpetras           #+#    #+#             */
-/*   Updated: 2019/04/11 10:34:08 by fpetras          ###   ########.fr       */
+/*   Updated: 2019/04/12 11:50:36 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void to_hex(char *urandom, char *salt, int i)
 	salt[i] = (urandom[i] >= 112 && urandom[i] <= 127) ? 'F' : salt[i];
 }
 
-static int	salt_random(void)
+static int	generate_salt(char *salt)
 {
 	int		fd;
 	int		ret;
@@ -52,36 +52,17 @@ static int	salt_random(void)
 	i = 0;
 	while (i < 16)
 	{
-		to_hex(urandom, g_salt, i);
+		to_hex(urandom, salt, i);
 		i++;
 	}
-	g_salt[i] = '\0';
-	return (EXIT_SUCCESS);
-}
-
-static int	salt_argument(void)
-{
-	int i;
-
-	i = 0;
-	while (g_s_[i])
-	{
-		g_salt[i] = ft_toupper(g_s_[i]);
-		i++;
-	}
-	while (i < 16)
-	{
-		g_salt[i] = '0';
-		i++;
-	}
-	g_salt[i] = '\0';
+	salt[i] = '\0';
 	return (EXIT_SUCCESS);
 }
 
 int			set_salt(void)
 {
 	if (g_s_)
-		return (salt_argument());
+		return (zero_padding(g_salt, g_s_));
 	else
-		return (salt_random());
+		return (generate_salt(g_salt));
 }
