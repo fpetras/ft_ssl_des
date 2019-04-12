@@ -29,7 +29,7 @@ function _hash {
 		"-p[echo stdin to stdout and append checksum to stdout]" \
 		"-q[quiet mode]" \
 		"-r[reverse the format of the output]" \
-		"-s+[print the sum of the given string]:message" \
+		"(-p -q -r)-s+[print the sum of the given string]:message" \
 		"*: :_files"
 }
 
@@ -50,9 +50,9 @@ function _des-cbc {
 		"-a[decode/encode the input/output in Base64]" \
 		"-i+[input file]:filename:_files" \
 		"-o+[output file]:filename:_files" \
-		"-p+[password (in ASCII)]:message" \
-		"-s+[salt (in hexadecimal)]:message" \
-		"-k+[key (in hexadecimal)]:message" \
+		"(-k)-p+[password (in ASCII)]:message" \
+		"(-k)-s+[salt (in hexadecimal)]:message" \
+		"(-p -s)-k+[key (in hexadecimal)]:message" \
 		"-v+[initialization vector (in hexadecimal)]:message" \
 		"(-e)-d[decrypt mode]" \
 		"(-d)-e[encrypt mode]" \
@@ -64,9 +64,9 @@ function _des-ecb {
 		"-a[decode/encode the input/output in Base64]" \
 		"-i+[input file]:filename:_files" \
 		"-o+[output file]:filename:_files" \
-		"-p+[password (in ASCII)]:message" \
-		"-s+[salt (in hexadecimal)]:message" \
-		"-k+[key (in hexadecimal)]:message" \
+		"(-k)-p+[password (in ASCII)]:message" \
+		"(-k)-s+[salt (in hexadecimal)]:message" \
+		"(-p -s)-k+[key (in hexadecimal)]:message" \
 		"(-e)-d[decrypt mode]" \
 		"(-d)-e[encrypt mode]" \
 		"*: :_files"

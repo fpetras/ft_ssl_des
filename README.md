@@ -6,4 +6,4 @@ A continuation of the previous encryption project, ft_ssl_md5
 
 ft_ssl features tab completion for Zsh.
 
-To enable, move _ft_ssl into a directory listed in $fpath, and restart your terminal session
+To enable, move `_ft_ssl` into a directory included in `$fpath`, and restart your terminal session.
