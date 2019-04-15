@@ -103,6 +103,18 @@ else
 fi
 
 
+./ft_ssl base64 /bin/zsh -o out1
+base64 /bin/zsh -o out2
+FILE1=$(./ft_ssl md5 -q out1)
+FILE2=$(./ft_ssl md5 -q out2)
+if [ "$FILE1" == "$FILE2" ] ; then
+	echo -e "$GREEN OK $RESET"
+else
+	echo -e "$RED KO $RESET"
+fi
+
+rm out1 out2
+
 cat /dev/urandom | head -c $RANDOM > file1
 
 BASE64=$(cat file1 | base64)
@@ -273,17 +285,17 @@ cat /dev/urandom | head -c $RANDOM > file1
 ./new_ft_ssl base64 file1 > file_encoded
 FILE1=$(./ft_ssl md5 -q file1)
 FILE2=$(./ft_ssl md5 -q file2)
-
 if [ "$FILE1" == "$FILE2" ] ; then
 	echo -e "$GREEN OK $RESET"
 else
 	echo -e "$RED KO $RESET"
 fi
-
 #echo $FILE1 $FILE2
 #cat file_encoded | tail -c 100
 #cat file_encoded | wc
+
 rm -f file1 file2 ft_ssl_encoded new_ft_ssl file_encoded
+
 
 fi
 
